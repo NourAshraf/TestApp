@@ -23,5 +23,6 @@ public class Home extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
         //Hello Nour
+        //kjkj
     }
 }
