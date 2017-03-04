@@ -20,6 +20,7 @@ public class Splash extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         onVariables();
+        //Hello Kareem
     }
 
     private void onVariables() {
