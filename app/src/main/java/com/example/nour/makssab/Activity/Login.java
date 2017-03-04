@@ -6,10 +6,20 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.nour.makssab.R;
 
 public class Login extends AppCompatActivity {
+    private EditText mEditTextLoginUser;
+    private EditText mEditTextLoginPass;
+    private CheckBox mCheckBoxLogin;
+    private Button mButtonLoginMember;
+    private Button mButtonLoginEnter;
+    private TextView mTextViewLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,15 +27,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Allvariables();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+    }
+
+    private void Allvariables() {
+        mEditTextLoginUser=(EditText)findViewById(R.id.etLoginUser);
+        mEditTextLoginPass=(EditText)findViewById(R.id.etLoginPass);
+        mCheckBoxLogin=(CheckBox)findViewById(R.id.cbLogin);
+        mButtonLoginMember=(Button)findViewById(R.id.bLoginMember);
+        mButtonLoginEnter=(Button)findViewById(R.id.bLoginEnter);
+        mTextViewLogin=(TextView)findViewById(R.id.tvLogin);
     }
 
 }

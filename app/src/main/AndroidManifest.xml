@@ -24,6 +24,10 @@
         <activity
             android:name=".Activity.Login"
             android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.NewAccount"
+            android:label="@string/title_activity_new_account"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
