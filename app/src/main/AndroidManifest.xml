@@ -28,6 +28,10 @@
         <activity
             android:name=".Activity.NewAccount"
             android:label="@string/title_activity_new_account"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Search"
+            android:label="@string/title_activity_search"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

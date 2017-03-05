@@ -3,4 +3,5 @@
     <string name="title_activity_home">Home</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_new_account">NewAccount</string>
+    <string name="title_activity_search">Search</string>
 </resources>
