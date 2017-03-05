@@ -11,34 +11,36 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="90dp"
         android:background="@color/SearchTitle">
 
         <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:background="@color/LoginButton">
 
             <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="11dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/search" />
+                android:background="@drawable/search"
+                android:id="@+id/bSearchAdv"/>
         </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp">
 
                 <EditText
                     android:layout_width="280dp"
                     android:layout_height="45dp"
+                    android:id="@+id/etSearchAdv"
                     android:hint="اكتب رقم الاعلان او عباره البحث هنا" />
             </LinearLayout>
     </LinearLayout>
@@ -52,7 +54,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -62,7 +64,6 @@
             android:layout_width="135dp"
             android:layout_height="30dp"
             android:layout_marginLeft="180dp"
-            android:layout_marginTop="5dp"
             android:text="بحث السيارات: "
             android:textColor="@color/colorPrimary"
             android:textSize="24sp"
@@ -70,29 +71,81 @@
             />
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/ic_user_search" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape"
-        android:layout_marginLeft="20dp">
+        android:layout_marginLeft="15dp">
 
         <TextView
             android:layout_width="320dp"
             android:layout_height="30dp"
             android:text="الماركه"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold"
+            android:drawableLeft="@drawable/ic_user_arrow_down"
+            android:id="@+id/tvSearchMarka"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="30dp"
+            android:text="النوع"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:drawableLeft="@drawable/ic_user_arrow_down"
+            android:id="@+id/tvSearchNoo3"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="30dp"
+            android:text="الموديل"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:id="@+id/tvSearchModel"
             android:drawableLeft="@drawable/ic_user_arrow_down"
             />
 
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/LoginButton"
+        android:text="بحث"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/bSearchSearch"/>
 
 
 </LinearLayout>

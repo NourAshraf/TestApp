@@ -6,10 +6,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.nour.makssab.R;
 
 public class Search extends AppCompatActivity {
+    private Button mButtonSearchAdv;
+    private EditText mEditTextSearchAdv;
+    private TextView mTextViewSearchMarka;
+    private TextView mTextViewSearchnoo3;
+    private TextView mTextViewSearchModel;
+    private Button mButtonSearchSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +26,17 @@ public class Search extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Allvariables();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        //
+    }
+
+    private void Allvariables() {
+        mButtonSearchAdv=(Button)findViewById(R.id.bSearchAdv);
+        mEditTextSearchAdv=(EditText) findViewById(R.id.etSearchAdv);
+        mTextViewSearchMarka=(TextView)findViewById(R.id.tvSearchMarka);
+        mTextViewSearchnoo3=(TextView)findViewById(R.id.tvSearchNoo3);
+        mTextViewSearchModel=(TextView)findViewById(R.id.tvSearchModel);
+        mButtonSearchSearch=(Button)findViewById(R.id.bSearchSearch);
     }
 
 }
