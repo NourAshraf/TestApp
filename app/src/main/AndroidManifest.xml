@@ -32,6 +32,10 @@
         <activity
             android:name=".Activity.Search"
             android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Members"
+            android:label="@string/title_activity_members"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
