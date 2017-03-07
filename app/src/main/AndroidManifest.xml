@@ -36,6 +36,10 @@
         <activity
             android:name=".Activity.Members"
             android:label="@string/title_activity_members"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.MemberFavorites"
+            android:label="@string/title_activity_member_favorites"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

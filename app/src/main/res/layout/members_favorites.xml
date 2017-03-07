@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:id="@+id/ivMembersFavoritesImage"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:id="@+id/tvMembersFavoritesTitle"
+            android:textColor="@android:color/background_dark"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/tvMembersFavoritesPlace"
+            android:textColor="@android:color/background_dark"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/tvMembersFavoritesPlaceImage"
+            android:background="@drawable/ic_user_flag"
+            />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/tvMembersFavoritesName"
+            android:textColor="@android:color/background_dark"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/tvMembersFavoritesNameImage"
+            android:background="@drawable/ic_user_user"/>
+
+        
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/tvMembersFavoritesCommentImage"
+            android:background="@drawable/ic_user_comment"/>
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/tvMembersFavoritesCommentNumber"
+            android:textColor="@android:color/background_dark"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/tvMembersFavoritesSeenImage"
+            android:background="@drawable/ic_user_eye"
+            />
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/tvMembersFavoritesSeenNumber"
+            android:textColor="@android:color/background_dark"
+            />
+
+        <TextView
+            android:id="@+id/tvMembersFavoritesDakeka"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="60dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@android:color/background_dark"/>
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/tvMembersFavoritesTimeNumber"
+            android:textColor="@android:color/background_dark"/>
+
+        <TextView
+            android:id="@+id/tvMembersFavoritesMonzoo"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_user_time"
+            android:id="@+id/tvMembersFavoritesTimeImage"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

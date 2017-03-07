@@ -5,4 +5,5 @@
     <string name="title_activity_new_account">NewAccount</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_members">Members</string>
+    <string name="title_activity_member_favorites">MemberFavorites</string>
 </resources>
