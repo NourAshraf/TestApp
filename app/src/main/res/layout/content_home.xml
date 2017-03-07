@@ -1,17 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:mstb="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_home"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Home"
     tools:showIn="@layout/activity_home"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="4"
+            android:drawablePadding="5dp"
+            android:gravity="left|center"
+            android:drawableLeft="@drawable/ic_multiple_users_silhouette"
+            android:text="اسم العضو"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <Button
+            android:layout_weight="1"
+            android:text="بياناتي"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_weight="1"
+            android:text="عقارات"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_weight="1"
+            android:text="متاجر"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_weight="1"
+            android:text="معارض"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llHome"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal">
+    </LinearLayout>
+    <org.honorato.multistatetogglebutton.MultiStateToggleButton
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:id="@+id/mstb_multi_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        mstb:values="@array/HomeButtons"
+        mstb:mstbPrimaryColor="@color/colorPrimary"
+        mstb:mstbSecondaryColor="@color/button_secondary_color"/>
+    <Button
+        android:layout_margin="10dp"
+        android:text="قم بالتسجيل مجانا"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
 </LinearLayout>
+</ScrollView>

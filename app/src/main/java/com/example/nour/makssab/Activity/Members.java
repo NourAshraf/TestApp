@@ -1,12 +1,8 @@
 package com.example.nour.makssab.Activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.nour.makssab.Adapter.MembersAdapter;
@@ -30,8 +26,6 @@ public class Members extends AppCompatActivity {
         members = new ArrayList<MembersModel>();
         members.add(new MembersModel("طارق الفهد","110 متابع",""));
         lvMembersList.setAdapter(new MembersAdapter(getApplicationContext(),members));
-
-
 
     }
 

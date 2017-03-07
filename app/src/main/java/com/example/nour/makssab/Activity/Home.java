@@ -22,7 +22,6 @@ public class Home extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
-        //Hello Nour
 
     }
 }

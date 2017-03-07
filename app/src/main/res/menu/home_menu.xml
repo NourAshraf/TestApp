@@ -25,7 +25,7 @@
   <item
      android:title="Search"
      app:showAsAction="always"
-      android:icon="@drawable/search"
+      android:icon="@drawable/ic_musica_searcher"
      android:id="@+id/action_item_4"
      android:orderInCategory="400"
      >

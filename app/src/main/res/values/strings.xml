@@ -7,4 +7,9 @@
     <string name="title_activity_members">Members</string>
     <string name="title_activity_member_favorites">MemberFavorites</string>
     <string name="title_activity_notifications">Notifications</string>
+    <string-array name="HomeButtons">
+        <item>اعلاناتي</item>
+        <item>المفضله</item>
+        <item>الاعضاء</item>
+    </string-array>
 </resources>
