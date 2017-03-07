@@ -29,6 +29,8 @@ public class MemberFavorites extends AppCompatActivity {
         MembersFavoritesList = (ListView) findViewById(R.id.lvMembersFavoritesList);
         membersFavorites = new ArrayList<MembersFavoritesModel>();
         membersFavorites.add(new MembersFavoritesModel("سيارة بنت وسخه"," ابو نواف ","مكه","5","15","دقيقه","منذ","100",R.drawable.ic_user_image_car_test,"","","","",""));
+        membersFavorites.add(new MembersFavoritesModel("سيارة بنت وسخه"," ابو نواف ","مكه","5","15","دقيقه","منذ","100",R.drawable.ic_user_image_car_test,"","","","",""));
+
         MembersFavoritesList.setAdapter(new MemberFavoritesAdapter(getApplicationContext(),membersFavorites));
     }
 
