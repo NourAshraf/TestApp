@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,10 +16,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.MainApp.MainApp;
+import com.example.nour.makssab.Model.CategoryModel;
 import com.example.nour.makssab.Model.HomeModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,6 +39,7 @@ public class HomeAdapter extends ArrayAdapter{
     private final Context mContext;
     private final RequestQueue mVolleySingletonRequestQueue;
     private View view;
+    private ArrayList<CategoryModel> models;
 
     public HomeAdapter(Context context, int resource, ArrayList<HomeModel> objects) {
         super(context, resource, objects);
@@ -62,6 +69,7 @@ public class HomeAdapter extends ArrayAdapter{
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                models = new ArrayList<CategoryModel>();
                 onGetCategory(mArray.get(position).getId());
             }
         });
@@ -69,17 +77,37 @@ public class HomeAdapter extends ArrayAdapter{
     }
 
     private void onGetCategory(int id) {
-        String Url="http://mkssab.com/api/category/"+id;
+        String Url=MainApp.CategoryUrl+20;
         StringRequest mStringRequestGetCategory=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i(MainApp.Tag,response);
+                try {
+                    JSONArray mJsonArray=new JSONArray(response);
+                    if (mJsonArray.length()==1){
+                        JSONObject mJsonObject=mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(mContext,error,Toast.LENGTH_SHORT).show();
+                    }else {
+                        for (int i=0;i<mJsonArray.length();i++){
+                            JSONObject mJsonObject=mJsonArray.getJSONObject(i);
+                             String name = mJsonObject.getString("name");
+                            String id = mJsonObject.getString("id");
+                            String category_id = mJsonObject.getString("category_id");
+                            CategoryModel categoryModel=new CategoryModel(id,name,category_id);
+                            models.add(categoryModel);
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(MainApp.Tag,"error");
+
 
             }
         });
