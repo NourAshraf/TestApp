@@ -56,12 +56,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/llHome"
+    <GridView
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/gvHome"
+        android:numColumns="3"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="3dp"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:stretchMode="columnWidth"
         android:orientation="horizontal">
-    </LinearLayout>
+    </GridView>
     <org.honorato.multistatetogglebutton.MultiStateToggleButton
         android:padding="5dp"
         android:layout_gravity="center"
