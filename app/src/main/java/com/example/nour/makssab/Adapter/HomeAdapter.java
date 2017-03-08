@@ -1,5 +1,6 @@
 package com.example.nour.makssab.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import fr.ganfra.materialspinner.MaterialSpinner;
+
 /**
  * Created by nour on 18-Jan-17.
  */
@@ -40,6 +43,7 @@ public class HomeAdapter extends ArrayAdapter{
     private final RequestQueue mVolleySingletonRequestQueue;
     private View view;
     private ArrayList<CategoryModel> models;
+    private ArrayList<String> Names;
 
     public HomeAdapter(Context context, int resource, ArrayList<HomeModel> objects) {
         super(context, resource, objects);
@@ -70,14 +74,16 @@ public class HomeAdapter extends ArrayAdapter{
             @Override
             public void onClick(View view) {
                 models = new ArrayList<CategoryModel>();
-                onGetCategory(mArray.get(position).getId());
+                Names = new ArrayList<String>();
+                onGetCategory(mArray.get(position).getId(),mArray.get(position).getTitle());
+
             }
         });
         return view;
     }
 
-    private void onGetCategory(int id) {
-        String Url=MainApp.CategoryUrl+20;
+    private void onGetCategory(int id, final String title) {
+        String Url=MainApp.CategoryUrl+id;
         StringRequest mStringRequestGetCategory=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -95,7 +101,17 @@ public class HomeAdapter extends ArrayAdapter{
                             String category_id = mJsonObject.getString("category_id");
                             CategoryModel categoryModel=new CategoryModel(id,name,category_id);
                             models.add(categoryModel);
+                            Names.add(name);
                         }
+                        Dialog mDialog=new Dialog(mContext);
+                        mDialog.setCancelable(true);
+                        mDialog.setContentView(R.layout.dialog_category);
+                        TextView mTextViewDialog= (TextView) mDialog.findViewById(R.id.tvCategoryName);
+                        mTextViewDialog.setText(title);
+                        MaterialSpinner materialSpinner= (MaterialSpinner) mDialog.findViewById(R.id.spSelectCategory);
+                        ArrayAdapter mArrayAdapter=new ArrayAdapter(mContext,android.R.layout.simple_spinner_dropdown_item,Names);
+                        materialSpinner.setAdapter(mArrayAdapter);
+                        mDialog.show();
                     }
 
 

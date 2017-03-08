@@ -1,29 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp"
-    android:layout_height="wrap_content">
-    <fr.ganfra.materialspinner.MaterialSpinner
-        android:id="@+id/spSelectTypeService"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="left"
         android:layout_weight="1"
-        app:ms_hintColor="@android:color/background_dark"
-        app:ms_highlightColor="@android:color/background_dark"
-        app:ms_floatingLabelColor="@android:color/background_dark"
-        />
-<TextView
-    android:textSize="20dp"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:text="Hello"
-    android:id="@+id/tvCategoryName"
-    android:layout_weight="2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textStyle="normal|bold" />
+        android:orientation="horizontal">
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spSelectCategory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left"
+            app:ms_floatingLabelColor="@android:color/background_dark"
+            app:ms_highlightColor="@android:color/background_dark"
+            app:ms_hintColor="@android:color/background_dark" />
+
+        <TextView
+            android:id="@+id/tvCategoryName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Hello"
+            android:textSize="20dp"
+            android:textStyle="normal|bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="الغاء"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="موافق"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
 </LinearLayout>
