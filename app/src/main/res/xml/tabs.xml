@@ -2,16 +2,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <tabs>
         <tab
-            id="@+id/tab_favorites"
-            icon="@drawable/ic_user"
-            title="Favorites" />
+            id="@+id/tab_adv"
+            icon="@drawable/ic_flag"
+            title="اخر الاعلانات" />
         <tab
-            id="@+id/tab_nearby"
-            icon="@drawable/ic_user"
-            title="Nearby" />
+            id="@+id/tab_notify"
+            icon="@drawable/ic_world"
+            title="الاشعارات" />
         <tab
-            id="@+id/tab_friends"
-            icon="@drawable/ic_user"
-            title="Friends" />
+            id="@+id/tab_message"
+            icon="@drawable/ic_mail"
+            title="الرسائل" />
+        <tab
+            id="@+id/tab_main"
+            icon="@drawable/ic_home"
+            title="الرئيسة" />
     </tabs>
 </PreferenceScreen>

@@ -22,4 +22,6 @@
         <item>عقارات</item>
         <item>خدمات</item>
     </string-array>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_notification">Notification</string>
 </resources>

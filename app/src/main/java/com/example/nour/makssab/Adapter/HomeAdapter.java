@@ -2,11 +2,12 @@ package com.example.nour.makssab.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,7 +104,7 @@ public class HomeAdapter extends ArrayAdapter{
                             models.add(categoryModel);
                             Names.add(name);
                         }
-                        Dialog mDialog=new Dialog(mContext);
+                        final Dialog mDialog=new Dialog(mContext);
                         mDialog.setCancelable(true);
                         mDialog.setContentView(R.layout.dialog_category);
                         TextView mTextViewDialog= (TextView) mDialog.findViewById(R.id.tvCategoryName);
@@ -111,9 +112,33 @@ public class HomeAdapter extends ArrayAdapter{
                         MaterialSpinner materialSpinner= (MaterialSpinner) mDialog.findViewById(R.id.spSelectCategory);
                         ArrayAdapter mArrayAdapter=new ArrayAdapter(mContext,android.R.layout.simple_spinner_dropdown_item,Names);
                         materialSpinner.setAdapter(mArrayAdapter);
+                        materialSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                        Button mButtonCancel= (Button) mDialog.findViewById(R.id.bCancel);
+                        mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                mDialog.dismiss();
+                            }
+                        });
+                        Button mButtonOk= (Button) mDialog.findViewById(R.id.bOk);
+                        mButtonOk.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
                         mDialog.show();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

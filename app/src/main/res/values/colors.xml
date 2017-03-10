@@ -8,4 +8,5 @@
     <color name="LoginButton">#0477bd</color>
     <color name="SearchTitle">#f8f8f8</color>
     <color name="UnderSearch">#f0f5f8</color>
+    <color name="gray">#f0f5f8</color>
 </resources>
