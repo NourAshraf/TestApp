@@ -15,18 +15,18 @@
         android:background="@color/SearchTitle">
 
         <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="18dp"
             android:background="@color/LoginButton">
 
             <Button
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
                 android:background="@drawable/search"
                 android:id="@+id/bSearchAdv"/>
         </LinearLayout>
@@ -34,8 +34,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="20dp">
 
                 <EditText
                     android:layout_width="280dp"
@@ -66,20 +65,20 @@
             android:layout_marginLeft="180dp"
             android:text="بحث السيارات: "
             android:textColor="@color/colorPrimary"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/ic_user_search" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
@@ -89,6 +88,7 @@
             android:layout_height="30dp"
             android:text="الماركه"
             android:textSize="18sp"
+            android:textColor="@color/words"
             android:textStyle="bold"
             android:drawableLeft="@drawable/ic_user_arrow_down"
             android:id="@+id/tvSearchMarka"
@@ -98,7 +98,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="43dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
@@ -107,6 +107,7 @@
             android:layout_width="320dp"
             android:layout_height="30dp"
             android:text="النوع"
+            android:textColor="@color/words"
             android:textSize="18sp"
             android:textStyle="bold"
             android:drawableLeft="@drawable/ic_user_arrow_down"
@@ -117,7 +118,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="43dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
@@ -126,6 +127,7 @@
             android:layout_width="320dp"
             android:layout_height="30dp"
             android:text="الموديل"
+            android:textColor="@color/words"
             android:textSize="18sp"
             android:textStyle="bold"
             android:id="@+id/tvSearchModel"
@@ -136,13 +138,13 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@color/LoginButton"
         android:text="بحث"
         android:textColor="@android:color/background_light"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:id="@+id/bSearchSearch"/>

@@ -7,15 +7,23 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Notifications"
     tools:showIn="@layout/activity_notifications"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:textColor="@color/gray"
+    android:background="@drawable/button_bg1"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@color/LoginTitle"
         android:orientation="vertical"
         android:padding="10dp"
-        android:id="@+id/notificationTitleLayout">
+        android:id="@+id/notificationTitleLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,12 +37,18 @@
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <ListView
+        android:id="@+id/lvNotificationsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lvNotificationsList"
-        android:layout_marginTop="10dp"
-        >
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+
+
+        android:background="@color/button_secondary_color">
 
     </ListView>
 </LinearLayout>

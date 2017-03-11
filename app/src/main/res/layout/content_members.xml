@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Members"
-    tools:showIn="@layout/activity_members">
+    tools:showIn="@layout/activity_members"
+    android:background="@drawable/button_bg1"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

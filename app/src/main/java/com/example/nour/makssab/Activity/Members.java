@@ -25,6 +25,9 @@ public class Members extends AppCompatActivity {
         lvMembersList = (ListView) findViewById(R.id.lvMembers);
         members = new ArrayList<MembersModel>();
         members.add(new MembersModel("طارق الفهد","110 متابع",""));
+        members.add(new MembersModel("طارق الفهد","110 متابع",""));
+        members.add(new MembersModel("طارق الفهد","110 متابع",""));
+        members.add(new MembersModel("طارق الفهد","110 متابع",""));
         lvMembersList.setAdapter(new MembersAdapter(getApplicationContext(),members));
 
     }
