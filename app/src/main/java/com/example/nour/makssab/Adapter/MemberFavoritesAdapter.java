@@ -80,6 +80,8 @@ public class MemberFavoritesAdapter extends BaseAdapter {
         Eye.setText(membersfavoritesModel.getEye());
         Adv.setImageResource(membersfavoritesModel.getAdv());
 
+        //na2es el picasso
+
 
         return view;
     }
