@@ -53,7 +53,10 @@
             android:hint="اسم الدخول"
             android:inputType="textPersonName"
             android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:textColorHint="@color/inputs"
+            android:textStyle="bold"
+
+            />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -71,7 +74,9 @@
             android:hint="كلمه المرور"
             android:inputType="numberPassword"
             android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+
+            android:textColorHint="@color/inputs"/>
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
