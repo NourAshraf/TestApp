@@ -11,6 +11,7 @@ public class MainApp extends Application {
     private static MainApp mInstance;
     public static String Tag="MyTest";
     public static String CategoryUrl="http://mkssab.com/api/category/";
+    public static String AdvUrl="http://mkssab.com/api/index";
 
     public static MainApp getsInstance(){
 

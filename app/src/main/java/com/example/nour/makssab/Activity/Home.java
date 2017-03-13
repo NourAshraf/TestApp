@@ -66,6 +66,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mGridView= (GridView) findViewById(R.id.gvHome);
         models=new ArrayList<HomeModel>();
         MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
+        button.setSelected(false);
         button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
             @Override
             public void onValueChanged(int position) {
@@ -84,13 +85,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         });
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTab(R.id.tab_main);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                switch (tabId){
                    case R.id.tab_adv:
-
+                       Intent mIntentAdvertisement=new Intent(mContext,Advertisement.class);
+                       startActivity(mIntentAdvertisement);
                        break;
                    case R.id.tab_main:
 
