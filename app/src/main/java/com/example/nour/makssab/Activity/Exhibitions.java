@@ -28,9 +28,9 @@ public class Exhibitions extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ExhibitionsList = (ListView) findViewById(R.id.lvExhibitionsList);
         exhibitionsModels = new ArrayList<ExhibitionsModel>();
-        exhibitionsModels.add(new ExhibitionsModel("221","معرض صالح للسيارات","الرياض",R.drawable.ic_user_image_car_test));
-        exhibitionsModels.add(new ExhibitionsModel("221","معرض صالح للسيارات","الرياض",R.drawable.ic_user_image_car_test));
-        exhibitionsModels.add(new ExhibitionsModel("221","معرض صالح للسيارات","الرياض",R.drawable.ic_user_image_car_test));
+        exhibitionsModels.add(new ExhibitionsModel("221","معرض صالح للسيارات العرابيه ","الرياض",R.drawable.ic_user_image_car_test));
+        exhibitionsModels.add(new ExhibitionsModel("221","معرض صالح للسيارات","الرياض",R.drawable.ic_user_lion_test));
+        exhibitionsModels.add(new ExhibitionsModel("221","معرض صالح للسيارات","الرياض",R.drawable.ic_user_animals_test));
         ExhibitionsList.setAdapter(new ExhibitionsAdapter(getApplicationContext(),exhibitionsModels));
 
 

@@ -25,4 +25,5 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_notification">Notification</string>
     <string name="title_activity_exhibitions">Exhibitions</string>
+    <string name="title_activity_exhibitions_details">ExhibitionsDetails</string>
 </resources>
