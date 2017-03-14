@@ -14,5 +14,6 @@
     <color name="input">#D7E0E5</color>
     <color name="words">#333a3e</color>
     <color name="inputs">#161e22</color>
+    <color name="active">#EA5287</color>
 
 </resources>

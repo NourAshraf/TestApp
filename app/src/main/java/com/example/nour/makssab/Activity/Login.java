@@ -1,5 +1,6 @@
 package com.example.nour.makssab.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -39,6 +40,20 @@ public class Login extends AppCompatActivity {
         mButtonLoginMember=(Button)findViewById(R.id.bLoginMember);
         mButtonLoginEnter=(Button)findViewById(R.id.bLoginEnter);
         mTextViewLogin=(TextView)findViewById(R.id.tvLogin);
+        mTextViewLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),ActivationCode.class);
+                startActivity(intent);
+            }
+        });
+        mButtonLoginMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),NewAccount.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

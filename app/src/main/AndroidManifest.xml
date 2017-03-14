@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
-
     <application
         android:name=".MainApp.MainApp"
         android:allowBackup="true"
@@ -77,6 +76,18 @@
         <activity
             android:name=".Activity.Advertisement"
             android:label="@string/title_activity_advertisement"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Stores"
+            android:label="@string/title_activity_stores"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Buildings"
+            android:label="@string/title_activity_buildings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.ActivationCode"
+            android:label="@string/title_activity_activation_code"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

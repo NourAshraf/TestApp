@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.nour.makssab.Activity.ActivationCode"
+    tools:showIn="@layout/activity_activation_code"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/LoginTitle"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_cloud_computing"
+            android:gravity="center"
+            android:text=" اعاده ارسال كود التفعيل"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_height="wrap_content"
+            android:text="من فضلك اكتب بريدك الاكترونى ليصلك كود التفعيل"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/active"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_bg1"
+        android:inputType="textWebEmailAddress"
+        android:hint="   البريد الالكترونى"
+        android:id="@+id/etActivation"/>
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button_bg"
+        android:backgroundTint="@color/LoginButton"
+        android:text="اعاده ارسال كود التفعيل"
+        android:textColor="@color/button_secondary_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:id="@+id/bActivation"/>
+
+</LinearLayout>

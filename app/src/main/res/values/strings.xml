@@ -27,4 +27,7 @@
     <string name="title_activity_exhibitions">Exhibitions</string>
     <string name="title_activity_exhibitions_details">ExhibitionsDetails</string>
     <string name="title_activity_advertisement">Advertisement</string>
+    <string name="title_activity_stores">Stores</string>
+    <string name="title_activity_buildings">Buildings</string>
+    <string name="title_activity_activation_code">ActivationCode</string>
 </resources>

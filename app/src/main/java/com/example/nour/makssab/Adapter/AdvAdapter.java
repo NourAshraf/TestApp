@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.nour.makssab.Model.AdvModel;
 import com.example.nour.makssab.R;
-
 import java.util.ArrayList;
 
 /**
