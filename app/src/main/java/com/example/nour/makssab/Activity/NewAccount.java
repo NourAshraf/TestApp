@@ -91,7 +91,7 @@ public class NewAccount extends AppCompatActivity {
     }
     public void onStates(){
         String Url=MainApp.StatesUrl;
-        StringRequest mStringRequestonCity=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+        StringRequest mStringRequestonStates=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -135,7 +135,7 @@ public class NewAccount extends AppCompatActivity {
                 return params;
             }
         };
-        mVolleySingletonRequestQueue.add(mStringRequestonCity);
+        mVolleySingletonRequestQueue.add(mStringRequestonStates);
     }
     public void onCity(final int position){
         String Url=MainApp.CitiesUrl;
