@@ -1,12 +1,9 @@
 package com.example.nour.makssab.Activity;
-
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,14 +11,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.MainApp.MainApp;
+import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.List;
 
 public class NewAccount extends AppCompatActivity {
     private EditText mEditTextNewAccountUser;
@@ -32,9 +37,14 @@ public class NewAccount extends AppCompatActivity {
     private EditText mEditTextNewAccountPass;
     private EditText mEditTextNewAccountSurePass;
     private Button mButtonNewAccount;
-    private Spinner mSpinnerNewAccount;
-    private Spinner mSpinnerNewAccount2;
-    private String emailAddress;
+    private Spinner mSpinnerNewAccountArea;
+    private Spinner mSpinnerNewAccountCity;
+    private  RequestQueue mVolleySingletonRequestQueue;
+    private ArrayList<String>State_Id;
+    private ArrayList<String>State_Name;
+    private ArrayList<String>City_Id;
+    private ArrayList<String>City_Name;
+
 
 
     @Override
@@ -44,6 +54,7 @@ public class NewAccount extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Allvariables();
+        onStates();
 
 
     }
@@ -57,45 +68,123 @@ public class NewAccount extends AppCompatActivity {
         mEditTextNewAccountPass= (EditText) findViewById(R.id.etNewAccountPass);
         mEditTextNewAccountSurePass= (EditText) findViewById(R.id.etNewAccountSurePass);
         mButtonNewAccount= (Button) findViewById(R.id.bNewAccount);
-        mSpinnerNewAccount= (Spinner) findViewById(R.id.NewAccountSpinner);
-        mSpinnerNewAccount2= (Spinner) findViewById(R.id.NewAccountSpinner2);
-        // Test Only
-        List<String> list = new ArrayList<String>();
-        list.add("اختر  المنطقه");
-        list.add("منطقه الرياض");
-        list.add(" منطقه مكه المكرمه");
-        list.add("منطقه المدينه المنورة");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerNewAccount.setAdapter(dataAdapter);
-        List<String> list2 = new ArrayList<String>();
-        list2.add("اختر  المدينه");
-        list2.add("مدينه الرياض");
-        list2.add(" مدينه مكه المكرمه");
-        list2.add("مدينه المدينه المنورة");
-        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list2);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerNewAccount2.setAdapter(dataAdapter2);
-         emailAddress= mEditTextNewAccountEmail.getText().toString();
+        VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
+        mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
+        mSpinnerNewAccountArea= (Spinner) findViewById(R.id.NewAccountSpinnerArea);
+        mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onCity(position);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSpinnerNewAccountCity= (Spinner) findViewById(R.id.NewAccountSpinnerCity);
+        State_Id=new ArrayList<String>();
+        State_Name=new ArrayList<String>();
+
+
+    }
+    public void onStates(){
+        String Url=MainApp.StatesUrl;
+        StringRequest mStringRequestonCity=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray = new JSONArray(response);
+                    if (mJsonArray.length() == 1) {
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        State_Id.add(id);
+                        State_Name.add(name);
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                              android.R.layout.simple_spinner_item, State_Name);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        mSpinnerNewAccountArea.setAdapter(dataAdapter);
 
 
 
-    } private  boolean isValidEmailAddress() {
-        String emailRegEx;
-        Pattern pattern;
-        // Regex for a valid email address
-        emailRegEx = "^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}$";
-        // Compare the regex with the email address
-        pattern = Pattern.compile(emailRegEx);
-        Matcher matcher = pattern.matcher(emailAddress);
-        if (!matcher.find()) {
-            return false;
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onStates();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonCity);
+    }
+    public void onCity(final int position){
+        String Url=MainApp.CitiesUrl;
+        StringRequest mStringRequestonCity=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray = new JSONArray(response);
+                    if (mJsonArray.length() == 1) {
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        City_Id.add(id);
+                        City_Name.add(name);
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                android.R.layout.simple_spinner_item, City_Name);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        mSpinnerNewAccountCity.setAdapter(dataAdapter);
 
 
-        }
-        return true;
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onCity(position);
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonCity);
+
     }
 
 }
