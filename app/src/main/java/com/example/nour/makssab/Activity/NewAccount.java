@@ -184,7 +184,7 @@ public class NewAccount extends AppCompatActivity {
             }
         };
         mVolleySingletonRequestQueue.add(mStringRequestonCity);
-
+//l
     }
 
 }
