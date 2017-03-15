@@ -48,6 +48,8 @@ public class NewAccount extends AppCompatActivity {
     private ArrayList<String>City_Id;
     private ArrayList<String>City_Name;
     private LinearLayout mLinearLayoutCity;
+    private String mStateId;
+    private String mCityId;
 
 
     @Override
@@ -58,11 +60,11 @@ public class NewAccount extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Allvariables();
         onStates();
-
-
     }
 
     private void Allvariables() {
+        mStateId="";
+        mCityId="";
         mLinearLayoutCity= (LinearLayout) findViewById(R.id.llCity);
         mEditTextNewAccountUser= (EditText) findViewById(R.id.etNewAccountUser);
         mEditTextNewAccountPhone= (EditText) findViewById(R.id.etNewAccountPhone);
@@ -72,6 +74,34 @@ public class NewAccount extends AppCompatActivity {
         mEditTextNewAccountPass= (EditText) findViewById(R.id.etNewAccountPass);
         mEditTextNewAccountSurePass= (EditText) findViewById(R.id.etNewAccountSurePass);
         mButtonNewAccount= (Button) findViewById(R.id.bNewAccount);
+        mButtonNewAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Email = mEditTextNewAccountEmail.getText().toString();
+                String Pass = mEditTextNewAccountPass.getText().toString();
+                String SurePass = mEditTextNewAccountSurePass.getText().toString();
+                String User = mEditTextNewAccountUser.getText().toString();
+                String Phone = mEditTextNewAccountPhone.getText().toString();
+                if (User.matches(".{3,}+")){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                }
+                else if (!Email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                }else if (!Pass.matches(".{6,}+")){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                }else if (!Phone.matches(".{3,20}+")){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                }else if (!Pass.equals(SurePass)){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                }else if (mStateId.equals("")){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                }else if (mCityId.equals("")){
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                }else {
+                  onRegister(Email,Pass,Phone,SurePass,User,mCityId,mStateId);
+                }
+            }
+        });
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mSpinnerNewAccountArea= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerArea);
@@ -79,8 +109,9 @@ public class NewAccount extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position==-1){
-
+                    mStateId="";
                 }else {
+                    mStateId=State_Id.get(position);
                     mLinearLayoutCity.setVisibility(View.VISIBLE);
                     onCity(State_Id.get(position));
                 }
@@ -92,13 +123,31 @@ public class NewAccount extends AppCompatActivity {
             }
         });
         mSpinnerNewAccountCity= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerCity);
+        mSpinnerNewAccountCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==-1){
+                    mCityId="";
+                }else {
+                    mCityId=City_Id.get(i);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         State_Id=new ArrayList<String>();
         State_Name=new ArrayList<String>();
         City_Id=new ArrayList<String>();
         City_Name=new ArrayList<String>();
+    }
 
+    private void onRegister(String email, String pass, String phone, String surePass, String user, String mCityId, String mStateId) {
 
     }
+
     public void onStates(){
         String Url=MainApp.StatesUrl;
         StringRequest mStringRequestonStates=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
