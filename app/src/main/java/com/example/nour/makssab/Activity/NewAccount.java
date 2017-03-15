@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,15 +19,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class NewAccount extends AppCompatActivity {
@@ -144,8 +140,34 @@ public class NewAccount extends AppCompatActivity {
         City_Name=new ArrayList<String>();
     }
 
-    private void onRegister(String email, String pass, String phone, String surePass, String user, String mCityId, String mStateId) {
+    private void onRegister(final String email, final String pass, final String phone, final String surePass, final String user, final String mCityId, final String mStateId) {
+        String Url=MainApp.RegUrl;
+       StringRequest mStringRequestonRegister=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+           @Override
+           public void onResponse(String response) {
 
+
+           }
+       }, new Response.ErrorListener() {
+           @Override
+           public void onErrorResponse(VolleyError error) {
+
+           }
+       }){
+           @Override
+           protected Map<String, String> getParams() throws AuthFailureError {
+               Map<String,String>paramter=new HashMap<String, String>();
+               paramter.put("username",user);
+               paramter.put("phone",phone);
+               paramter.put("state_id",mStateId);
+               paramter.put("city_id",mCityId);
+               paramter.put("email",email);
+               paramter.put("password",pass);
+               paramter.put("password_confirmation",surePass);
+               return paramter;
+           }
+       };
+       mVolleySingletonRequestQueue.add(mStringRequestonRegister);
     }
 
     public void onStates(){
