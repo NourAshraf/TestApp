@@ -14,6 +14,7 @@
     android:layout_marginBottom="10dp"
     >
     <LinearLayout
+        android:padding="15dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
@@ -26,9 +27,7 @@
         android:background="@color/LoginTitle"
         android:orientation="vertical"
         android:padding="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp">
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,7 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         >
-
         <EditText
             android:id="@+id/etNewAccountUser"
             android:layout_width="match_parent"
@@ -94,18 +92,21 @@
         </android.support.design.widget.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="30dp"
-            >
-            <Spinner
-                android:layout_width="303dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:layout_width="match_parent"
+                app:ms_hint="اختر المنطقة"
                 android:layout_height="wrap_content"
                 android:id="@+id/NewAccountSpinnerArea"
                 >
 
-            </Spinner>
+            </fr.ganfra.materialspinner.MaterialSpinner>
 
             <TextView
+                android:visibility="gone"
+                android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
@@ -116,27 +117,24 @@
                 />
 
         </LinearLayout>
-        <ImageView
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/bb_inActiveBottomBarItemColor"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
         <LinearLayout
+            android:id="@+id/llCity"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="35dp"
-            >
-            <Spinner
-                android:layout_width="303dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <fr.ganfra.materialspinner.MaterialSpinner
+                app:ms_hint="اختر المدينه"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/NewAccountSpinnerCity"
-                >
 
-            </Spinner>
-
+                />
             <TextView
+                android:visibility="gone"
+                android:layout_gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
@@ -147,16 +145,10 @@
                 />
 
         </LinearLayout>
-        <ImageView
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/bb_inActiveBottomBarItemColor"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="10dp"
             >
 
             <EditText

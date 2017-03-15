@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -64,6 +65,7 @@ public class Advertisement extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONArray mJsonArray=new JSONArray(response);
+                    Log.i(MainApp.Tag,mJsonArray.length()+"");
                     for (int i=0;i<mJsonArray.length();i++){
                         JSONObject mJsonObject = mJsonArray.getJSONObject(i);
                         int id = mJsonObject.getInt("id");
@@ -87,7 +89,8 @@ public class Advertisement extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onLoadAdv();
+//                onLoadAdv();
+                Log.i(MainApp.Tag,"Worked Error");
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestAdv);

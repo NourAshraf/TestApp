@@ -7,12 +7,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,10 +20,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class NewAccount extends AppCompatActivity {
     private EditText mEditTextNewAccountUser;
@@ -37,14 +40,14 @@ public class NewAccount extends AppCompatActivity {
     private EditText mEditTextNewAccountPass;
     private EditText mEditTextNewAccountSurePass;
     private Button mButtonNewAccount;
-    private Spinner mSpinnerNewAccountArea;
-    private Spinner mSpinnerNewAccountCity;
+    private MaterialSpinner mSpinnerNewAccountArea;
+    private MaterialSpinner mSpinnerNewAccountCity;
     private  RequestQueue mVolleySingletonRequestQueue;
     private ArrayList<String>State_Id;
     private ArrayList<String>State_Name;
     private ArrayList<String>City_Id;
     private ArrayList<String>City_Name;
-
+    private LinearLayout mLinearLayoutCity;
 
 
     @Override
@@ -60,6 +63,7 @@ public class NewAccount extends AppCompatActivity {
     }
 
     private void Allvariables() {
+        mLinearLayoutCity= (LinearLayout) findViewById(R.id.llCity);
         mEditTextNewAccountUser= (EditText) findViewById(R.id.etNewAccountUser);
         mEditTextNewAccountPhone= (EditText) findViewById(R.id.etNewAccountPhone);
         mEditTextNewAccountEmail= (EditText) findViewById(R.id.etNewAccountEmail);
@@ -70,12 +74,16 @@ public class NewAccount extends AppCompatActivity {
         mButtonNewAccount= (Button) findViewById(R.id.bNewAccount);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
-        mSpinnerNewAccountArea= (Spinner) findViewById(R.id.NewAccountSpinnerArea);
+        mSpinnerNewAccountArea= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerArea);
         mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                onCity(position);
+                if (position==-1){
 
+                }else {
+                    mLinearLayoutCity.setVisibility(View.VISIBLE);
+                    onCity(State_Id.get(position));
+                }
             }
 
             @Override
@@ -83,15 +91,17 @@ public class NewAccount extends AppCompatActivity {
 
             }
         });
-        mSpinnerNewAccountCity= (Spinner) findViewById(R.id.NewAccountSpinnerCity);
+        mSpinnerNewAccountCity= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerCity);
         State_Id=new ArrayList<String>();
         State_Name=new ArrayList<String>();
+        City_Id=new ArrayList<String>();
+        City_Name=new ArrayList<String>();
 
 
     }
     public void onStates(){
         String Url=MainApp.StatesUrl;
-        StringRequest mStringRequestonStates=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+        StringRequest mStringRequestonStates=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -108,12 +118,8 @@ public class NewAccount extends AppCompatActivity {
                         State_Id.add(id);
                         State_Name.add(name);
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                              android.R.layout.simple_spinner_item, State_Name);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                              R.layout.item_spinner,R.id.tvItem,State_Name);
                         mSpinnerNewAccountArea.setAdapter(dataAdapter);
-
-
-
 
                     }
 
@@ -137,9 +143,13 @@ public class NewAccount extends AppCompatActivity {
         };
         mVolleySingletonRequestQueue.add(mStringRequestonStates);
     }
-    public void onCity(final int position){
-        String Url=MainApp.CitiesUrl;
-        StringRequest mStringRequestonCity=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+    public void onCity(final String position){
+        if (City_Name!=null){
+            City_Name.clear();
+            City_Id.clear();
+        }
+        String Url=MainApp.CitiesUrl+position;
+        StringRequest mStringRequestonCity=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -156,12 +166,8 @@ public class NewAccount extends AppCompatActivity {
                         City_Id.add(id);
                         City_Name.add(name);
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                                android.R.layout.simple_spinner_item, City_Name);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                R.layout.item_spinner,R.id.tvItem,City_Name);
                         mSpinnerNewAccountCity.setAdapter(dataAdapter);
-
-
-
 
                     }
 

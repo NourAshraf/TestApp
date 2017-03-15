@@ -2,6 +2,7 @@ package com.example.nour.makssab.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,8 +149,7 @@ public class HomeAdapter extends ArrayAdapter{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-
+                Log.i(MainApp.Tag,"Worked Error");
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestGetCategory);
