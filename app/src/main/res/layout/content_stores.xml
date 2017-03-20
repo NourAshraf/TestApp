@@ -28,10 +28,30 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_bg">
+
+        <Button
+            android:id="@+id/bSearchStores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:id="@+id/llStateStores"
+        android:visibility="gone"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
 
@@ -52,7 +72,9 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:id="@+id/llCityStores"
         android:background="@drawable/shape"
+        android:visibility="gone"
         android:layout_marginLeft="15dp">
 
         <TextView
@@ -69,6 +91,10 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <Button
         android:layout_width="70dp"
         android:layout_height="30dp"
@@ -77,9 +103,19 @@
         android:text="بحث"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
+        android:visibility="gone"
         android:textStyle="bold"
         android:layout_marginLeft="15dp"
         android:id="@+id/bSearchSearch"/>
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="180dp"
+            android:text="اخفاء البحث"
+            android:id="@+id/tvHiddenStores"/>
+    </LinearLayout>
 
 
     <ListView

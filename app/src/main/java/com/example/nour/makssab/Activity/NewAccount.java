@@ -78,21 +78,30 @@ public class NewAccount extends AppCompatActivity {
                 String SurePass = mEditTextNewAccountSurePass.getText().toString();
                 String User = mEditTextNewAccountUser.getText().toString();
                 String Phone = mEditTextNewAccountPhone.getText().toString();
-                if (User.matches(".{3,}+")){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                if (User.matches("")){
+                    Toast.makeText(getApplicationContext(),"لابد من ادخال الاسم !",Toast.LENGTH_SHORT).show();
+                }
+                else if (User.matches(".{15,}+")){
+                    Toast.makeText(getApplicationContext(),"الاسم لا يزيد عن 15 حرف!",Toast.LENGTH_SHORT).show();
+                }
+                else if (Email.matches("")){
+                    Toast.makeText(getApplicationContext(),"لابد من ادخال البريد الالكترونى !",Toast.LENGTH_SHORT).show();
                 }
                 else if (!Email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
-                }else if (!Pass.matches(".{6,}+")){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"اكتب البريد الالكترونى بصوره صحيحه!",Toast.LENGTH_SHORT).show();
+                }else if (Pass.matches("")){
+                    Toast.makeText(getApplicationContext(),"لابد من ادخال كلمه المرور !",Toast.LENGTH_SHORT).show();
+                }
+                else if (!Pass.matches(".{6,}+")){
+                    Toast.makeText(getApplicationContext(),"كلمه المرور لا تقل عن 6 احرف او ارقام!",Toast.LENGTH_SHORT).show();
                 }else if (!Phone.matches(".{3,20}+")){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"رقم الجوال الا يقل عن 3 ولا يزيد عن 20 رقم!",Toast.LENGTH_LONG).show();
                 }else if (!Pass.equals(SurePass)){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"كلمتى المرور لابد ان يكونوا متطابقيين!",Toast.LENGTH_LONG).show();
                 }else if (mStateId.equals("")){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"لابد من اختيار المنطقه!",Toast.LENGTH_LONG).show();
                 }else if (mCityId.equals("")){
-                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"لابد من اختيار المدينه!",Toast.LENGTH_LONG).show();
                 }else {
                   onRegister(Email,Pass,Phone,SurePass,User,mCityId,mStateId);
                 }
@@ -147,10 +156,12 @@ public class NewAccount extends AppCompatActivity {
            public void onResponse(String response) {
 
 
+
            }
        }, new Response.ErrorListener() {
            @Override
            public void onErrorResponse(VolleyError error) {
+
 
            }
        }){

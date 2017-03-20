@@ -136,6 +136,21 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 Intent mIntentSearch=new Intent(mContext,Search.class);
                 startActivity(mIntentSearch);
                 break;
+
+            case R.id.action_Adv_Favorites:
+                Intent mIntentAdvFavorites=new Intent(mContext,MemberFavorites.class);
+                startActivity(mIntentAdvFavorites);
+                break;
+
+            case R.id.action_New_Account:
+                Intent mIntentNewAccount=new Intent(mContext,NewAccount.class);
+                startActivity(mIntentNewAccount);
+                break;
+
+            case R.id.action_Login:
+                Intent mIntentLogin=new Intent(mContext,Login.class);
+                startActivity(mIntentLogin);
+                break;
         }
         return true;
     }
@@ -154,12 +169,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentProfile);
                 break;
             case R.id.bShops:
+                Intent mIntentShops=new Intent(mContext,Stores.class);
+                startActivity(mIntentShops);
 
                 break;
             case R.id.bGalleries:
+                Intent mIntentGalleries=new Intent(mContext,Exhibitions.class);
+                startActivity(mIntentGalleries);
 
                 break;
             case R.id.bProperty:
+                Intent mIntentProperty=new Intent(mContext,Buildings.class);
+                startActivity(mIntentProperty);
+
 
                 break;
             case R.id.bLoginNow:

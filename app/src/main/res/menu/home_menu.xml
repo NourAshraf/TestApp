@@ -2,32 +2,46 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
  <item
-     android:title="Item 1"
+     android:title=" الاعلانات المفضله"
      app:showAsAction="never"
-     android:id="@+id/action_item_1"
+     android:id="@+id/action_Adv_Favorites"
      android:orderInCategory="100"
      >
  </item>
     <item
-     android:title="Item 2"
+     android:title="اعلاناتى"
      app:showAsAction="never"
-     android:id="@+id/action_item_2"
+     android:id="@+id/action_My_Adv"
      android:orderInCategory="200"
      >
   </item>
   <item
-     android:title="Item 3"
+     android:title="اتصل بنا"
      app:showAsAction="never"
-     android:id="@+id/action_item_3"
+     android:id="@+id/action_Call_Us"
      android:orderInCategory="300"
      >
   </item>
+ <item
+    android:title=" التسجيل"
+    app:showAsAction="never"
+    android:id="@+id/action_New_Account"
+    android:orderInCategory="400"
+    >
+</item>
+ <item
+     android:title=" تسجيل الدخول"
+     app:showAsAction="never"
+     android:id="@+id/action_Login"
+     android:orderInCategory="500"
+     >
+ </item>
   <item
      android:title="Search"
      app:showAsAction="always"
       android:icon="@drawable/ic_musica_searcher"
      android:id="@+id/action_search"
-     android:orderInCategory="400"
+     android:orderInCategory="600"
      >
   </item>
 </menu>

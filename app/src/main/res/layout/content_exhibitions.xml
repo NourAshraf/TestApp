@@ -8,6 +8,7 @@
     tools:context="com.example.nour.makssab.Activity.Exhibitions"
     tools:showIn="@layout/activity_exhibitions"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="330dp"
         android:layout_height="wrap_content"
@@ -29,9 +30,27 @@
             android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="120dp"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
+        android:background="@drawable/button_bg"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/background_light"
+            android:background="@drawable/button"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:id="@+id/bSearch"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/llStateExhibitions"
+        android:visibility="gone"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
 
@@ -51,7 +70,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:id="@+id/llCityExhibitions"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
 
@@ -71,7 +92,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:id="@+id/llCarMarkaExhibitions"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
 
@@ -91,7 +114,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:id="@+id/llCarKindExhibitions"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:layout_marginLeft="15dp">
 
@@ -108,79 +133,33 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <Button
         android:layout_width="70dp"
         android:layout_height="30dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:background="@color/LoginButton"
         android:text="بحث"
+        android:visibility="gone"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginLeft="15dp"
-        android:id="@+id/bSearchSearch"/>
-    <HorizontalScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scrollview"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fillViewport="true"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_bg3">
+        android:id="@+id/bSearchExhibitions"/>
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="180dp"
+            android:text="اخفاء البحث"
+            android:id="@+id/tvHiddenExhibitions"/>
 
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:text="1"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:text="2"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:text="3"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:text="4"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:text="5"
-                android:gravity="center"
-                android:layout_gravity="center"/>
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:text="6"
-                android:gravity="center"
-                android:layout_gravity="center"/>
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:text="7"
-                android:gravity="center"
-                android:layout_gravity="center"/>
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </HorizontalScrollView>
 
     <ListView
         android:layout_width="match_parent"
