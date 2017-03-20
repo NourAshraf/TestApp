@@ -30,4 +30,5 @@
     <string name="title_activity_stores">Stores</string>
     <string name="title_activity_buildings">Buildings</string>
     <string name="title_activity_activation_code">ActivationCode</string>
+    <string name="title_activity_adv_details">AdvDetails</string>
 </resources>

@@ -9,12 +9,10 @@
     <LinearLayout
         android:padding="10dp"
         android:background="?attr/selectableItemBackground"
-
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:background="@drawable/ic_user_image_car_test"
             android:id="@+id/ivAdvImage"
             android:layout_width="match_parent"
             android:layout_height="190dp" />

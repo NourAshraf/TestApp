@@ -88,7 +88,16 @@
         <activity
             android:name=".Activity.ActivationCode"
             android:label="@string/title_activity_activation_code"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.AdvDetails"
+            android:label="@string/title_activity_adv_details"
+            android:parentActivityName=".Activity.Advertisement"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nour.makssab.Activity.Advertisement" />
+        </activity>
     </application>
 
 </manifest>

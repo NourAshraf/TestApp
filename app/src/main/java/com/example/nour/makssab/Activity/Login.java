@@ -2,11 +2,8 @@ package com.example.nour.makssab.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,8 +40,6 @@ public class Login extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Allvariables();
-
-
     }
 
     private void Allvariables() {
@@ -97,7 +92,6 @@ public class Login extends AppCompatActivity {
         StringRequest mStringRequestonLogin=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i(MainApp.Tag,"Test");
 
             }
         }, new Response.ErrorListener() {
@@ -109,7 +103,7 @@ public class Login extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String>paramter=new HashMap<String, String>();
-                paramter.put("username",user);
+                paramter.put("login",user);
                 paramter.put("password",pass);
                 return paramter;
             }
