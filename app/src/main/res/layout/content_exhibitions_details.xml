@@ -8,6 +8,4 @@
     tools:context="com.example.nour.makssab.Activity.ExhibitionsDetails"
     tools:showIn="@layout/activity_exhibitions_details">
 
-
-
 </LinearLayout>

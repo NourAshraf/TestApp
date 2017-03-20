@@ -1,9 +1,13 @@
 package com.example.nour.makssab.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,10 +25,14 @@ import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
+    private String filename="mkssab";
     private EditText mEditTextLoginUser;
     private EditText mEditTextLoginPass;
     private CheckBox mCheckBoxLogin;
@@ -40,6 +48,8 @@ public class Login extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Allvariables();
+
+
     }
 
     private void Allvariables() {
@@ -75,11 +85,7 @@ public class Login extends AppCompatActivity {
                 }else if (Pass.matches("")){
                     Toast.makeText(getApplicationContext(),"لابد من ادخال كلمه المرور !",Toast.LENGTH_SHORT).show();
                 }
-               else if (User.matches(".{15,}+")){
-                    Toast.makeText(getApplicationContext(),"الاسم غير صحيح!",Toast.LENGTH_SHORT).show();
-                }else if (!Pass.matches(".{6,}+")) {
-                    Toast.makeText(getApplicationContext(), "كلمه المرور غير صحيحه!", Toast.LENGTH_SHORT).show();
-                }else {
+               else {
                     onLogin(User,Pass);
                 }
 
@@ -92,11 +98,24 @@ public class Login extends AppCompatActivity {
         StringRequest mStringRequestonLogin=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    if (mJsonObject.has("error")){
+                        Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
+                    }
+                    SharedPreferences mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+                    mSharedPreferences.edit().putBoolean("Login",true).commit();
+                    mSharedPreferences.edit().putString("token",mJsonObject.getString("token")).commit();
+                    Intent intent=new Intent(getApplicationContext(),Home.class);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
 
             }
         }){
