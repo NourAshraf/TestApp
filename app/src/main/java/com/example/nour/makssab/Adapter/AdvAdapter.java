@@ -31,6 +31,7 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.AdvHolder> {
         mArray=models;
         mContext=context;
         mLayoutInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //
     }
 
 
