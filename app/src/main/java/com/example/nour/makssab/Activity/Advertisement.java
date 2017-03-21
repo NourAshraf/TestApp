@@ -92,6 +92,8 @@ public class Advertisement extends AppCompatActivity {
                         }
                         JSONObject jsonObject=data.getJSONObject(i);
                         String id = jsonObject.getString("id");
+                        String created_at = jsonObject.getString("created_at");
+                        jsonObject.getString("id");
                         String city_id = jsonObject.getString("city_id");
                         String title = jsonObject.getString("title");
                         String description = jsonObject.getString("description");
@@ -109,7 +111,7 @@ public class Advertisement extends AppCompatActivity {
                         JSONObject user = jsonObject.getJSONObject("user");
                         String UserId = user.getString("id");
                         String username = user.getString("username");
-                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels);
+                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels,created_at);
                         models.add(advModel);
                         if (true){
                             mDelete=true;

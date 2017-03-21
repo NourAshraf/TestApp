@@ -18,8 +18,17 @@ public class AdvModel {
     private String UserId;
     private String UserName;
     private ArrayList<String> Images;
+    private String created_at;
 
-    public AdvModel(String id, String city_Id, String views, String category_id, String title, String description, String phone, String city_Name, String userId, String userName, ArrayList<String> images) {
+    public String getCreate_at() {
+        return created_at;
+    }
+
+    public void setCreate_at(String create_at) {
+        this.created_at = create_at;
+    }
+
+    public AdvModel(String id, String city_Id, String views, String category_id, String title, String description, String phone, String city_Name, String userId, String userName, ArrayList<String> images, String Created_at) {
         Id = id;
         City_Id = city_Id;
         Views = views;
@@ -31,6 +40,7 @@ public class AdvModel {
         UserId = userId;
         UserName = userName;
         Images = images;
+        created_at=Created_at;
     }
 
     public String getId() {

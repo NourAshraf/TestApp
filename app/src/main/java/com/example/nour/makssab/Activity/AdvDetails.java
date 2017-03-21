@@ -28,6 +28,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private TextView mTextViewLocation;
     private TextView mTextViewDescription;
     private SliderLayout mDemoSlider;
+    private String MyTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         description = getIntent().getExtras().getString("Description");
         userName = getIntent().getExtras().getString("UserName");
         images = getIntent().getExtras().getStringArrayList("Images");
+        MyTime = getIntent().getExtras().getString("MyTime");
     }
 
 

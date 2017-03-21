@@ -12,10 +12,28 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/ivAdvImage"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp" />
+            android:layout_height="190dp">
+            <ImageView
+                android:id="@+id/ivAdvImage"
+                android:layout_width="match_parent"
+                android:layout_height="190dp" />
+
+            <TextView
+                android:id="@+id/tvImageNum"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/TransperantGray2"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
 
         <TextView
             android:layout_marginTop="20dp"

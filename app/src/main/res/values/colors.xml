@@ -15,5 +15,6 @@
     <color name="words">#333a3e</color>
     <color name="inputs">#161e22</color>
     <color name="active">#EA5287</color>
+    <color name="TransperantGray2">#6c000000</color>
 
 </resources>
