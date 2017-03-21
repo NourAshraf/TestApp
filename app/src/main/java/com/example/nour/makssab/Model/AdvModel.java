@@ -19,6 +19,23 @@ public class AdvModel {
     private String UserName;
     private ArrayList<String> Images;
     private String created_at;
+    private int CommentsSize;
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public int getCommentsSize() {
+        return CommentsSize;
+    }
+
+    public void setCommentsSize(int commentsSize) {
+        CommentsSize = commentsSize;
+    }
 
     public String getCreate_at() {
         return created_at;
@@ -28,7 +45,7 @@ public class AdvModel {
         this.created_at = create_at;
     }
 
-    public AdvModel(String id, String city_Id, String views, String category_id, String title, String description, String phone, String city_Name, String userId, String userName, ArrayList<String> images, String Created_at) {
+    public AdvModel(String id, String city_Id, String views, String category_id, String title, String description, String phone, String city_Name, String userId, String userName, ArrayList<String> images, String Created_at,int commentsSize) {
         Id = id;
         City_Id = city_Id;
         Views = views;
@@ -41,6 +58,7 @@ public class AdvModel {
         UserName = userName;
         Images = images;
         created_at=Created_at;
+        CommentsSize=commentsSize;
     }
 
     public String getId() {

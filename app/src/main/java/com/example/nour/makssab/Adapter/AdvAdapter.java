@@ -69,6 +69,7 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.AdvHolder> {
        holder.mTextViewAdvOwner.setText(mArray.get(position).getUserName());
         holder.mTextViewImageNum.setText(mArray.get(position).getImages().size()+"");
         holder.mTextViewAdvTime.setText(MyTime);
+        holder.mTextViewAdvComments.setText(mArray.get(position).getCommentsSize()+"");
         ArrayList<String> images = mArray.get(position).getImages();
         if (mArray.get(position).getImages().size()!=0) {
             Picasso.with(mContext).load(MainApp.ImagesUrl + images.get(0)).fit().into(holder.mImageViewImage);
@@ -127,6 +128,7 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.AdvHolder> {
         private final ImageView mImageViewImage;
         private final TextView mTextViewImageNum;
         private final TextView mTextViewAdvTime;
+        private final TextView mTextViewAdvComments;
 
         public AdvHolder(View itemView) {
             super(itemView);
@@ -136,6 +138,7 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.AdvHolder> {
             mTextViewAdvOwner= (TextView) itemView.findViewById(R.id.tvAdvOwner);
             mTextViewImageNum= (TextView) itemView.findViewById(R.id.tvImageNum);
             mTextViewAdvTime= (TextView) itemView.findViewById(R.id.tvAdvTime);
+            mTextViewAdvComments= (TextView) itemView.findViewById(R.id.tvAdvComments);
             mImageViewImage= (ImageView) itemView.findViewById(R.id.ivAdvImage);
         }
     }

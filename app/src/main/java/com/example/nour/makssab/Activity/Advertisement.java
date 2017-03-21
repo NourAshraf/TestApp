@@ -39,7 +39,7 @@ public class Advertisement extends AppCompatActivity {
     private String next_page_url;
     private ArrayList<String> ImagesModels;
     private ProgressBar mProgressBar;
-
+    private boolean mDelete;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,7 @@ public class Advertisement extends AppCompatActivity {
     }
 
     private void onVariables() {
+        mDelete=false;
         mContext=Advertisement.this;
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
@@ -67,7 +68,10 @@ public class Advertisement extends AppCompatActivity {
         onLoadAdv(MainApp.AdvUrl);
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
-            public void onLoadMore(int current_page) {
+            public void onLoadMore(int current_page)
+
+            {
+                mDelete=true;
                onLoadAdv(next_page_url);
             }
         });
@@ -76,8 +80,6 @@ public class Advertisement extends AppCompatActivity {
     private void onLoadAdv(String Url) {
         mProgressBar.setVisibility(View.VISIBLE);
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
-            public boolean mDelete=false;
-
             @Override
             public void onResponse(String response) {
                 try {
@@ -91,6 +93,8 @@ public class Advertisement extends AppCompatActivity {
                             ImagesModels = new ArrayList<String>();
                         }
                         JSONObject jsonObject=data.getJSONObject(i);
+                        JSONArray comments_count = jsonObject.getJSONArray("comments_count");
+                        int CommentCount=comments_count.length();
                         String id = jsonObject.getString("id");
                         String created_at = jsonObject.getString("created_at");
                         jsonObject.getString("id");
@@ -111,7 +115,7 @@ public class Advertisement extends AppCompatActivity {
                         JSONObject user = jsonObject.getJSONObject("user");
                         String UserId = user.getString("id");
                         String username = user.getString("username");
-                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels,created_at);
+                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels,created_at,CommentCount);
                         models.add(advModel);
                         if (true){
                             mDelete=true;
