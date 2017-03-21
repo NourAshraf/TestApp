@@ -42,7 +42,7 @@
             android:gravity="right|center"
             android:paddingRight="50dp"
             android:text="الموقع"
-            android:textSize="15dp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
@@ -55,17 +55,26 @@
             android:gravity="right|center"
             android:paddingRight="50dp"
             android:text="الاسم"
-            android:textSize="15dp"
+            android:textSize="18dp"
             android:textColor="@color/colorAccent"
             android:textStyle="bold" />
     </LinearLayout>
     
     <TextView
+        android:textSize="16dp"
         android:padding="10dp"
         android:text="Descrption"
         android:id="@+id/tvDescription"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <com.daimajia.slider.library.SliderLayout
+        android:layout_margin="10dp"
+        android:background="@drawable/button_bg"
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        />
 </LinearLayout>
 </ScrollView>

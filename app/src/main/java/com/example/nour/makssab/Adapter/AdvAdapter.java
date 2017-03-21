@@ -48,7 +48,9 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.AdvHolder> {
        holder.mTextViewAdvTitle.setText(mArray.get(position).getTitle());
        holder.mTextViewAdvOwner.setText(mArray.get(position).getUserName());
         ArrayList<String> images = mArray.get(position).getImages();
-        Picasso.with(mContext).load(MainApp.ImagesUrl+images.get(0)).fit().into(holder.mImageViewImage);
+        if (mArray.get(position).getImages().size()!=0) {
+            Picasso.with(mContext).load(MainApp.ImagesUrl + images.get(0)).fit().into(holder.mImageViewImage);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
