@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="120dp"
+    android:orientation="vertical" android:layout_width="110dp"
     android:padding="5dp"
     android:clickable="true"
     android:focusable="true"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/button_bg4"
     android:layout_height="60dp">
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="110dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackground"
+        >
  <ImageView
      android:layout_gravity="center"
      android:id="@+id/ivHomeImage"
-     android:layout_width="40dp"
-     android:layout_height="33dp" />
+     android:layout_width="35dp"
+     android:layout_height="27dp" />
     <TextView
         android:layout_gravity="center"
         android:text="Hello"
+        android:textSize="13dp"
         android:gravity="center"
         android:id="@+id/tvHomeTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="normal|bold" />
+    </LinearLayout>
 </LinearLayout>

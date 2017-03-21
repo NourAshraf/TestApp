@@ -33,6 +33,7 @@
         <Button
             android:id="@+id/bProfile"
             android:layout_weight="0.5"
+            android:background="@color/LoginTitle"
             android:text="بياناتي"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -40,9 +41,10 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/LoginTitle">
         <Button
-            android:layout_margin="5dp"
+            android:layout_margin="4dp"
             android:background="@drawable/button_bg"
             android:layout_weight="1"
             android:text="عقارات"
@@ -50,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:layout_margin="5dp"
+            android:layout_margin="4dp"
             android:background="@drawable/button_bg"
             android:layout_weight="1"
             android:text="متاجر"
@@ -59,7 +61,7 @@
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/bGalleries"
-            android:layout_margin="5dp"
+            android:layout_margin="4dp"
             android:background="@drawable/button_bg"
             android:layout_weight="1"
             android:text="معارض"
@@ -67,7 +69,8 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     <GridView
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
+        android:layout_marginTop="13dp"
         android:gravity="center"
         android:layout_gravity="center"
         android:id="@+id/gvHome"
@@ -79,22 +82,30 @@
         android:stretchMode="columnWidth"
         android:orientation="horizontal">
     </GridView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="13dip"
+        android:background="@drawable/button_bg5"
+        android:padding="5dp">
     <org.honorato.multistatetogglebutton.MultiStateToggleButton
-        android:padding="5dp"
         android:layout_gravity="center"
         android:id="@+id/mstb_multi_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         mstb:values="@array/HomeButtons"
-        mstb:mstbPrimaryColor="@color/colorPrimary"
+        mstb:mstbPrimaryColor="@color/border5"
         mstb:mstbSecondaryColor="@color/button_secondary_color"/>
+    </LinearLayout>
     <Button
         android:textColor="@color/colorPrimary"
         android:id="@+id/bLoginNow"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/LoginTitle"
         android:text="قم بالتسجيل مجانا"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="75dp" />
 </LinearLayout>
 </ScrollView>

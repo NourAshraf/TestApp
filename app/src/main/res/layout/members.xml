@@ -8,7 +8,7 @@
         android:layout_height="15dp"
         android:layout_marginLeft="20dp"
         android:id="@+id/bMembersProfile"
-        android:background="@drawable/ic_arrow_left"
+        android:background="@drawable/ic_arrow_left2"
         android:layout_marginTop="28dp"/>
 
     <TextView

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/button_secondary_color"
     android:fitsSystemWindows="true"
     tools:context="com.example.nour.makssab.Activity.Home">
     <FrameLayout
@@ -16,7 +17,7 @@
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
                 <android.support.v7.widget.Toolbar
