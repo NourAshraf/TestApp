@@ -1,13 +1,17 @@
 package com.example.nour.makssab.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.Request;
@@ -40,6 +44,7 @@ public class Advertisement extends AppCompatActivity {
     private ArrayList<String> ImagesModels;
     private ProgressBar mProgressBar;
     private boolean mDelete;
+    private ImageView mImageViewBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,14 @@ public class Advertisement extends AppCompatActivity {
     private void onVariables() {
         mDelete=false;
         mContext=Advertisement.this;
+        mImageViewBack = (ImageView) findViewById(R.id.ivBack);
+        mImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Home.class);
+                startActivity(intent);
+            }
+        });
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mRecyclerViewAdv= (RecyclerView) findViewById(R.id.rvAdv);
@@ -134,5 +147,37 @@ public class Advertisement extends AppCompatActivity {
         });
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search:
+                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
+                startActivity(mIntentSearch);
+                break;
+
+            case R.id.action_Adv_Favorites:
+                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                startActivity(mIntentAdvFavorites);
+                break;
+
+            case R.id.action_New_Account:
+                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
+                startActivity(mIntentNewAccount);
+                break;
+
+            case R.id.action_Login:
+                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
+                startActivity(mIntentLogin);
+                break;
+        }
+        return true;
+    }
+
 
 }

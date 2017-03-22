@@ -104,7 +104,7 @@
         android:id="@+id/bLoginNow"
         android:layout_marginTop="10dp"
         android:background="@color/LoginTitle"
-        android:text="قم بالتسجيل مجانا"
+        android:text="  اضف اول اعلان مجانا"
         android:layout_width="match_parent"
         android:layout_height="75dp" />
 </LinearLayout>

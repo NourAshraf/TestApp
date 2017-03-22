@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="460dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Exhibitions"
     tools:showIn="@layout/activity_exhibitions"
@@ -33,13 +33,12 @@
         android:layout_width="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="@drawable/button_bg"
         android:layout_height="wrap_content">
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/background_light"
-            android:background="@drawable/button"
+            android:background="@drawable/ic_button_search"
             android:textSize="24sp"
             android:textStyle="bold"
             android:id="@+id/bSearch"/>

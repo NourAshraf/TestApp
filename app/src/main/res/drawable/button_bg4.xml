@@ -7,5 +7,5 @@
         android:angle="270" />
 
     <corners android:radius="0dp" />
-    <stroke android:width="3px" android:color="@color/inputs" />
+    <stroke android:width="3px" android:color="@color/LoginTitle" />
 </shape>
