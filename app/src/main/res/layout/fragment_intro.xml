@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.nour.makssab.Fragment.FragmentIntro">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:id="@+id/ivIntroImage1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="136dp"
+        app:srcCompat="@drawable/introicon"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:textSize="25dp"
+        android:textColor="@android:color/background_light"
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivIntroImage1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="اضف اعلانك هنا" />
+    <TextView
+        android:textSize="20dp"
+        android:textColor="@android:color/background_light"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:text="اضف اعلانك هنا في سطرين او اكثر او ماتريد بيعه ومشاهدته من قبل الملايين لمشاهدته"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="17dp"
+        android:layout_marginEnd="17dp" />
+</RelativeLayout>

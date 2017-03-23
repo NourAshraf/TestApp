@@ -34,6 +34,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private TextView mTextViewTime;
     private String mViews;
     private String mComments;
+    private TextView mTextViewPhone;
+    private String mPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mTextViewViews= (TextView) findViewById(R.id.tvAdvViews);
         mTextViewTime= (TextView) findViewById(R.id.tvAdvTime);
         mTextViewLocation= (TextView) findViewById(R.id.tvAdvCity);
+        mTextViewPhone= (TextView) findViewById(R.id.tvPhone);
         mTextViewDescription= (TextView) findViewById(R.id.tvDescription);
         mTextViewDescription.setText(description);
         mTextViewLocation.setText(city_name);
@@ -62,6 +65,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mTextViewComments.setText(mComments);
         mTextViewTime.setText(MyTime);
         mTextViewViews.setText(mViews);
+        mTextViewPhone.setText(mPhone);
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
         HashMap<String,String> url_maps = new HashMap<String, String>();
@@ -97,6 +101,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         MyTime = getIntent().getExtras().getString("MyTime");
         mViews = getIntent().getExtras().getString("Views");
         mComments = getIntent().getExtras().getString("Comments");
+        mPhone = getIntent().getExtras().getString("Phone");
     }
 
     @Override

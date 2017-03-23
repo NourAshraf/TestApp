@@ -98,6 +98,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Advertisement" />
         </activity>
+        <activity
+            android:name=".Activity.ActivityIntro"
+            android:theme="@style/Theme.Intro"
+            ></activity>
     </application>
 
 </manifest>

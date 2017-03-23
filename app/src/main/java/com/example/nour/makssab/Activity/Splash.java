@@ -34,9 +34,9 @@ public class Splash extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }finally {
-                    Intent mIntent = new Intent(mContext, Home.class);
-                    finish();
+                    Intent mIntent = new Intent(mContext, ActivityIntro.class);
                     startActivity(mIntent);
+                    finish();
                 }
             }
         };
