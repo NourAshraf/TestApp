@@ -94,6 +94,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                    case R.id.tab_adv:
                        Intent mIntentAdvertisement=new Intent(mContext,Advertisement.class);
                        startActivity(mIntentAdvertisement);
+                       finish();
                        break;
                    case R.id.tab_main:
 

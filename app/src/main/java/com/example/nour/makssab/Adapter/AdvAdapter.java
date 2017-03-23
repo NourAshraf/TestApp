@@ -92,6 +92,7 @@ public class AdvAdapter extends RecyclerView.Adapter<AdvAdapter.AdvHolder> {
                 mIntentAdvDetails.putExtra("UserName",mArray.get(position).getUserName());
                 mIntentAdvDetails.putExtra("Views",mArray.get(position).getViews());
                 mIntentAdvDetails.putExtra("MyTime",MyTime);
+                mIntentAdvDetails.putExtra("Comments",mArray.get(position).getCommentsSize()+"");
                 mContext.startActivity(mIntentAdvDetails);
             }
         });

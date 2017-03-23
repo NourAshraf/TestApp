@@ -3,16 +3,18 @@ package com.example.nour.makssab.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +28,8 @@ import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.AdvModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +37,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Advertisement extends AppCompatActivity {
+import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.current_page;
+import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
+import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
+
+public class Advertisement extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView mRecyclerViewAdv;
     private ArrayList<AdvModel> models;
@@ -45,6 +53,9 @@ public class Advertisement extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private boolean mDelete;
     private ImageView mImageViewBack;
+    private TextView mTextViewNoInternet;
+    private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +69,42 @@ public class Advertisement extends AppCompatActivity {
     private void onVariables() {
         mDelete=false;
         mContext=Advertisement.this;
+        mSwipeRefreshLayoutAdv = (SwipeRefreshLayout) findViewById(R.id.srlAdv);
+        mSwipeRefreshLayoutAdv.setOnRefreshListener(this);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Home.class);
-                startActivity(intent);
+                Intent mIntentHome=new Intent(mContext,Home.class);
+                startActivity(mIntentHome);
+                finish();
             }
         });
+        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId){
+                    case R.id.tab_adv:
+
+                        break;
+                    case R.id.tab_main:
+                        Intent mIntentHome=new Intent(mContext,Home.class);
+                        startActivity(mIntentHome);
+                        finish();
+                        break;
+                    case R.id.tab_notify:
+                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
+                        startActivity(mIntentNotification);
+                        finish();
+                        break;
+                    case R.id.tab_message:
+
+                        break;
+                }
+            }
+        });
+        mTextViewNoInternet= (TextView) findViewById(R.id.tvNoInternet);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mRecyclerViewAdv= (RecyclerView) findViewById(R.id.rvAdv);
@@ -90,13 +129,14 @@ public class Advertisement extends AppCompatActivity {
         });
     }
 
-    private void onLoadAdv(String Url) {
+    private void onLoadAdv(final String Url) {
         mProgressBar.setVisibility(View.VISIBLE);
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     mProgressBar.setVisibility(View.GONE);
+                    mTextViewNoInternet.setVisibility(View.GONE);
                     JSONObject mJsonObject=new JSONObject(response);
                     next_page_url = mJsonObject.getString("next_page_url");
                     JSONArray data = mJsonObject.getJSONArray("data");
@@ -142,7 +182,8 @@ public class Advertisement extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(MainApp.Tag,"Worked Error");
+                mTextViewNoInternet.setVisibility(View.VISIBLE);
+                onLoadAdv(Url);
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
@@ -179,5 +220,24 @@ public class Advertisement extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent mIntentHome=new Intent(mContext,Home.class);
+        startActivity(mIntentHome);
+        finish();
+    }
 
+    @Override
+    public void onRefresh() {
+        current_page=1;
+        previousTotal=0;
+        loading=true;
+        if (models!=null){
+            models.clear();
+        }
+        onLoadAdv(MainApp.AdvUrl);
+        if (mSwipeRefreshLayoutAdv.isRefreshing()){
+            mSwipeRefreshLayoutAdv.setRefreshing(false);
+        }
+    }
 }

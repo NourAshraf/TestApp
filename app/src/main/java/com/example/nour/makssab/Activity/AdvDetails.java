@@ -29,6 +29,11 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private TextView mTextViewDescription;
     private SliderLayout mDemoSlider;
     private String MyTime;
+    private TextView mTextViewComments;
+    private TextView mTextViewViews;
+    private TextView mTextViewTime;
+    private String mViews;
+    private String mComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +50,18 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private void onVariables() {
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
         mTextViewName= (TextView) findViewById(R.id.tvAdvOwner);
+        mTextViewComments= (TextView) findViewById(R.id.tvAdvComments);
+        mTextViewViews= (TextView) findViewById(R.id.tvAdvViews);
+        mTextViewTime= (TextView) findViewById(R.id.tvAdvTime);
         mTextViewLocation= (TextView) findViewById(R.id.tvAdvCity);
         mTextViewDescription= (TextView) findViewById(R.id.tvDescription);
         mTextViewDescription.setText(description);
         mTextViewLocation.setText(city_name);
         mTextViewName.setText(userName);
         mTextViewTitle.setText(title);
+        mTextViewComments.setText(mComments);
+        mTextViewTime.setText(MyTime);
+        mTextViewViews.setText(mViews);
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
         HashMap<String,String> url_maps = new HashMap<String, String>();
@@ -62,22 +73,17 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
-                    .description(name)
+                    .description("")
                     .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
-
-            //add your extra information
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle()
-//                    .putString("extra",name);
 
             mDemoSlider.addSlider(textSliderView);
         }
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(10000);
+        mDemoSlider.setDuration(5000);
         mDemoSlider.addOnPageChangeListener(this);
         mDemoSlider.movePrevPosition();
     }
@@ -89,8 +95,9 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         userName = getIntent().getExtras().getString("UserName");
         images = getIntent().getExtras().getStringArrayList("Images");
         MyTime = getIntent().getExtras().getString("MyTime");
+        mViews = getIntent().getExtras().getString("Views");
+        mComments = getIntent().getExtras().getString("Comments");
     }
-
 
     @Override
     public void onSliderClick(BaseSliderView slider) {

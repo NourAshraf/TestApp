@@ -8,10 +8,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Advertisement"
     tools:showIn="@layout/activity_advertisement">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlAdv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvAdv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
