@@ -2,6 +2,7 @@ package com.example.nour.makssab.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private GridView mGridView;
     private ArrayList<HomeModel> models;
     private Context mContext;
+    private String filename="mkssab";
     private ImageView mImageViewPlus;
     private Button mButtonProfile;
     private TextView mTextViewProfileName;
@@ -37,6 +39,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonGalleries;
     private Button mButtonProperty;
     private Button mButtonLoginNow;
+    private int REQUEST_CODE_INTRO=1;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
     private void onVariables() {
         mContext=Home.this;
+        mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        boolean intro = mSharedPreferences.getBoolean("Intro", false);
+        if (intro){
+            Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
+            startActivityForResult(mIntentIntro,REQUEST_CODE_INTRO);
+        }
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
         mImageViewPlus.setOnClickListener(this);
         mButtonProfile= (Button) findViewById(R.id.bProfile);
@@ -189,6 +199,17 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 Intent mIntentLogin3=new Intent(mContext,Login.class);
                 startActivity(mIntentLogin3);
                 break;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_INTRO) {
+            if (resultCode == RESULT_OK) {
+                // Finished the intro
+            } else {
+                // Cancelled the intro. You can then e.g. finish this activity too.
+            }
         }
     }
 }

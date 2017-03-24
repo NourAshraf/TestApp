@@ -3,131 +3,97 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="460dp"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Stores"
     tools:showIn="@layout/activity_stores"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="330dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@color/LoginTitle"
-        android:orientation="vertical"
         android:padding="10dp"
-        android:layout_marginLeft="18dp">
-
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawablePadding="5dp"
-            android:gravity="center"
             android:text="متاجر فى السعوديه"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        >
-
-        <Button
-            android:id="@+id/bSearchStores"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+        <ImageView
+            android:id="@+id/ivSearchStories"
             android:background="@drawable/ic_button_search"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/llStateStores"
         android:visibility="gone"
-        android:background="@drawable/shape"
-        android:layout_marginLeft="15dp">
-
-        <TextView
-            android:layout_width="320dp"
-            android:layout_height="30dp"
-            android:text="اختر المنطقه"
-            android:textSize="14sp"
-            android:textColor="@color/words"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_user_arrow_down"
-            android:id="@+id/tvStoresMkan"
-            />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/llCityStores"
-        android:background="@drawable/shape"
-        android:visibility="gone"
-        android:layout_marginLeft="15dp">
-
-        <TextView
-            android:layout_width="320dp"
-            android:layout_height="30dp"
-            android:text="اختر المدينه"
-            android:textSize="14sp"
-            android:textColor="@color/words"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_user_arrow_down"
-            android:id="@+id/tvStoresCity"
-            />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="17dp"
-        android:background="@color/LoginButton"
-        android:text="بحث"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp"
-        android:visibility="gone"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp"
-        android:id="@+id/bSearchSearch"/>
-        <TextView
-            android:layout_width="70dp"
-            android:layout_height="20dp"
-            android:visibility="gone"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="180dp"
-            android:text="اخفاء البحث"
-            android:id="@+id/tvHiddenStores"/>
-    </LinearLayout>
-
-
-    <ListView
+        android:id="@+id/llSearchStories"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lvStoresList"
-        android:layout_marginTop="15dp"
-        android:dividerHeight="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:divider="@null">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:layout_width="match_parent"
+                app:ms_hint="اختر المنطقة"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/NewAccountSpinnerArea"
+                >
+            </fr.ganfra.materialspinner.MaterialSpinner>
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:visibility="gone"
+                app:ms_hint="اختر المدينه"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NewAccountSpinnerCity"
+                />
+        </LinearLayout>
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/bSearchStories"
+               android:layout_weight="1"
+               android:textSize="18dp"
+               android:textColor="@color/colorPrimaryDark"
+               android:text="بحث"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <Button
+               android:id="@+id/bAllAreas"
+               android:layout_weight="1"
+               android:textSize="18dp"
+               android:textColor="@color/colorPrimaryDark"
+               android:text="كل المناطق"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+       </LinearLayout>
+    </LinearLayout>
 
-    </ListView>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlStories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+<android.support.v7.widget.RecyclerView
+    android:padding="5dp"
+    android:id="@+id/rvStories"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

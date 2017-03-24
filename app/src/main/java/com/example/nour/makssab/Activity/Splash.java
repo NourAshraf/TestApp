@@ -3,6 +3,7 @@ package com.example.nour.makssab.Activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,6 +13,7 @@ import com.example.nour.makssab.R;
 public class Splash extends Activity {
 
     private Context mContext;
+    private String filename="mkssab";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +22,12 @@ public class Splash extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         onVariables();
-        //Hello Kareem
     }
 
     private void onVariables() {
         mContext=Splash.this;
+        SharedPreferences mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        mSharedPreferences.edit().putBoolean("Intro",true).commit();
         Thread mThread=new Thread(){
             @Override
             public void run() {
@@ -34,7 +37,7 @@ public class Splash extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }finally {
-                    Intent mIntent = new Intent(mContext, ActivityIntro.class);
+                    Intent mIntent = new Intent(mContext, Home.class);
                     startActivity(mIntent);
                     finish();
                 }

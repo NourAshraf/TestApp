@@ -12,13 +12,14 @@ import android.widget.ImageView;
 
 import com.example.nour.makssab.Activity.Home;
 import com.example.nour.makssab.R;
+import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentIntro#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentIntro extends Fragment implements View.OnClickListener {
+public class FragmentIntro extends SlideFragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,6 +34,11 @@ public class FragmentIntro extends Fragment implements View.OnClickListener {
 
     public FragmentIntro() {
         // Required empty public constructor
+    }
+
+    @Override
+    public boolean canGoForward() {
+        return false;
     }
 
     /**

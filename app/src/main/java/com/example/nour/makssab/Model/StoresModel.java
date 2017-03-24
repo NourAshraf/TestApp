@@ -5,47 +5,107 @@ package com.example.nour.makssab.Model;
  */
 
 public class StoresModel {
-    private String Number;
-    private String Name;
-    private String City;
-    private int Image;
+    private int id;
+    private String name;
+    private String photo;
+    private String description;
+    private String phone;
+    private String longitude;
+    private String latitude;
+    private String ads_count;
+    private String city_name;
+    private String city_id;
 
-    public StoresModel(String number, String name, String city, int image) {
-        Number = number;
-        Name = name;
-        City = city;
-        Image = image;
+    public StoresModel(int id, String name, String photo, String description, String phone, String longitude, String latitude, String ads_count, String city_name, String city_id) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+        this.description = description;
+        this.phone = phone;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.ads_count = ads_count;
+        this.city_name = city_name;
+        this.city_id = city_id;
     }
 
-    public String getNumber() {
-        return Number;
+    public int getId() {
+        return id;
     }
 
-    public void setNumber(String number) {
-        Number = number;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
-    public String getCity() {
-        return City;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setCity(String city) {
-        City = city;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    public int getImage() {
-        return Image;
+    public String getDescription() {
+        return description;
     }
 
-    public void setImage(int image) {
-        Image = image;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAds_count() {
+        return ads_count;
+    }
+
+    public void setAds_count(String ads_count) {
+        this.ads_count = ads_count;
+    }
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public String getCity_id() {
+        return city_id;
+    }
+
+    public void setCity_id(String city_id) {
+        this.city_id = city_id;
     }
 }
