@@ -98,42 +98,42 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         mTextViewNoInternet = (TextView) findViewById(R.id.tvNoInternet);
         mSpinnerNewAccountArea = (MaterialSpinner) findViewById(R.id.NewAccountSpinnerArea);
         mSpinnerNewAccountMarka = (MaterialSpinner) findViewById(R.id.NewAccountSpinnerMarka);
-//        mSpinnerNewAccountMarka.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == -1) {
-//                    mCarBrandsId = "";
-//                    mSpinnerNewAccountKind.setVisibility(View.GONE);
-//                } else {
-//                    mSpinnerNewAccountKind.setVisibility(View.VISIBLE);
-//                    mCarBrandsId = carBrands_Id.get(position);
-//                    onCity(carBrands_Id.get(position));
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        mSpinnerNewAccountMarka.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == -1) {
+                    mCarBrandsId = "";
+                    mSpinnerNewAccountKind.setVisibility(View.GONE);
+                } else {
+                    mSpinnerNewAccountKind.setVisibility(View.VISIBLE);
+                    mCarBrandsId = carBrands_Id.get(position);
+                    onCarModels(carBrands_Id.get(position));
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mSpinnerNewAccountKind = (MaterialSpinner) findViewById(R.id.NewAccountSpinnerKind);
-//        mSpinnerNewAccountKind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == -1) {
-//                    mCarModelsId = "";
-//                } else {
-//                    mCarModelsId = carModels_Id.get(position);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        mSpinnerNewAccountKind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == -1) {
+                    mCarModelsId = "";
+                } else {
+                    mCarModelsId = carModels_Id.get(position);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -197,6 +197,7 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         mProgressBar.setVisibility(View.GONE);
         onLoadStoriesData();
         onStates();
+        onCarBrands();
     }
     private void onLoadStoriesData() {
         mProgressBar.setVisibility(View.VISIBLE);

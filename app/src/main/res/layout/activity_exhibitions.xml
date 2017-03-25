@@ -41,7 +41,7 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <include layout="@layout/content_stores" />
+            <include layout="@layout/content_exhibitions" />
         </LinearLayout>
 
         <TextView
