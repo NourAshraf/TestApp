@@ -37,6 +37,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private TextView mTextViewProfileName;
     private Button mButtonShops;
     private Button mButtonGalleries;
+    private Button mButton1;
+    private Button mButton2;
+    private Button mButton3;
     private Button mButtonProperty;
     private Button mButtonLoginNow;
     private int REQUEST_CODE_INTRO=1;
@@ -60,6 +63,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
             startActivityForResult(mIntentIntro,REQUEST_CODE_INTRO);
         }
+
+
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
         mImageViewPlus.setOnClickListener(this);
         mButtonProfile= (Button) findViewById(R.id.bProfile);
