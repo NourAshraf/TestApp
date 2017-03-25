@@ -1,10 +1,8 @@
 package com.example.nour.makssab.Activity;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
-
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -12,7 +10,6 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

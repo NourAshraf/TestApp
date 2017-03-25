@@ -37,6 +37,13 @@
      android:orderInCategory="500"
      >
  </item>
+ <item
+     android:title=" تسجيل الخروج"
+     app:showAsAction="never"
+     android:id="@+id/action_Logout"
+     android:orderInCategory="500"
+     >
+ </item>
   <item
      android:title="Search"
      app:showAsAction="always"
@@ -45,4 +52,5 @@
      android:orderInCategory="600"
      >
   </item>
+
 </menu>

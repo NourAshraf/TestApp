@@ -18,6 +18,8 @@ public class MainApp extends Application {
     public static String StatesUrl="http://mkssab.com/api/states";
     public static String LoginUrl="http://mkssab.com/api/login";
     public static String StoriesUrl="http://mkssab.com/api/merchants";
+    public static String CarBrandsUrl="http://mkssab.com/api/carBrands";
+    public static String CarModelsUrl="http://mkssab.com/api/carModels/1";
 
     public static MainApp getsInstance(){
 

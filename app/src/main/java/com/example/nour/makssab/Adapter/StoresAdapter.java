@@ -24,7 +24,6 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoriesHol
     private final ArrayList<StoresModel> mArray;
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    private String MyTime;
 
     public StoresAdapter(Context context, ArrayList<StoresModel> models) {
         mArray=models;

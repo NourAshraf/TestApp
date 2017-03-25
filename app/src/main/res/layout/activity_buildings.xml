@@ -8,51 +8,73 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
-            <ImageView
-                android:background="@drawable/logo"
-                android:layout_gravity="center"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                />
-            <ImageView
-                android:id="@+id/ivBack"
-                android:background="@drawable/ic_arrow_left"
-                android:layout_gravity="left"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                />
-        </android.support.v7.widget.Toolbar>
+            android:layout_height="match_parent">
 
-    </android.support.design.widget.AppBarLayout>
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-    <include layout="@layout/content_buildings" />
-    </LinearLayout>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" >
+                    <ImageView
+                        android:background="@drawable/logo"
+                        android:layout_gravity="center"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        />
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        android:background="@drawable/ic_arrow_left"
+                        android:layout_gravity="left"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        />
+                </android.support.v7.widget.Toolbar>
 
+            </android.support.design.widget.AppBarLayout>
 
-        <com.roughike.bottombar.BottomBar
-            android:layout_gravity="bottom"
-            android:id="@+id/bottomBar"
+            <include layout="@layout/content_stores" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNoInternet"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/tabs" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="80dp"
+            android:text="لا يوجد انترنت !"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:max="100"
+            android:progress="20"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+
+        <!--<com.roughike.bottombar.BottomBar-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:id="@+id/bottomBar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--app:bb_tabXmlResource="@xml/tabs" />-->
     </FrameLayout>
 
 
