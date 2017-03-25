@@ -89,7 +89,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="13dip"
         android:background="@drawable/button_bg5"
-        android:padding="5dp">
+        >
     <org.honorato.multistatetogglebutton.MultiStateToggleButton
         android:layout_gravity="center"
         android:id="@+id/mstb_multi_id"

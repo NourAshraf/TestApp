@@ -135,6 +135,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
             @Override
             public void onResponse(String response) {
                 try {
+                    mRecyclerViewAdv.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     mTextViewNoInternet.setVisibility(View.GONE);
                     JSONObject mJsonObject=new JSONObject(response);
@@ -232,6 +233,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         current_page=1;
         previousTotal=0;
         loading=true;
+        mRecyclerViewAdv.setVisibility(View.INVISIBLE);
         if (models!=null){
             models.clear();
         }

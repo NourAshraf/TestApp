@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -151,6 +150,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
             @Override
             public void onResponse(String response) {
                 try {
+                    mRecyclerViewStories.setVisibility(View.VISIBLE);
                     mTextViewNoInternet.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.GONE);
                     JSONObject mJsonObject=new JSONObject(response);
@@ -330,7 +330,6 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                 break;
             case R.id.bSearchStories:
                 if (modelsSearch!=null){
-                    Log.i(MainApp.Tag,"Worked");
                     modelsSearch.clear();
                 }
                 for (int i=0;i<models.size();i++){
@@ -349,6 +348,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
         if (models!=null){
             models.clear();
         }
+        mRecyclerViewStories.setVisibility(View.INVISIBLE);
         onLoadStoriesData();
         if (mSwipeRefreshLayoutStories.isRefreshing()){
             mSwipeRefreshLayoutStories.setRefreshing(false);
