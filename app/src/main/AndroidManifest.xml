@@ -100,8 +100,11 @@
         </activity>
         <activity
             android:name=".Activity.ActivityIntro"
-            android:theme="@style/Theme.Intro"
-            ></activity>
+            android:theme="@style/Theme.Intro" />
+        <activity
+            android:name=".Activity.StoresDetails"
+            android:label="@string/title_activity_stores_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

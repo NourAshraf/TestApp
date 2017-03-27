@@ -143,12 +143,12 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        onLoadStoriesData();
+        onLoadBuildingsData();
         onStates();
     }
-    private void onLoadStoriesData() {
+    private void onLoadBuildingsData() {
         mProgressBar.setVisibility(View.VISIBLE);
-        StringRequest mStringRequestStories=new StringRequest(Request.Method.GET, MainApp.StoriesUrl,new Response.Listener<String>() {
+        StringRequest mStringRequestBuildings=new StringRequest(Request.Method.GET, MainApp.BuildingsUrl,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -183,10 +183,10 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onErrorResponse(VolleyError error) {
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
-                onLoadStoriesData();
+                onLoadBuildingsData();
             }
         });
-        mVolleySingletonRequestQueue.add(mStringRequestStories);
+        mVolleySingletonRequestQueue.add(mStringRequestBuildings);
     }
     public void onStates(){
         String Url=MainApp.StatesUrl;
@@ -319,7 +319,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         if (models!=null){
             models.clear();
         }
-        onLoadStoriesData();
+        onLoadBuildingsData();
         if (mSwipeRefreshLayoutStories.isRefreshing()){
             mSwipeRefreshLayoutStories.setRefreshing(false);
         }

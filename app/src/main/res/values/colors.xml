@@ -17,6 +17,7 @@
     <color name="active">#EA5287</color>
     <color name="border5">#0D7DCD</color>
     <color name="gray2">#9FCCE7</color>
+    <color name="green">#00b06c</color>
     <color name="TransperantGray2">#6C000000</color>
 
 </resources>

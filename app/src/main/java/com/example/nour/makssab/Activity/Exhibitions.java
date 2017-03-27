@@ -195,13 +195,13 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        onLoadStoriesData();
+        onLoadExhibitionsData();
         onStates();
         onCarBrands();
     }
-    private void onLoadStoriesData() {
+    private void onLoadExhibitionsData() {
         mProgressBar.setVisibility(View.VISIBLE);
-        StringRequest mStringRequestStories=new StringRequest(Request.Method.GET, MainApp.StoriesUrl,new Response.Listener<String>() {
+        StringRequest mStringRequestExhibitions=new StringRequest(Request.Method.GET, MainApp.ExhibitionsUrl,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -236,10 +236,10 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onErrorResponse(VolleyError error) {
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
-                onLoadStoriesData();
+                onLoadExhibitionsData();
             }
         });
-        mVolleySingletonRequestQueue.add(mStringRequestStories);
+        mVolleySingletonRequestQueue.add(mStringRequestExhibitions);
     }
     public void onStates(){
         String Url=MainApp.StatesUrl;
@@ -444,17 +444,30 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
             case R.id.bAllAreas:
                 StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
             case R.id.bSearchStories:
                 if (modelsSearch!=null){
                     Log.i(MainApp.Tag,"Worked");
                     modelsSearch.clear();
                 }
-                for (int i=0;i<models.size();i++){
-                    if (mCityId.equals(models.get(i).getCity_id())){
+                for (int i=0;i<models.size();i++) {
+                    if (mCityId.equals(models.get(i).getCity_id())) {
                         modelsSearch.add(models.get(i));
                     }
                 }
+                        if (models==null){
+
+
+
+                        }else {
+                            //Toast.makeText(mContext,"لا يوجد نتائج للبحث",Toast.LENGTH_SHORT).show();
+                            mLinearLayoutSearchStories.setVisibility(View.GONE);
+
+                        }
+
+
+
                 StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch);
                 mRecyclerViewStories.setAdapter(mStoresAdapter2);
                 break;
@@ -466,7 +479,7 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         if (models!=null){
             models.clear();
         }
-        onLoadStoriesData();
+        onLoadExhibitionsData();
         if (mSwipeRefreshLayoutStories.isRefreshing()){
             mSwipeRefreshLayoutStories.setRefreshing(false);
         }
