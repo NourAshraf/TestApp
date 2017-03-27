@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class StoresDetailsModel {
-    private int id;
+    private String id;
     private String userId;
     private String name;
     private ArrayList<String> Images;
@@ -20,9 +20,9 @@ public class StoresDetailsModel {
     private String category_id;
     private String title;
     private String Views;
-    private int CommentsSize;
 
-    public StoresDetailsModel(int id, String userId, String name, ArrayList<String> images, String description, String phone, String created_at, String userName, String city_id, String city_name, String category_id, String title, String views, int commentsSize) {
+
+    public StoresDetailsModel(String id, String userId, String name, ArrayList<String> images, String description, String phone, String created_at, String userName, String city_id, String city_name, String category_id, String title, String views) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -36,14 +36,14 @@ public class StoresDetailsModel {
         this.category_id = category_id;
         this.title = title;
         Views = views;
-        CommentsSize = commentsSize;
+
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -143,11 +143,5 @@ public class StoresDetailsModel {
         Views = views;
     }
 
-    public int getCommentsSize() {
-        return CommentsSize;
-    }
 
-    public void setCommentsSize(int commentsSize) {
-        CommentsSize = commentsSize;
-    }
 }

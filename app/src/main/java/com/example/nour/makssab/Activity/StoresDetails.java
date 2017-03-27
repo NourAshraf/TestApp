@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -38,6 +40,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.current_page;
+import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
+import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
 
 public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView mRecyclerViewStoresDetails;
@@ -129,7 +135,7 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
         });
     }
 
-    private void onLoadStoresDetails(String storesDetailsUrl) {
+    private void onLoadStoresDetails(final String storesDetailsUrl) {
         mProgressBar.setVisibility(View.VISIBLE);
         StringRequest  mStringRequestStoresDetails=new StringRequest(Request.Method.GET, storesDetailsUrl, new Response.Listener<String>() {
             @Override
@@ -147,14 +153,12 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
                             ImagesModels = new ArrayList<String>();
                         }
                         JSONObject jsonObject=merchant.getJSONObject(i);
+                        jsonObject.getString("id");
+                        String city_id = jsonObject.getString("city_id");
                         String id=jsonObject.getString("id");
-                        JSONArray comments_count = jsonObject.getJSONArray("comments_count");
-                        int CommentCount=comments_count.length();
                        String name=jsonObject.getString("name");
                         String category_id = jsonObject.getString("category_id");
                         String created_at = jsonObject.getString("created_at");
-                        jsonObject.getString("id");
-                        String city_id = jsonObject.getString("city_id");
                         String title = jsonObject.getString("title");
                         String description = jsonObject.getString("description");
                         String views = jsonObject.getString("views");
@@ -168,10 +172,15 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
                             ImagesModels.add(photo);
                         }
                         JSONObject user = jsonObject.getJSONObject("user");
-                        String UserId = user.getString("id");
+                        String userId = user.getString("id");
                         String username = user.getString("username");
-                        StoresDetailsModel storesDetailsModel=new StoresDetailsModel(id,UserId,name,description,phone,images,created_at,username,city_id,category_id,title,views,comments_count);
+                        StoresDetailsModel storesDetailsModel=new StoresDetailsModel(id,userId,name,ImagesModels,description,phone,created_at,username,city_id,City_Name,category_id,title,views);
+                        models.add(storesDetailsModel);
+                        if (true){
+                            mDelete=true;
+                        }
                     }
+                    mStoresDetailsAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -181,14 +190,67 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mTextViewNoInternet.setVisibility(View.VISIBLE);
+                onLoadStoresDetails(storesDetailsUrl);
 
             }
         });
+        mVolleySingletonRequestQueue.add(mStringRequestStoresDetails);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search:
+                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
+                startActivity(mIntentSearch);
+                break;
+
+            case R.id.action_Adv_Favorites:
+                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                startActivity(mIntentAdvFavorites);
+                break;
+
+            case R.id.action_New_Account:
+                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
+                startActivity(mIntentNewAccount);
+                break;
+
+            case R.id.action_Login:
+                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
+                startActivity(mIntentLogin);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mIntentHome=new Intent(mContext,Home.class);
+        startActivity(mIntentHome);
+        finish();
     }
 
 
     @Override
     public void onRefresh() {
+        current_page=1;
+        previousTotal=0;
+        loading=true;
+        mRecyclerViewStoresDetails.setVisibility(View.INVISIBLE);
+        if (models!=null){
+            models.clear();
+        }
+        onLoadStoresDetails(MainApp.StoresDetailsUrl);
+        if (mSwipeRefreshLayoutAdv.isRefreshing()){
+            mSwipeRefreshLayoutAdv.setRefreshing(false);
+        }
+
 
     }
 }

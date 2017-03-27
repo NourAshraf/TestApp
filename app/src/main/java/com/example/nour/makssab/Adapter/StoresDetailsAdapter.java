@@ -51,7 +51,6 @@ public class StoresDetailsAdapter extends RecyclerView.Adapter<StoresDetailsAdap
         holder.mTextViewName.setText(mArrayList.get(position).getName());
         holder.mTextViewAdvViews.setText(mArrayList.get(position).getViews());
         holder.mTextViewAdvUserName.setText(mArrayList.get(position).getUserName());
-        holder.mTextViewAdvComments.setText(mArrayList.get(position).getCommentsSize());
         ArrayList<String> images = mArrayList.get(position).getImages();
         if (mArrayList.get(position).getImages().size()!=0){
             Picasso.with(mContext).load(MainApp.ImagesUrl + images.get(0)).fit().into(holder.mImageViewImage);
@@ -78,7 +77,6 @@ public class StoresDetailsAdapter extends RecyclerView.Adapter<StoresDetailsAdap
         private final TextView mTextViewAdvCity;
         private final TextView mTextViewTitle;
         private final TextView mTextViewAdvViews;
-        private final TextView mTextViewAdvComments;
         public StoresDetailsHolder(View itemView) {
             super(itemView);
             mTextViewTitle=(TextView)itemView.findViewById(R.id.tvAdvTitle);
@@ -88,7 +86,6 @@ public class StoresDetailsAdapter extends RecyclerView.Adapter<StoresDetailsAdap
             mTextViewAdvCity=(TextView)itemView.findViewById(R.id.tvAdvCity);
             mTextViewAdvViews=(TextView)itemView.findViewById(R.id.tvAdvViews);
             mTextViewAdvUserName=(TextView)itemView.findViewById(R.id.tvAdvUserName);
-            mTextViewAdvComments=(TextView)itemView.findViewById(R.id.tvAdvComments);
             mImageViewImage= (ImageView) itemView.findViewById(R.id.ivAdvImage);
         }
     }

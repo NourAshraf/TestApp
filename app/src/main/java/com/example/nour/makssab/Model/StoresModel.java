@@ -5,7 +5,7 @@ package com.example.nour.makssab.Model;
  */
 
 public class StoresModel {
-    private int id;
+    private String id;
     private String name;
     private String photo;
     private String description;
@@ -16,7 +16,7 @@ public class StoresModel {
     private String city_name;
     private String city_id;
 
-    public StoresModel(int id, String name, String photo, String description, String phone, String longitude, String latitude, String ads_count, String city_name, String city_id) {
+    public StoresModel(String id, String name, String photo, String description, String phone, String longitude, String latitude, String ads_count, String city_name, String city_id) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -29,11 +29,11 @@ public class StoresModel {
         this.city_id = city_id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

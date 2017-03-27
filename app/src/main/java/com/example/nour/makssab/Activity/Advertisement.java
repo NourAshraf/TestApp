@@ -231,15 +231,15 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         current_page=1;
-        previousTotal=0;
-        loading=true;
+    previousTotal=0;
+    loading=true;
         mRecyclerViewAdv.setVisibility(View.INVISIBLE);
         if (models!=null){
-            models.clear();
-        }
-        onLoadAdv(MainApp.AdvUrl);
-        if (mSwipeRefreshLayoutAdv.isRefreshing()){
-            mSwipeRefreshLayoutAdv.setRefreshing(false);
-        }
+        models.clear();
     }
+    onLoadAdv(MainApp.AdvUrl);
+        if (mSwipeRefreshLayoutAdv.isRefreshing()){
+        mSwipeRefreshLayoutAdv.setRefreshing(false);
+    }
+}
 }

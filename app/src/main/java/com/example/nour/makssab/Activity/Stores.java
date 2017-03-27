@@ -157,7 +157,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                     JSONArray data = mJsonObject.getJSONArray("data");
                     for (int i=0;i<data.length();i++){
                         JSONObject jsonObject=data.getJSONObject(i);
-                        int id = jsonObject.getInt("id");
+                        String id = jsonObject.getString("id");
                         String name = jsonObject.getString("name");
                         String photo = jsonObject.getString("photo");
                         String description = jsonObject.getString("description");
