@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.nour.makssab.Activity.StoresDetails;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.AdvModel;
+import com.example.nour.makssab.Model.StoresDetailsModel;
 import com.example.nour.makssab.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,13 +23,13 @@ import java.util.Calendar;
  */
 
 public class StoresDetailsAdapter extends RecyclerView.Adapter<StoresDetailsAdapter.StoresDetailsHolder> {
-    private final ArrayList<StoresDetails> mArrayList;
+    private final ArrayList<StoresDetailsModel> mArrayList;
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
 
 
-    public StoresDetailsAdapter(Context context, ArrayList<StoresDetails> model) {
-        mArrayList=model;
+    public StoresDetailsAdapter(Context context, ArrayList<StoresDetailsModel> models) {
+        mArrayList=models;
         mContext=context;
         mLayoutInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -44,7 +45,19 @@ public class StoresDetailsAdapter extends RecyclerView.Adapter<StoresDetailsAdap
     @Override
     public void onBindViewHolder(StoresDetailsHolder holder, int position) {
         holder.mTextViewTitle.setText(mArrayList.get(position).getTitle());
-        holder.mTextViewAdvCity.setText(mArrayList.get(position).getAdv);
+        holder.mTextViewAdvCity.setText(mArrayList.get(position).getCity_name());
+        holder.mTextViewDescription.setText(mArrayList.get(position).getDescription());
+        holder.mTextViewPhone.setText(mArrayList.get(position).getPhone());
+        holder.mTextViewName.setText(mArrayList.get(position).getName());
+        holder.mTextViewAdvViews.setText(mArrayList.get(position).getViews());
+        holder.mTextViewAdvUserName.setText(mArrayList.get(position).getUserName());
+        holder.mTextViewAdvComments.setText(mArrayList.get(position).getCommentsSize());
+        ArrayList<String> images = mArrayList.get(position).getImages();
+        if (mArrayList.get(position).getImages().size()!=0){
+            Picasso.with(mContext).load(MainApp.ImagesUrl + images.get(0)).fit().into(holder.mImageViewImage);
+        }else {
+            Picasso.with(mContext).load(R.drawable.no_image).fit().into(holder.mImageViewImage);
+        }
 
     }
 
@@ -52,32 +65,30 @@ public class StoresDetailsAdapter extends RecyclerView.Adapter<StoresDetailsAdap
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mArrayList.size();
     }
 
 
     public class StoresDetailsHolder extends RecyclerView.ViewHolder {
-        private final TextView mTextViewTitle;
+        private final TextView mTextViewName;
         private final TextView mTextViewDescription;
         private final TextView mTextViewPhone;
-        private final TextView mTextViewAdvTitle;
-        private final TextView mTextViewAdvCity;
-        private final TextView mTextViewAdvViews;
-        private final TextView mTextViewAdvOwner;
         private final ImageView mImageViewImage;
-        private final TextView mTextViewAdvTime;
+        private final TextView mTextViewAdvUserName;
+        private final TextView mTextViewAdvCity;
+        private final TextView mTextViewTitle;
+        private final TextView mTextViewAdvViews;
         private final TextView mTextViewAdvComments;
         public StoresDetailsHolder(View itemView) {
             super(itemView);
-            mTextViewTitle=(TextView)itemView.findViewById(R.id.tvStoresDetails);
-            mTextViewDescription=(TextView)itemView.findViewById(R.id.tv2StoresDetails);
+            mTextViewTitle=(TextView)itemView.findViewById(R.id.tvAdvTitle);
+            mTextViewDescription=(TextView)itemView.findViewById(R.id.tvStoresDetailsDes);
             mTextViewPhone=(TextView)itemView.findViewById(R.id.tvStoresNumber);
-            mTextViewAdvTitle=(TextView)itemView.findViewById(R.id.tvStoriesTitle);
+            mTextViewName=(TextView)itemView.findViewById(R.id.tvStoresDetailsName);
             mTextViewAdvCity=(TextView)itemView.findViewById(R.id.tvAdvCity);
             mTextViewAdvViews=(TextView)itemView.findViewById(R.id.tvAdvViews);
-            mTextViewAdvOwner=(TextView)itemView.findViewById(R.id.tvAdvOwner);
+            mTextViewAdvUserName=(TextView)itemView.findViewById(R.id.tvAdvUserName);
             mTextViewAdvComments=(TextView)itemView.findViewById(R.id.tvAdvComments);
-            mTextViewAdvTime=(TextView)itemView.findViewById(R.id.tvAdvTime);
             mImageViewImage= (ImageView) itemView.findViewById(R.id.ivAdvImage);
         }
     }

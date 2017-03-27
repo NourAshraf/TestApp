@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:text="ملك الغابه"
         android:gravity="center"
-        android:id="@+id/tvStoresDetails"
+        android:id="@+id/tvStoresDetailsName"
         android:textSize="35sp"
         android:textColor="@color/border5"
         android:textStyle="bold"
@@ -26,7 +26,7 @@
         android:layout_gravity="center"
         android:text=" ملك ملوك الغابه"
         android:gravity="center"
-        android:id="@+id/tv2StoresDetails"
+        android:id="@+id/tvStoresDetailsDes"
         android:textStyle="bold"
         android:textSize="18sp"
         />
@@ -139,7 +139,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvAdvOwner"
+                    android:id="@+id/tvAdvUserName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
