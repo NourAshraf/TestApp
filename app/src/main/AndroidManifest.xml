@@ -104,6 +104,10 @@
         <activity
             android:name=".Activity.StoresDetails"
             android:label="@string/title_activity_stores_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.StoresAds"
+            android:label="@string/title_activity_stores_ads"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

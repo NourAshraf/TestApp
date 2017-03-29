@@ -5,20 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.nour.makssab.Activity.StoresDetails"
-    tools:showIn="@layout/activity_stores_details"
+    tools:context="com.example.nour.makssab.Activity.StoresAds"
+    tools:showIn="@layout/activity_stores_ads"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/tvStoresAdsName"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srlAdv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rvStoreDetails"/>
+       >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvStoresAds"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
     </android.support.v4.widget.SwipeRefreshLayout>
-
 </LinearLayout>
-
