@@ -10,9 +10,11 @@ public class StoresDetailsModel {
     private String id;
     private String userId;
     private String name;
-    private ArrayList<String> Images;
+    private String photo;
     private String description;
     private String phone;
+    private String longitude;
+    private String latitude;
     private String created_at;
     private String userName;
     private String city_id;
@@ -21,14 +23,15 @@ public class StoresDetailsModel {
     private String title;
     private String Views;
 
-
-    public StoresDetailsModel(String id, String userId, String name, ArrayList<String> images, String description, String phone, String created_at, String userName, String city_id, String city_name, String category_id, String title, String views) {
+    public StoresDetailsModel(String id, String userId, String name, String photo, String description, String phone, String longitude, String latitude, String created_at, String userName, String city_id, String city_name, String category_id, String title, String views) {
         this.id = id;
         this.userId = userId;
         this.name = name;
-        Images = images;
+        this.photo = photo;
         this.description = description;
         this.phone = phone;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.created_at = created_at;
         this.userName = userName;
         this.city_id = city_id;
@@ -36,7 +39,6 @@ public class StoresDetailsModel {
         this.category_id = category_id;
         this.title = title;
         Views = views;
-
     }
 
     public String getId() {
@@ -63,12 +65,12 @@ public class StoresDetailsModel {
         this.name = name;
     }
 
-    public ArrayList<String> getImages() {
-        return Images;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setImages(ArrayList<String> images) {
-        Images = images;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getDescription() {
@@ -85,6 +87,22 @@ public class StoresDetailsModel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public String getCreated_at() {
@@ -142,6 +160,4 @@ public class StoresDetailsModel {
     public void setViews(String views) {
         Views = views;
     }
-
-
 }

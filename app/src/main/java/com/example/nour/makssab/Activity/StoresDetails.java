@@ -1,5 +1,4 @@
 package com.example.nour.makssab.Activity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -52,7 +50,6 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
     private Context mContext;
     private StoresDetailsAdapter mStoresDetailsAdapter;
     private String next_page_url;
-    private ArrayList<String> ImagesModels;
     private ProgressBar mProgressBar;
     private boolean mDelete;
     private ImageView mImageViewBack;
@@ -120,7 +117,6 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
         models=new ArrayList<StoresDetailsModel>();
         mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        ImagesModels=new ArrayList<String>();
         mStoresDetailsAdapter=new StoresDetailsAdapter(mContext,models);
         mRecyclerViewStoresDetails.setAdapter(mStoresDetailsAdapter);
         onLoadStoresDetails(MainApp.StoresDetailsUrl);
@@ -144,43 +140,33 @@ public class StoresDetails extends AppCompatActivity implements SwipeRefreshLayo
                 mProgressBar.setVisibility(View.GONE);
                 mTextViewNoInternet.setVisibility(View.GONE);
                 try {
-                    JSONObject mJsonObject=new JSONObject(response);
-                    next_page_url=mJsonObject.getString("next_page_url");
-                    JSONArray merchant = mJsonObject.getJSONArray("merchant");
-                    for (int i=0;i<merchant.length();i++) {
-                        if (mDelete) {
-                            mDelete = false;
-                            ImagesModels = new ArrayList<String>();
-                        }
-                        JSONObject jsonObject=merchant.getJSONObject(i);
-                        jsonObject.getString("id");
-                        String city_id = jsonObject.getString("city_id");
-                        String id=jsonObject.getString("id");
-                       String name=jsonObject.getString("name");
-                        String category_id = jsonObject.getString("category_id");
-                        String created_at = jsonObject.getString("created_at");
-                        String title = jsonObject.getString("title");
-                        String description = jsonObject.getString("description");
-                        String views = jsonObject.getString("views");
-                        String phone = jsonObject.getString("phone");
-                        JSONObject city = jsonObject.getJSONObject("city");
-                        String City_Name = city.getString("name");
-                        JSONArray images = jsonObject.getJSONArray("images");
-                        for (int j=0;j<images.length();j++) {
-                            JSONObject jsonObject2 = images.getJSONObject(j);
-                            String photo = jsonObject2.getString("photo");
-                            ImagesModels.add(photo);
-                        }
-                        JSONObject user = jsonObject.getJSONObject("user");
-                        String userId = user.getString("id");
+                    JSONArray mJsonArray=new JSONArray(response);
+                    for (int i=0;i<mJsonArray.length();i++) {
+                        JSONObject jsonObject=mJsonArray.getJSONObject(i);
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("merchant");
+                        String id = jsonObject1.getString("id");
+                        String name = jsonObject1.getString("name");
+                        String photo = jsonObject1.getString("photo");
+                        String description = jsonObject1.getString("description");
+                        String phone = jsonObject1.getString("phone");
+                        String longitude = jsonObject1.getString("longitude");
+                        String latitude = jsonObject1.getString("latitude");
+                        JSONObject user = jsonObject1.getJSONObject("user");
+                        String user_id = user.getString("id");
                         String username = user.getString("username");
-                        StoresDetailsModel storesDetailsModel=new StoresDetailsModel(id,userId,name,ImagesModels,description,phone,created_at,username,city_id,City_Name,category_id,title,views);
-                        models.add(storesDetailsModel);
-                        if (true){
-                            mDelete=true;
+                        JSONObject jsonObject2 = jsonObject.getJSONObject("ads");
+                        next_page_url = jsonObject2.getString("next_page_url");
+                        JSONArray data = jsonObject2.getJSONArray("data");
+                        for (int k = 0; k < data.length(); k++) {
+                            JSONObject jsonObject3 = data.getJSONObject(k);
+                            String city_id = jsonObject3.getString("city_id");
+                            String category_id = jsonObject3.getString("category_id");
+                            String title = jsonObject3.getString("title");
+                            String views = jsonObject3.getString("views");
+                            String created_at = jsonObject3.getString("created_at");
                         }
-                    }
-                    mStoresDetailsAdapter.notifyDataSetChanged();
+                        StoresDetailsModel storesDetailsModel = new StoresDetailsModel(id, user_id, name, photo,description, phone, longitude, latitude, username,)
+                    }  mStoresDetailsAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
