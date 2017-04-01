@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.StoresAdapter;
+import com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener;
 import com.example.nour.makssab.Decoration.VerticalSpaceItemDecoration;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.StoresModel;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.ganfra.materialspinner.MaterialSpinner;
+import static com.example.nour.makssab.MainApp.MainApp.BuildingsUrl;
 
 public class Buildings extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private Context mContext;
@@ -54,11 +54,11 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
     private ArrayList<String>State_Name;
     private ArrayList<String>City_Id;
     private ArrayList<String>City_Name;
-    private MaterialSpinner mSpinnerNewAccountArea;
-    private MaterialSpinner mSpinnerNewAccountCity;
+    private Spinner mSpinnerNewAccountArea;
+    private Spinner mSpinnerNewAccountCity;
     private String mStateId;
     private String mCityId;
-    private ImageView mImageViewSearch;
+    private TextView mImageViewSearch;
     private LinearLayout mLinearLayoutSearchStories;
     private Button mButtonAllAreas;
     private Button mButtonSearchStories;
@@ -66,6 +66,10 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
     private SwipeRefreshLayout mSwipeRefreshLayoutStories;
     private ProgressBar mProgressBar;
     private TextView mTextViewNoInternet;
+    private ImageView mImageViewBack;
+    private TextView mTextViewTitle;
+    private String next_page_url;
+    private StoresAdapter mStoresAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +89,9 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         mStateId = "";
         mCityId = "";
         mTextViewNoInternet = (TextView) findViewById(R.id.tvNoInternet);
-        mSpinnerNewAccountArea = (MaterialSpinner) findViewById(R.id.NewAccountSpinnerArea);
+        mTextViewTitle = (TextView) findViewById(R.id.tvTitle);
+        mTextViewTitle.setText("شركات العقار فى السعوديه");
+        mSpinnerNewAccountArea = (Spinner) findViewById(R.id.NewAccountSpinnerArea);
         mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -93,7 +99,6 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                     mStateId = "";
                     mSpinnerNewAccountCity.setVisibility(View.GONE);
                 } else {
-                    mSpinnerNewAccountCity.setVisibility(View.VISIBLE);
                     mStateId = State_Id.get(position);
                     onCity(State_Id.get(position));
                 }
@@ -104,7 +109,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
 
             }
         });
-        mSpinnerNewAccountCity = (MaterialSpinner) findViewById(R.id.NewAccountSpinnerCity);
+        mSpinnerNewAccountCity = (Spinner) findViewById(R.id.NewAccountSpinnerCity);
         mSpinnerNewAccountCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -131,9 +136,23 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         mRecyclerViewStories.setLayoutManager(manager);
         mRecyclerViewStories.addItemDecoration(new VerticalSpaceItemDecoration(60));
         models = new ArrayList<StoresModel>();
+        mRecyclerViewStories.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
+            @Override
+            public void onLoadMore(int current_page)
+
+            {
+                if (next_page_url.equals("null")){
+
+                }else {
+                    onLoadBuildingsData(next_page_url);
+                }
+            }
+        });
         modelsSearch = new ArrayList<StoresModel>();
-        mImageViewSearch = (ImageView) findViewById(R.id.ivSearchStories);
+        mImageViewSearch = (TextView) findViewById(R.id.ivSearchStories);
         mImageViewSearch.setOnClickListener(this);
+        mImageViewBack = (ImageView) findViewById(R.id.ivBackButton);
+        mImageViewBack.setOnClickListener(this);
         mLinearLayoutSearchStories = (LinearLayout) findViewById(R.id.llSearchStories);
         mButtonAllAreas = (Button) findViewById(R.id.bAllAreas);
         mButtonSearchStories = (Button) findViewById(R.id.bSearchStories);
@@ -143,18 +162,21 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        onLoadBuildingsData();
+        mStoresAdapter=new StoresAdapter(mContext,models);
+        mRecyclerViewStories.setAdapter(mStoresAdapter);
+        onLoadBuildingsData(BuildingsUrl);
         onStates();
     }
-    private void onLoadBuildingsData() {
+    private void onLoadBuildingsData(final String buildingsUrl) {
         mProgressBar.setVisibility(View.VISIBLE);
-        StringRequest mStringRequestBuildings=new StringRequest(Request.Method.GET, MainApp.BuildingsUrl,new Response.Listener<String>() {
+        StringRequest mStringRequestBuildings=new StringRequest(Request.Method.GET, buildingsUrl,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     mTextViewNoInternet.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.GONE);
                     JSONObject mJsonObject=new JSONObject(response);
+                    next_page_url = mJsonObject.getString("next_page_url");
                     JSONArray data = mJsonObject.getJSONArray("data");
                     for (int i=0;i<data.length();i++){
                         JSONObject jsonObject=data.getJSONObject(i);
@@ -173,8 +195,9 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                         StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1);
                         models.add(storesModel);
                     }
-                    StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
-                    mRecyclerViewStories.setAdapter(mStoresAdapter);
+
+                    mStoresAdapter.notifyDataSetChanged();
+                    mRecyclerViewStories.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -182,8 +205,9 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mTextViewNoInternet.setText("لا يوجد انترنت !");
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
-                onLoadBuildingsData();
+                onLoadBuildingsData(buildingsUrl);
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestBuildings);
@@ -209,7 +233,6 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
                                 R.layout.item_spinner,R.id.tvItem,State_Name);
                         mSpinnerNewAccountArea.setAdapter(dataAdapter);
-
                     }
 
                 } catch (JSONException e) {
@@ -260,7 +283,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
                                 R.layout.item_spinner,R.id.tvItem,City_Name);
                         mSpinnerNewAccountCity.setAdapter(dataAdapter);
-
+                        mSpinnerNewAccountCity.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {
@@ -288,6 +311,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivSearchStories:
+                mTextViewNoInternet.setVisibility(View.GONE);
                 if (mLinearLayoutSearchStories.getVisibility()==View.GONE){
                     mLinearLayoutSearchStories.setVisibility(View.VISIBLE);
                 }else {
@@ -295,12 +319,14 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                 }
                 break;
             case R.id.bAllAreas:
+                mTextViewNoInternet.setVisibility(View.GONE);
                 StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
             case R.id.bSearchStories:
+                mTextViewNoInternet.setVisibility(View.GONE);
                 if (modelsSearch!=null){
-                    Log.i(MainApp.Tag,"Worked");
                     modelsSearch.clear();
                 }
                 for (int i=0;i<models.size();i++){
@@ -308,18 +334,27 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                         modelsSearch.add(models.get(i));
                     }
                 }
+                if (modelsSearch.size()==0){
+                 mTextViewNoInternet.setText("لا يوجد شركات عقار في هذه المنطقة!");
+                 mTextViewNoInternet.setVisibility(View.VISIBLE);
+                }
                 StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch);
                 mRecyclerViewStories.setAdapter(mStoresAdapter2);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
+                break;
+            case R.id.ivBackButton:
+                finish();
                 break;
         }
     }
 
     @Override
     public void onRefresh() {
+        mRecyclerViewStories.setVisibility(View.GONE);
         if (models!=null){
             models.clear();
         }
-        onLoadBuildingsData();
+        onLoadBuildingsData(BuildingsUrl);
         if (mSwipeRefreshLayoutStories.isRefreshing()){
             mSwipeRefreshLayoutStories.setRefreshing(false);
         }
@@ -357,5 +392,13 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mLinearLayoutSearchStories.getVisibility()==View.VISIBLE){
+            mLinearLayoutSearchStories.setVisibility(View.GONE);
+        }else {
+            super.onBackPressed();
+        }
 
+    }
 }

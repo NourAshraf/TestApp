@@ -123,8 +123,12 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
             public void onLoadMore(int current_page)
 
             {
-                mDelete=true;
-               onLoadAdv(next_page_url);
+                if (next_page_url.equals("null")){
+
+                }else {
+                    mDelete = true;
+                    onLoadAdv(next_page_url);
+                }
             }
         });
     }

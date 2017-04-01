@@ -39,5 +39,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     compile 'com.roughike:bottom-bar:2.1.1'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    compile 'com.android.support:support-compat:25.1.1'
+    compile 'com.daimajia.easing:library:2.0@aar'
+    compile 'com.daimajia.androidanimations:library:2.2@aar'
     testCompile 'junit:junit:4.12'
 }

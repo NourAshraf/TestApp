@@ -1,15 +1,12 @@
 package com.example.nour.makssab.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.StoresAdapter;
+import com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener;
 import com.example.nour.makssab.Decoration.VerticalSpaceItemDecoration;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.StoresModel;
@@ -41,8 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.ganfra.materialspinner.MaterialSpinner;
-
 public class Stores extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private Context mContext;
     private RecyclerView mRecyclerViewStories;
@@ -52,11 +49,11 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
     private ArrayList<String>State_Name;
     private ArrayList<String>City_Id;
     private ArrayList<String>City_Name;
-    private MaterialSpinner mSpinnerNewAccountArea;
-    private MaterialSpinner mSpinnerNewAccountCity;
+    private Spinner mSpinnerNewAccountArea;
+    private Spinner mSpinnerNewAccountCity;
     private String mStateId;
     private String mCityId;
-    private ImageView mImageViewSearch;
+    private TextView mImageViewSearch;
     private LinearLayout mLinearLayoutSearchStories;
     private Button mButtonAllAreas;
     private Button mButtonSearchStories;
@@ -64,34 +61,40 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
     private SwipeRefreshLayout mSwipeRefreshLayoutStories;
     private ProgressBar mProgressBar;
     private TextView mTextViewNoInternet;
+    private ImageView mImageViewBack;
+    private TextView mTextViewTitle;
+    private String next_page_url;
+    private StoresAdapter mStoresAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stores);
+        setContentView(R.layout.activity_buildings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         onVariables();
+
+
+
     }
-
-
     private void onVariables() {
-       mContext=Stores.this;
-        mStateId="";
-        mCityId="";
-        mTextViewNoInternet= (TextView) findViewById(R.id.tvNoInternet);
-        mSpinnerNewAccountArea= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerArea);
+        mContext = Stores.this;
+        mStateId = "";
+        mCityId = "";
+        mTextViewNoInternet = (TextView) findViewById(R.id.tvNoInternet);
+        mTextViewTitle = (TextView) findViewById(R.id.tvTitle);
+        mTextViewTitle.setText("متاجر فى السعوديه");
+        mSpinnerNewAccountArea = (Spinner) findViewById(R.id.NewAccountSpinnerArea);
         mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==-1){
-                    mStateId="";
+                if (position == -1) {
+                    mStateId = "";
                     mSpinnerNewAccountCity.setVisibility(View.GONE);
-                }else {
-                    mSpinnerNewAccountCity.setVisibility(View.VISIBLE);
-                    mStateId=State_Id.get(position);
+                } else {
+                    mStateId = State_Id.get(position);
                     onCity(State_Id.get(position));
                 }
             }
@@ -101,14 +104,14 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
 
             }
         });
-        mSpinnerNewAccountCity= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerCity);
+        mSpinnerNewAccountCity = (Spinner) findViewById(R.id.NewAccountSpinnerCity);
         mSpinnerNewAccountCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i==-1){
-                    mCityId="";
-                }else {
-                    mCityId=City_Id.get(i);
+                if (i == -1) {
+                    mCityId = "";
+                } else {
+                    mCityId = City_Id.get(i);
                 }
             }
 
@@ -117,43 +120,58 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
 
             }
         });
-        State_Id=new ArrayList<String>();
-        State_Name=new ArrayList<String>();
-        City_Id=new ArrayList<String>();
-        City_Name=new ArrayList<String>();
-        VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
+        State_Id = new ArrayList<String>();
+        State_Name = new ArrayList<String>();
+        City_Id = new ArrayList<String>();
+        City_Name = new ArrayList<String>();
+        VolleySingleton mVolleySingleton = VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
-        mRecyclerViewStories= (RecyclerView) findViewById(R.id.rvStories);
+        mRecyclerViewStories = (RecyclerView) findViewById(R.id.rvStories);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         mRecyclerViewStories.setLayoutManager(manager);
         mRecyclerViewStories.addItemDecoration(new VerticalSpaceItemDecoration(60));
-        models=new ArrayList<StoresModel>();
-        modelsSearch=new ArrayList<StoresModel>();
-        mImageViewSearch= (ImageView) findViewById(R.id.ivSearchStories);
+        mRecyclerViewStories.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
+            @Override
+            public void onLoadMore(int current_page)
+
+            {
+                if (next_page_url.equals("null")){
+
+                }else {
+                    onLoadBuildingsData(next_page_url);
+                }
+            }
+        });
+        models = new ArrayList<StoresModel>();
+        modelsSearch = new ArrayList<StoresModel>();
+        mImageViewSearch = (TextView) findViewById(R.id.ivSearchStories);
         mImageViewSearch.setOnClickListener(this);
-        mLinearLayoutSearchStories= (LinearLayout) findViewById(R.id.llSearchStories);
-        mButtonAllAreas= (Button) findViewById(R.id.bAllAreas);
-        mButtonSearchStories= (Button) findViewById(R.id.bSearchStories);
+        mImageViewBack = (ImageView) findViewById(R.id.ivBackButton);
+        mImageViewBack.setOnClickListener(this);
+        mLinearLayoutSearchStories = (LinearLayout) findViewById(R.id.llSearchStories);
+        mButtonAllAreas = (Button) findViewById(R.id.bAllAreas);
+        mButtonSearchStories = (Button) findViewById(R.id.bSearchStories);
         mButtonAllAreas.setOnClickListener(this);
         mButtonSearchStories.setOnClickListener(this);
         mSwipeRefreshLayoutStories = (SwipeRefreshLayout) findViewById(R.id.srlStories);
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
-        mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        onLoadStoriesData();
+        mStoresAdapter=new StoresAdapter(mContext,models);
+        mRecyclerViewStories.setAdapter(mStoresAdapter);
+        onLoadBuildingsData(MainApp.StoriesUrl);
         onStates();
     }
-
-    private void onLoadStoriesData() {
+    private void onLoadBuildingsData(final String url) {
         mProgressBar.setVisibility(View.VISIBLE);
-        StringRequest mStringRequestStories=new StringRequest(Request.Method.GET, MainApp.StoriesUrl,new Response.Listener<String>() {
+        StringRequest mStringRequestBuildings=new StringRequest(Request.Method.GET,url,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    mRecyclerViewStories.setVisibility(View.VISIBLE);
                     mTextViewNoInternet.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.GONE);
                     JSONObject mJsonObject=new JSONObject(response);
+                    Stores.this.next_page_url = mJsonObject.getString("next_page_url");
                     JSONArray data = mJsonObject.getJSONArray("data");
                     for (int i=0;i<data.length();i++){
                         JSONObject jsonObject=data.getJSONObject(i);
@@ -172,8 +190,8 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                         StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1);
                         models.add(storesModel);
                     }
-                    StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
-                    mRecyclerViewStories.setAdapter(mStoresAdapter);
+                    mStoresAdapter.notifyDataSetChanged();
+                    mRecyclerViewStories.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -181,45 +199,13 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mTextViewNoInternet.setText("لا يوجد انترنت !");
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
-               onLoadStoriesData();
+                onLoadBuildingsData(url);
             }
         });
-        mVolleySingletonRequestQueue.add(mStringRequestStories);
+        mVolleySingletonRequestQueue.add(mStringRequestBuildings);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_search:
-                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-                startActivity(mIntentSearch);
-                break;
-
-            case R.id.action_Adv_Favorites:
-                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                startActivity(mIntentAdvFavorites);
-                break;
-
-            case R.id.action_New_Account:
-                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-                startActivity(mIntentNewAccount);
-                break;
-
-            case R.id.action_Login:
-                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-                startActivity(mIntentLogin);
-                break;
-        }
-        return true;
-    }
-
     public void onStates(){
         String Url=MainApp.StatesUrl;
         StringRequest mStringRequestonStates=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
@@ -264,6 +250,9 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
         };
         mVolleySingletonRequestQueue.add(mStringRequestonStates);
     }
+
+
+
     public void onCity(final String position){
         if (City_Name!=null){
             City_Name.clear();
@@ -289,7 +278,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
                                 R.layout.item_spinner,R.id.tvItem,City_Name);
                         mSpinnerNewAccountCity.setAdapter(dataAdapter);
-
+                        mSpinnerNewAccountCity.setVisibility(View.VISIBLE);
                     }
 
                 } catch (JSONException e) {
@@ -313,11 +302,11 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
         mVolleySingletonRequestQueue.add(mStringRequestonCity);
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivSearchStories:
+                mTextViewNoInternet.setVisibility(View.GONE);
                 if (mLinearLayoutSearchStories.getVisibility()==View.GONE){
                     mLinearLayoutSearchStories.setVisibility(View.VISIBLE);
                 }else {
@@ -325,10 +314,13 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                 }
                 break;
             case R.id.bAllAreas:
+                mTextViewNoInternet.setVisibility(View.GONE);
                 StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
             case R.id.bSearchStories:
+                mTextViewNoInternet.setVisibility(View.GONE);
                 if (modelsSearch!=null){
                     modelsSearch.clear();
                 }
@@ -337,21 +329,71 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                         modelsSearch.add(models.get(i));
                     }
                 }
+                if (modelsSearch.size()==0){
+                    mTextViewNoInternet.setText("لا يوجد متاجر في هذه المنطقة!");
+                    mTextViewNoInternet.setVisibility(View.VISIBLE);
+                }
                 StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch);
                 mRecyclerViewStories.setAdapter(mStoresAdapter2);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
+                break;
+            case R.id.ivBackButton:
+                finish();
                 break;
         }
     }
 
     @Override
     public void onRefresh() {
+        mRecyclerViewStories.setVisibility(View.GONE);
         if (models!=null){
             models.clear();
         }
-        mRecyclerViewStories.setVisibility(View.INVISIBLE);
-        onLoadStoriesData();
+        onLoadBuildingsData(next_page_url);
         if (mSwipeRefreshLayoutStories.isRefreshing()){
             mSwipeRefreshLayoutStories.setRefreshing(false);
         }
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.home_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.action_search:
+//                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
+//                startActivity(mIntentSearch);
+//                break;
+//
+//            case R.id.action_Adv_Favorites:
+//                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+//                startActivity(mIntentAdvFavorites);
+//                break;
+//
+//            case R.id.action_New_Account:
+//                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
+//                startActivity(mIntentNewAccount);
+//                break;
+//
+//            case R.id.action_Login:
+//                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
+//                startActivity(mIntentLogin);
+//                break;
+//        }
+//        return true;
+//    }
+
+    @Override
+    public void onBackPressed() {
+        if (mLinearLayoutSearchStories.getVisibility()==View.VISIBLE){
+            mLinearLayoutSearchStories.setVisibility(View.GONE);
+        }else {
+            super.onBackPressed();
+        }
+
     }
 }

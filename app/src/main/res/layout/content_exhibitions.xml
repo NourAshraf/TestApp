@@ -11,29 +11,47 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/LoginTitle"
+        android:background="@color/colorPrimary"
         android:padding="10dp"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="معارض فى السعوديه"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/LoginTitle"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
-        <ImageView
+
+        <TextView
+            android:textColor="@color/LoginTitle"
             android:id="@+id/ivSearchStories"
-            android:background="@drawable/ic_button_search"
+            android:textSize="18dp"
             android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentTop="true"
+            android:drawableTop="@drawable/ic_button_search"
+            android:gravity="center"
+            android:text="بحث"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivBackButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/mi_ic_previous" />
     </RelativeLayout>
     <LinearLayout
         android:visibility="gone"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_bg8"
+        android:padding="10dp"
         android:id="@+id/llSearchStories"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -43,41 +61,37 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:layout_width="match_parent"
-                app:ms_hint="اختر ماركه السيارة"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/NewAccountSpinnerMarka"
-                >
 
-            </fr.ganfra.materialspinner.MaterialSpinner>
-            <fr.ganfra.materialspinner.MaterialSpinner
+            <TextView
+                android:textSize="17dp"
                 android:layout_width="match_parent"
-                app:ms_hint="اختر نوع السياره"
-                android:layout_weight="1"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:id="@+id/NewAccountSpinnerKind"
-                >
-            </fr.ganfra.materialspinner.MaterialSpinner>
-            </LinearLayout>
-        <LinearLayout
-            android:padding="5dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <fr.ganfra.materialspinner.MaterialSpinner
+                android:text="اختار المنطقة"
+                android:textStyle="bold" />
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_custom"
+                android:paddingLeft="20dp"
                 android:layout_width="match_parent"
-                app:ms_hint="اختر المنطقة"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/NewAccountSpinnerArea"
+                android:elevation="5dp"
                 >
-            </fr.ganfra.materialspinner.MaterialSpinner>
-            <fr.ganfra.materialspinner.MaterialSpinner
+            </Spinner>
+            <TextView
+                android:textSize="17dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="اختار المدينة"
+                android:textStyle="bold" />
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_custom"
+                android:paddingLeft="20dp"
+                android:elevation="5dp"
                 android:visibility="gone"
-                app:ms_hint="اختر المدينه"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,23 +99,71 @@
                 />
         </LinearLayout>
         <LinearLayout
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="17dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="اختار ماركة السيارة"
+                android:textStyle="bold" />
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_custom"
+                android:paddingLeft="20dp"
+                android:elevation="5dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/NewAccountSpinnerMarka"
+                >
+            </Spinner>
+
+            <TextView
+                android:textSize="17dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="اختار نوع السيارة"
+                android:textStyle="bold" />
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_custom"
+                android:paddingLeft="20dp"
+                android:elevation="5dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:id="@+id/NewAccountSpinnerKind"
+                >
+            </Spinner>
+        </LinearLayout>
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/bSearchStories"
-                android:layout_weight="1"
-                android:textSize="18dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="بحث"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <Button
+                android:layout_margin="5dp"
+                android:background="@color/border5"
                 android:id="@+id/bAllAreas"
                 android:layout_weight="1"
                 android:textSize="18dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@android:color/background_light"
                 android:text="كل المناطق"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_margin="5dp"
+                android:background="@color/border5"
+                android:id="@+id/bSearchStories"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:textColor="@android:color/background_light"
+                android:text="بحث"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -120,4 +182,5 @@
 
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>
