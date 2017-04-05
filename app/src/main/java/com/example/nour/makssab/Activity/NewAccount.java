@@ -23,6 +23,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
+import com.sdsmdg.tastytoast.TastyToast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,29 +96,49 @@ public class NewAccount extends AppCompatActivity {
                 String User = mEditTextNewAccountUser.getText().toString();
                 String Phone = mEditTextNewAccountPhone.getText().toString();
                 if (User.matches("")){
-                    Toast.makeText(getApplicationContext(),"لابد من ادخال الاسم !",Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(), "لابد من ادخال الاسم !", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
                 }
                 else if (User.matches(".{15,}+")){
-                    Toast.makeText(getApplicationContext(),"الاسم لا يزيد عن 15 حرف!",Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(), "الاسم لا يزيد عن 15 حرف!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
                 }
                 else if (Email.matches("")){
-                    Toast.makeText(getApplicationContext(),"لابد من ادخال البريد الالكترونى !",Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(), "لابد من ادخال البريد الالكترونى !", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+
                 }
                 else if (!Email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-                    Toast.makeText(getApplicationContext(),"اكتب البريد الالكترونى بصوره صحيحه!",Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(), "اكتب البريد الالكترونى بصوره صحيحه!", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+
                 }else if (Pass.matches("")){
-                    Toast.makeText(getApplicationContext(),"لابد من ادخال كلمه المرور !",Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(), "لابد من ادخال كلمه المرور !", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+
                 }
                 else if (!Pass.matches(".{6,}+")){
-                    Toast.makeText(getApplicationContext(),"كلمه المرور لا تقل عن 6 احرف او ارقام!",Toast.LENGTH_SHORT).show();
+
+                    TastyToast.makeText(getApplicationContext(), "كلمه المرور لا تقل عن 6 احرف او ارقام!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
                 }else if (!Phone.matches(".{3,20}+")){
-                    Toast.makeText(getApplicationContext(),"رقم الجوال الا يقل عن 3 ولا يزيد عن 20 رقم!",Toast.LENGTH_LONG).show();
+
+                    TastyToast.makeText(getApplicationContext(), "رقم الجوال الا يقل عن 3 ولا يزيد عن 20 رقم!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
                 }else if (!Pass.equals(SurePass)){
-                    Toast.makeText(getApplicationContext(),"كلمتى المرور لابد ان يكونوا متطابقيين!",Toast.LENGTH_LONG).show();
+
+                    TastyToast.makeText(getApplicationContext(), "كلمتى المرور لابد ان يكونوا متطابقيين!", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+
                 }else if (mStateId.equals("")){
-                    Toast.makeText(getApplicationContext(),"لابد من اختيار المنطقه!",Toast.LENGTH_LONG).show();
+
+                    TastyToast.makeText(getApplicationContext(), "لابد من اختيار المنطقه!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
                 }else if (mCityId.equals("")){
-                    Toast.makeText(getApplicationContext(),"لابد من اختيار المدينه!",Toast.LENGTH_LONG).show();
+
+                    TastyToast.makeText(getApplicationContext(), "لابد من اختيار المدينه!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
                 }else {
                   onRegister(Email,Pass,Phone,SurePass,User,mCityId,mStateId);
                 }

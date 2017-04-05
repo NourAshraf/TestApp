@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
-    private String filename="mkssab";
+    private  String filename2="mkssab";
     private EditText mEditTextLoginUser;
     private EditText mEditTextLoginPass;
     private CheckBox mCheckBoxLogin;
@@ -41,6 +43,9 @@ public class Login extends AppCompatActivity {
     private TextView mTextViewLogin;
     private RequestQueue mVolleySingletonRequestQueue;
     private ImageView mImageViewBack;
+   private SharedPreferences mSharedPreferences;
+    private String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,8 @@ public class Login extends AppCompatActivity {
     }
 
     private void Allvariables() {
+        mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
+         token = mSharedPreferences.getString("token", "");
         mEditTextLoginUser=(EditText)findViewById(R.id.etLoginUser);
         mEditTextLoginPass=(EditText)findViewById(R.id.etLoginPass);
         mCheckBoxLogin=(CheckBox)findViewById(R.id.cbLogin);
@@ -92,12 +99,16 @@ public class Login extends AppCompatActivity {
                 String User = mEditTextLoginUser.getText().toString();
                 String Pass = mEditTextLoginPass.getText().toString();
                 if (User.matches("")){
-                    Toast.makeText(getApplicationContext(),"لابد من ادخال الاسم !",Toast.LENGTH_SHORT).show();
+                    TastyToast.makeText(getApplicationContext(), "لابد من ادخال الاسم !", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                 }else if (Pass.matches("")){
-                    Toast.makeText(getApplicationContext(),"لابد من ادخال كلمه المرور !",Toast.LENGTH_SHORT).show();
+                    TastyToast.makeText(getApplicationContext(), "لابد من ادخال كلمه المرور !", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+
                 }
                else {
                     onLogin(User,Pass);
+
+
+
                 }
 
             }
@@ -133,6 +144,16 @@ public class Login extends AppCompatActivity {
                 Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
                 startActivity(mIntentLogin);
                 break;
+            case R.id.action_Logout:
+              onLogout();
+                break;
+
+
+
+
+
+
+
         }
         return true;
     }
@@ -143,14 +164,18 @@ public class Login extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject mJsonObject=new JSONObject(response);
+                    Log.i(MainApp.Tag,"Login");
                     if (mJsonObject.has("error")){
                         Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
                     }
-                    SharedPreferences mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+
                     mSharedPreferences.edit().putBoolean("Login",true).commit();
                     mSharedPreferences.edit().putString("token",mJsonObject.getString("token")).commit();
-                    Intent intent=new Intent(getApplicationContext(),Home.class);
-                    startActivity(intent);
+                     onProfile();
+//                    Intent intent=new Intent(getApplicationContext(),Home.class);
+//                    startActivity(intent);
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -172,5 +197,52 @@ public class Login extends AppCompatActivity {
         };
         mVolleySingletonRequestQueue.add(mStringRequestonLogin);
     }
+
+public void onLogout(){
+    String Url= MainApp.LogoutUrl+token;
+    StringRequest mStringRequestonLogut=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+
+            try {
+                JSONObject mJsonObject = new JSONObject(response);
+                Log.i(MainApp.Tag,"Logout");
+                if (mJsonObject.has("success")){
+                    Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح",Toast.LENGTH_SHORT).show();
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    });
+    mVolleySingletonRequestQueue.add(mStringRequestonLogut);
+
+}
+    public void onProfile(){
+        String Url= MainApp.ProfileUrl+token;
+        StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i(MainApp.Tag,response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        mVolleySingletonRequestQueue.add(mStringRequestonProfile);
+
+    }
+
+
 
 }

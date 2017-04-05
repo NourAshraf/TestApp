@@ -2,6 +2,7 @@ package com.example.nour.makssab.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.nour.makssab.Activity.AdvDetails;
+import com.example.nour.makssab.Activity.CategoryDetails;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.CategoryModel;
 import com.example.nour.makssab.Model.HomeModel;
@@ -46,6 +49,8 @@ public class HomeAdapter extends ArrayAdapter{
     private View view;
     private ArrayList<CategoryModel> models;
     private ArrayList<String> Names;
+    private  ArrayList<String>ID;
+    private String Id;
 
     public HomeAdapter(Context context, int resource, ArrayList<HomeModel> objects) {
         super(context, resource, objects);
@@ -76,15 +81,18 @@ public class HomeAdapter extends ArrayAdapter{
             @Override
             public void onClick(View view) {
                 models = new ArrayList<CategoryModel>();
+                ID=new ArrayList<String>();
                 Names = new ArrayList<String>();
                 onGetCategory(mArray.get(position).getId(),mArray.get(position).getTitle());
 
+
             }
         });
+
         return view;
     }
 
-    private void onGetCategory(int id, final String title) {
+    private void onGetCategory(final int id, final String title) {
         String Url=MainApp.CategoryUrl+id;
         StringRequest mStringRequestGetCategory=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
@@ -99,11 +107,12 @@ public class HomeAdapter extends ArrayAdapter{
                         for (int i=0;i<mJsonArray.length();i++){
                             JSONObject mJsonObject=mJsonArray.getJSONObject(i);
                              String name = mJsonObject.getString("name");
-                            String id = mJsonObject.getString("id");
+                            String id2 = mJsonObject.getString("id");
                             String category_id = mJsonObject.getString("category_id");
-                            CategoryModel categoryModel=new CategoryModel(id,name,category_id);
+                            CategoryModel categoryModel=new CategoryModel(id2,name,category_id);
                             models.add(categoryModel);
                             Names.add(name);
+                            ID.add(id2);
                         }
                         final Dialog mDialog=new Dialog(mContext);
                         mDialog.setCancelable(true);
@@ -116,7 +125,7 @@ public class HomeAdapter extends ArrayAdapter{
                         materialSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                                Id = ID.get(i);
                             }
 
                             @Override
@@ -135,6 +144,13 @@ public class HomeAdapter extends ArrayAdapter{
                         mButtonOk.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                Intent mIntent=new Intent(mContext, CategoryDetails.class);
+                                mIntent.putExtra("ID",id);
+                                mContext.startActivity(mIntent);
+//                                Intent intent=new Intent(mContext, CategoryDetails.class);
+//                                mContext.startActivity(intent);
+
+
 
                             }
                         });

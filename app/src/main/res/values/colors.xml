@@ -13,6 +13,7 @@
     <color name="border1">#D9DDE0</color>
     <color name="input">#D7E0E5</color>
     <color name="words">#333a3e</color>
+    <color name="black_overlay">#000</color>
     <color name="inputs">#161e22</color>
     <color name="active">#EA5287</color>
     <color name="border5">#0D7DCD</color>

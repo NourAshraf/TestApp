@@ -23,8 +23,12 @@ public class MainApp extends Application {
     public static String CarBrandsUrl="http://mkssab.com/api/carBrands";
     public static String CarModelsUrl="http://mkssab.com/api/carModels/";
     public static String StoresDetailsUrl="http://www.mkssab.com/api/merchant/";
+    public static String CategoryDetailsUrl="http://mkssab.com/api/sub-category/";
+    public static String ProfileUrl="http://mkssab.com/api/profile?token=";
     public static String BuildingDetailsUrl="http://www.mkssab.com/api/company/";
     public static String ExhibitionDetailsUrl="http://www.mkssab.com/api/museum/";
+    public static String LogoutUrl="http://mkssab.com/api/logout?token=";
+
 
     public static MainApp getsInstance(){
 
