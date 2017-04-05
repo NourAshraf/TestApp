@@ -80,9 +80,6 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         onVariables();
-
-
-
     }
     private void onVariables() {
         mContext = Buildings.this;
@@ -162,7 +159,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        mStoresAdapter=new StoresAdapter(mContext,models);
+        mStoresAdapter=new StoresAdapter(mContext,models,"1");
         mRecyclerViewStories.setAdapter(mStoresAdapter);
         onLoadBuildingsData(BuildingsUrl);
         onStates();
@@ -320,7 +317,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.bAllAreas:
                 mTextViewNoInternet.setVisibility(View.GONE);
-                StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
+                StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models, "1");
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
@@ -338,7 +335,7 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                  mTextViewNoInternet.setText("لا يوجد شركات عقار في هذه المنطقة!");
                  mTextViewNoInternet.setVisibility(View.VISIBLE);
                 }
-                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch);
+                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch, "1");
                 mRecyclerViewStories.setAdapter(mStoresAdapter2);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;

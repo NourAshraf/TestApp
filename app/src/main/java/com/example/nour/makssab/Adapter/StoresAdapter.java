@@ -26,9 +26,11 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoriesHol
     private final ArrayList<StoresModel> mArray;
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
+    private final String mType;
 
-    public StoresAdapter(Context context, ArrayList<StoresModel> models) {
+    public StoresAdapter(Context context, ArrayList<StoresModel> models, String s) {
         mArray=models;
+        mType=s;
         mContext=context;
         mLayoutInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -51,11 +53,13 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoriesHol
             public void onClick(View v) {
                 Intent mIntentStoresDetails=new Intent(mContext, StoresDetails.class);
                 mIntentStoresDetails.putExtra("Name",mArray.get(position).getName());
+                mIntentStoresDetails.putExtra("Id",mArray.get(position).getId());
                 mIntentStoresDetails.putExtra("Description",mArray.get(position).getDescription());
                 mIntentStoresDetails.putExtra("Phone",mArray.get(position).getPhone());
                 mIntentStoresDetails.putExtra("longitude",mArray.get(position).getLongitude());
                 mIntentStoresDetails.putExtra("latitude",mArray.get(position).getLatitude());
                 mIntentStoresDetails.putExtra("Photo",mArray.get(position).getPhoto());
+                mIntentStoresDetails.putExtra("Type",mType);
                 mContext.startActivity(mIntentStoresDetails);
             }
         });

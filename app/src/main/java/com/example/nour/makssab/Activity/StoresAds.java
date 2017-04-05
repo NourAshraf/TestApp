@@ -1,15 +1,13 @@
 package com.example.nour.makssab.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -20,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.nour.makssab.Adapter.AdvAdapter;
 import com.example.nour.makssab.Adapter.StoresAdvAdapter;
 import com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener;
 import com.example.nour.makssab.Decoration.VerticalSpaceItemDecoration;
@@ -55,6 +52,8 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
     private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
     private String name;
     private TextView mTextViewName;
+    private String mType;
+    private String mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +68,8 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
 
     private void onGetIntentData() {
         name = getIntent().getExtras().getString("Name");
+        mType = getIntent().getExtras().getString("Type");
+        mId = getIntent().getExtras().getString("Id");
     }
 
     private void onVariables() {
@@ -82,8 +83,6 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntentHome=new Intent(mContext,StoresDetails.class);
-                startActivity(mIntentHome);
                 finish();
             }
         });
@@ -100,19 +99,34 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new StoresAdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
-        onLoadAdv(MainApp.StoresDetailsUrl);
+        Log.i(MainApp.Tag,mType);
+        if (mType.equals("1")){
+            onLoadAdv(MainApp.BuildingDetailsUrl+mId);
+        }else if (mType.equals("2")){
+            onLoadAdv(MainApp.StoresDetailsUrl+mId);
+        }else if (mType.equals("3")){
+            onLoadAdv(MainApp.ExhibitionDetailsUrl+mId);
+        }
+
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page)
 
             {
-                mDelete=true;
-                onLoadAdv(next_page_url);
+                if (next_page_url.equals("null")){
+
+                }else {
+                    mDelete=true;
+                    onLoadAdv(next_page_url);
+                }
+
             }
         });
     }
 
+
     private void onLoadAdv(final String StoresDetailsUrl) {
+        Log.i(MainApp.Tag,StoresDetailsUrl);
         mProgressBar.setVisibility(View.VISIBLE);
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, StoresDetailsUrl, new Response.Listener<String>() {
             @Override
@@ -142,17 +156,12 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
                         String views = jsonObject2.getString("views");
                         String category_id = jsonObject2.getString("category_id");
                         String phone = jsonObject2.getString("phone");
-                       // JSONObject city = jsonObject2.getJSONObject("city");
-                        //String City_Name = city.getString("name");
                         JSONArray images = jsonObject2.getJSONArray("images");
                         for (int j=0;j<images.length();j++) {
                             JSONObject jsonObject3 = images.getJSONObject(j);
                             String photo = jsonObject3.getString("photo");
                             ImagesModels.add(photo);
                         }
-//                        JSONObject user = jsonObject.getJSONObject("user");
-//                        String UserId = user.getString("id");
-//                        String username = user.getString("username");
                         AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,"الرياض","1","نور",ImagesModels,created_at,CommentCount);
                         models.add(advModel);
                         if (true){
@@ -173,12 +182,7 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
         });
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
-    @Override
-    public void onBackPressed() {
-        Intent mIntentHome=new Intent(mContext,StoresDetails.class);
-        startActivity(mIntentHome);
-        finish();
-    }
+
 
 
     @Override

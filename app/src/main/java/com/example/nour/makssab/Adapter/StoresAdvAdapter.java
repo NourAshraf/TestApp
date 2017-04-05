@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nour.makssab.Activity.AdvDetails;
-import com.example.nour.makssab.Activity.StoresAds;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.AdvModel;
 import com.example.nour.makssab.R;
@@ -80,7 +79,7 @@ public class StoresAdvAdapter extends RecyclerView.Adapter<StoresAdvAdapter.AdvH
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mIntentAdvDetails=new Intent(mContext, StoresAds.class);
+                Intent mIntentAdvDetails=new Intent(mContext, AdvDetails.class);
                 mIntentAdvDetails.putExtra("Title",mArray.get(position).getTitle());
                 mIntentAdvDetails.putExtra("Category_id",mArray.get(position).getCategory_id());
                 mIntentAdvDetails.putExtra("City_Id",mArray.get(position).getCity_Id());

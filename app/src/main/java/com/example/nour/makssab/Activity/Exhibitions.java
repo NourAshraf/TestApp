@@ -221,7 +221,7 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        mStoresAdapter=new StoresAdapter(mContext,models);
+        mStoresAdapter=new StoresAdapter(mContext,models, "3");
         mRecyclerViewStories.setAdapter(mStoresAdapter);
         onLoadBuildingsData(MainApp.ExhibitionsUrl);
         onStates();
@@ -479,7 +479,7 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.bAllAreas:
                 mTextViewNoInternet.setVisibility(View.GONE);
-                StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
+                StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models, "3");
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
@@ -497,7 +497,7 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
                     mTextViewNoInternet.setText("لا يوجد معارض في هذه المنطقة!");
                     mTextViewNoInternet.setVisibility(View.VISIBLE);
                 }
-                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch);
+                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch, "3");
                 mRecyclerViewStories.setAdapter(mStoresAdapter2);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;

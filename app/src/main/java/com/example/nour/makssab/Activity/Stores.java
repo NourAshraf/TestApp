@@ -157,7 +157,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
-        mStoresAdapter=new StoresAdapter(mContext,models);
+        mStoresAdapter=new StoresAdapter(mContext,models, "2");
         mRecyclerViewStories.setAdapter(mStoresAdapter);
         onLoadBuildingsData(MainApp.StoriesUrl);
         onStates();
@@ -315,7 +315,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                 break;
             case R.id.bAllAreas:
                 mTextViewNoInternet.setVisibility(View.GONE);
-                StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models);
+                StoresAdapter mStoresAdapter=new StoresAdapter(mContext,models, "2");
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
@@ -333,7 +333,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
                     mTextViewNoInternet.setText("لا يوجد متاجر في هذه المنطقة!");
                     mTextViewNoInternet.setVisibility(View.VISIBLE);
                 }
-                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch);
+                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch, "2");
                 mRecyclerViewStories.setAdapter(mStoresAdapter2);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
