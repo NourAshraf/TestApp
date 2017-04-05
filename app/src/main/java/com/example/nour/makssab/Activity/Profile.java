@@ -5,9 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,9 +21,6 @@ import com.example.nour.makssab.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class Profile extends AppCompatActivity {
     private  String filename2="mkssab";
@@ -123,8 +121,12 @@ public class Profile extends AppCompatActivity {
             }
         }){
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return super.getHeaders();
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                Log.i(MainApp.Tag,split[1]);
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
             }
         };
         mVolleySingletonRequestQueue.add(mStringRequestonProfile);
