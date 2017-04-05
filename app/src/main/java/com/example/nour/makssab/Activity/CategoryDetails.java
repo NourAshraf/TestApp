@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.os.Build.ID;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.current_page;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
@@ -55,6 +57,7 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
     private TextView mTextViewNoInternet;
     private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
     private String mId;
+    private String Url;
 
 
     @Override
@@ -64,14 +67,14 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+        mId = getIntent().getExtras().getString("ID", "");
         onVariables();
     }
 
     private void onVariables() {
+        Url=MainApp.CategoryDetailsUrl+mId;
         mDelete=false;
         mContext=CategoryDetails.this;
-        mId = getIntent().getExtras().getString("ID", "");
-        Log.i(MainApp.Tag,mId);
         mSwipeRefreshLayoutAdv = (SwipeRefreshLayout) findViewById(R.id.srlAdv);
         mSwipeRefreshLayoutAdv.setOnRefreshListener(this);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
@@ -120,7 +123,7 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
-        onLoadAdv(mId);
+        onLoadAdv(Url);
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page)
@@ -137,9 +140,7 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
     }
 
 
-    private void onLoadAdv(final String ID) {
-        String Url=MainApp.CategoryDetailsUrl+ID;
-        Log.i(MainApp.Tag,Url);
+    private void onLoadAdv(final String Url) {
         mProgressBar.setVisibility(View.VISIBLE);
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
@@ -150,6 +151,7 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
                     mTextViewNoInternet.setVisibility(View.GONE);
                     JSONObject mJsonObject=new JSONObject(response);
                     next_page_url = mJsonObject.getString("next_page_url");
+                    Log.i(MainApp.Tag,next_page_url);
                     JSONArray data = mJsonObject.getJSONArray("data");
                     for (int i=0;i<data.length();i++){
                         if (mDelete){
@@ -247,7 +249,7 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
         if (models!=null){
         models.clear();
     }
-    onLoadAdv(mId);
+    onLoadAdv(Url);
         if (mSwipeRefreshLayoutAdv.isRefreshing()){
         mSwipeRefreshLayoutAdv.setRefreshing(false);
     }

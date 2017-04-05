@@ -186,10 +186,12 @@ public class Buildings extends AppCompatActivity implements View.OnClickListener
                         String latitude = jsonObject.getString("latitude");
                         String ads_count = jsonObject.getString("ads_count");
                         JSONObject user = jsonObject.getJSONObject("user");
+                        String username = user.getString("username");
+                        String UserId = user.getString("id");
                         JSONObject city = user.getJSONObject("city");
                         String name1 = city.getString("name");
                         String id1 = city.getString("id");
-                        StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1);
+                        StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1,UserId,username);
                         models.add(storesModel);
                     }
 

@@ -54,6 +54,9 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
     private TextView mTextViewName;
     private String mType;
     private String mId;
+    private String mCity;
+    private String mUserName;
+    private String mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,9 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
         name = getIntent().getExtras().getString("Name");
         mType = getIntent().getExtras().getString("Type");
         mId = getIntent().getExtras().getString("Id");
+        mCity = getIntent().getExtras().getString("City");
+        mUserName = getIntent().getExtras().getString("UserName");
+        mUserId = getIntent().getExtras().getString("UserId");
     }
 
     private void onVariables() {
@@ -99,7 +105,6 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new StoresAdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
-        Log.i(MainApp.Tag,mType);
         if (mType.equals("1")){
             onLoadAdv(MainApp.BuildingDetailsUrl+mId);
         }else if (mType.equals("2")){
@@ -162,7 +167,7 @@ public class StoresAds extends AppCompatActivity implements SwipeRefreshLayout.O
                             String photo = jsonObject3.getString("photo");
                             ImagesModels.add(photo);
                         }
-                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,"الرياض","1","نور",ImagesModels,created_at,CommentCount);
+                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,mCity,mUserId,mUserName,ImagesModels,created_at,CommentCount);
                         models.add(advModel);
                         if (true){
                             mDelete=true;

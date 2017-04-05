@@ -351,7 +351,9 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
                         JSONObject city = user.getJSONObject("city");
                         String name1 = city.getString("name");
                         String id1 = city.getString("id");
-                        StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1);
+                        String username = user.getString("username");
+                        String UserId = user.getString("id");
+                        StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1,UserId,username);
                         models.add(storesModel);
                     }
                     mStoresAdapter.notifyDataSetChanged();

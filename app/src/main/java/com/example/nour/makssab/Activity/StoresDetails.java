@@ -33,6 +33,9 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
     private ImageView mImageViewBack;
     private String mType;
     private String mId;
+    private String mCity;
+    private String mUserId;
+    private String mUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
                 intent.putExtra("Name",name);
                 intent.putExtra("Type",mType);
                 intent.putExtra("Id",mId);
+                intent.putExtra("City",mCity);
+                intent.putExtra("UserName",mUserName);
+                intent.putExtra("UserId",mUserId);
                 startActivity(intent);
             }
         });
@@ -83,6 +89,9 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
          photo = getIntent().getExtras().getString("Photo");
          mType = getIntent().getExtras().getString("Type");
          mId = getIntent().getExtras().getString("Id");
+         mCity = getIntent().getExtras().getString("City");
+         mUserName = getIntent().getExtras().getString("UserName");
+         mUserId = getIntent().getExtras().getString("UserId");
     }
 
     @Override
