@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,20 +15,30 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.HomeAdapter;
+import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.HomeModel;
+import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
-
+    private  String filename2="mkssab";
     private GridView mGridView;
     private ArrayList<HomeModel> models;
     private Context mContext;
@@ -44,6 +55,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonLoginNow;
     private int REQUEST_CODE_INTRO=1;
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences1;
+    private String token;
+    private RequestQueue mVolleySingletonRequestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +73,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private void onVariables() {
         mContext=Home.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        mSharedPreferences1=getSharedPreferences(filename2,MODE_PRIVATE);
+        token = mSharedPreferences1.getString("token", "");
         boolean intro = mSharedPreferences.getBoolean("Intro", false);
         if (intro){
             Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
             startActivityForResult(mIntentIntro,REQUEST_CODE_INTRO);
         }
+        VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
+        mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
 
 
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
@@ -121,6 +140,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                    case R.id.tab_message:
 
                        break;
+
                }
             }
         });
@@ -166,6 +186,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.action_Login:
                 Intent mIntentLogin=new Intent(mContext,Login.class);
                 startActivity(mIntentLogin);
+                break;
+            case R.id.action_Logout:
+                onLogout();
                 break;
         }
         return true;
@@ -216,5 +239,33 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 // Cancelled the intro. You can then e.g. finish this activity too.
             }
         }
+    }
+    public void onLogout(){
+        String Url= MainApp.LogoutUrl+token;
+        StringRequest mStringRequestonLogut=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject mJsonObject = new JSONObject(response);
+                    Log.i(MainApp.Tag,"Logout");
+                    if (mJsonObject.has("success")){
+                        Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        mVolleySingletonRequestQueue.add(mStringRequestonLogut);
+
     }
 }

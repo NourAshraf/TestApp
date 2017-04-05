@@ -171,9 +171,8 @@ public class Login extends AppCompatActivity {
 
                     mSharedPreferences.edit().putBoolean("Login",true).commit();
                     mSharedPreferences.edit().putString("token",mJsonObject.getString("token")).commit();
-                     onProfile();
-//                    Intent intent=new Intent(getApplicationContext(),Home.class);
-//                    startActivity(intent);
+                    Intent intent=new Intent(getApplicationContext(),Home.class);
+                    startActivity(intent);
 
 
                 } catch (JSONException e) {
