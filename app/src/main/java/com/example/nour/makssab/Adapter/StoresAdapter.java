@@ -60,6 +60,9 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.StoriesHol
                 mIntentStoresDetails.putExtra("latitude",mArray.get(position).getLatitude());
                 mIntentStoresDetails.putExtra("Photo",mArray.get(position).getPhoto());
                 mIntentStoresDetails.putExtra("Type",mType);
+                mIntentStoresDetails.putExtra("City",mArray.get(position).getCity_name());
+                mIntentStoresDetails.putExtra("UserName",mArray.get(position).getUser_Name());
+                mIntentStoresDetails.putExtra("UserId",mArray.get(position).getUser_id());
                 mContext.startActivity(mIntentStoresDetails);
             }
         });

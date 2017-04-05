@@ -15,8 +15,10 @@ public class StoresModel {
     private String ads_count;
     private String city_name;
     private String city_id;
+    private String User_id;
+    private String User_Name;
 
-    public StoresModel(String id, String name, String photo, String description, String phone, String longitude, String latitude, String ads_count, String city_name, String city_id) {
+    public StoresModel(String id, String name, String photo, String description, String phone, String longitude, String latitude, String ads_count, String city_name, String city_id,String user_id,String user_name) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -27,6 +29,24 @@ public class StoresModel {
         this.ads_count = ads_count;
         this.city_name = city_name;
         this.city_id = city_id;
+        User_Name=user_name;
+        User_id=user_id;
+    }
+
+    public String getUser_id() {
+        return User_id;
+    }
+
+    public void setUser_id(String user_id) {
+        User_id = user_id;
+    }
+
+    public String getUser_Name() {
+        return User_Name;
+    }
+
+    public void setUser_Name(String user_Name) {
+        User_Name = user_Name;
     }
 
     public String getId() {
