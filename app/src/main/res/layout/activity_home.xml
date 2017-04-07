@@ -45,10 +45,12 @@
 
             <include layout="@layout/content_home" />
 
+
+
         </LinearLayout>
 
-
         <com.roughike.bottombar.BottomBar
+            android:layout_marginTop="10dp"
             android:layout_gravity="bottom"
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"

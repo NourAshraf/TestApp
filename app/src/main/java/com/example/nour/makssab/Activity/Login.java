@@ -107,8 +107,6 @@ public class Login extends AppCompatActivity {
                else {
                     onLogin(User,Pass);
 
-
-
                 }
 
             }
@@ -225,23 +223,4 @@ public void onLogout(){
     mVolleySingletonRequestQueue.add(mStringRequestonLogut);
 
 }
-    public void onProfile(){
-        String Url= MainApp.ProfileUrl+token;
-        StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i(MainApp.Tag,response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        mVolleySingletonRequestQueue.add(mStringRequestonProfile);
-
-    }
-
-
-
 }

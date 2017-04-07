@@ -1,7 +1,6 @@
 package com.example.nour.makssab.Fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.nour.makssab.Activity.Home;
 import com.example.nour.makssab.R;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
@@ -82,8 +80,7 @@ public class FragmentIntro extends SlideFragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivIntroImage1:
-                Intent mIntentHome=new Intent(getActivity(), Home.class);
-                getActivity().startActivity(mIntentHome);
+                getActivity().finish();
                 break;
         }
     }

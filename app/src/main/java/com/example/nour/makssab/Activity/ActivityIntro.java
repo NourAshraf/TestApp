@@ -27,12 +27,6 @@ public class ActivityIntro extends IntroActivity {
                 .fragment(FragmentIntro.newInstance("",""))
                 .build());
 
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.colorPrimary)
-                .backgroundDark(R.color.colorPrimaryDark)
-                .fragment(FragmentIntro.newInstance("",""))
-                .build());
-
     }
 
 }

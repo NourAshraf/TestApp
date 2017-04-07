@@ -50,7 +50,7 @@ public class Profile extends AppCompatActivity {
     private void onVariables() {
         mContext=Profile.this;
         mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
-        token = mSharedPreferences.getString("token", "");
+        token = mSharedPreferences.getString("token","");
         mTextViewName= (TextView) findViewById(R.id.tvProfileName);
         mTextViewAds= (TextView) findViewById(R.id.tvProfileads);
         mTextViewMember= (TextView) findViewById(R.id.tvProfileMemebr);

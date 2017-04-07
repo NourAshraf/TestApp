@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,13 +32,13 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
-    private  String filename2="mkssab";
     private GridView mGridView;
     private ArrayList<HomeModel> models;
     private Context mContext;
@@ -55,9 +55,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonLoginNow;
     private int REQUEST_CODE_INTRO=1;
     private SharedPreferences mSharedPreferences;
-    private SharedPreferences mSharedPreferences1;
     private String token;
     private RequestQueue mVolleySingletonRequestQueue;
+    private boolean login;
+    private String last_login;
+    private String id;
+    private String username;
+    private String email;
+    private String created_at;
 
 
     @Override
@@ -70,11 +75,91 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         onVariables();
     }
 
+    private void onCheckLogin() {
+        login = mSharedPreferences.getBoolean("Login", false);
+        if (login){
+            token = mSharedPreferences.getString("token","");
+
+            onProfile();
+        }else {
+
+        }
+    }
+
+
+    public void onProfile(){
+        String Url= MainApp.ProfileUrl+token;
+        StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray=new JSONArray(response);
+                    for (int i=0;i<mJsonArray.length();i++){
+                        JSONObject jsonObject=mJsonArray.getJSONObject(i);
+                        JSONObject mJsonObject=jsonObject.getJSONObject("user");
+                        id=mJsonObject.getString("id");
+                        username=mJsonObject.getString("username");
+                        email=mJsonObject.getString("email");
+                        created_at=mJsonObject.getString("created_at");
+                        last_login=mJsonObject.getString("last_login");
+
+                        JSONObject mJsonObject1=jsonObject.getJSONObject("ads");
+                        String next_page_url=mJsonObject1.getString("next_page_url");
+                        JSONArray jsonArray=mJsonObject1.getJSONArray("data");
+                        for (int j=0;j<jsonArray.length();j++){
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                            String id1=jsonObject1.getString("id");
+                            String category_id=jsonObject1.getString("category_id");
+                            String sub_category_id=jsonObject1.getString("sub_category_id");
+                            String title=jsonObject1.getString("title");
+                            String description=jsonObject1.getString("description");
+                            String created_at1=jsonObject1.getString("created_at");
+                        }
+                        JSONObject mJsonObject2=jsonObject.getJSONObject("favoriteAds");
+                        String next_page_url1=mJsonObject2.getString("next_page_url");
+                        JSONArray jsonArray1=mJsonObject2.getJSONArray("data");
+                        for (int j=0;j<jsonArray1.length();j++){
+                            JSONObject jsonObject2=jsonArray1.getJSONObject(i);
+                            String id2=jsonObject2.getString("id");
+                            String category_id1=jsonObject2.getString("category_id");
+                            String sub_category_id1=jsonObject2.getString("sub_category_id");
+                            String title1=jsonObject2.getString("title");
+                            String description1=jsonObject2.getString("description");
+                            String created_at2=jsonObject2.getString("created_at");
+                            String phone=jsonObject2.getString("phone");
+                        }
+                    }
+                    mTextViewProfileName.setText(username);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                token=split[1];
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonProfile);
+
+    }
+
     private void onVariables() {
         mContext=Home.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
-        mSharedPreferences1=getSharedPreferences(filename2,MODE_PRIVATE);
-        token = mSharedPreferences1.getString("token", "");
+
         boolean intro = mSharedPreferences.getBoolean("Intro", false);
         if (intro){
             Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
@@ -82,8 +167,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
-
-
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
         mImageViewPlus.setOnClickListener(this);
         mButtonProfile= (Button) findViewById(R.id.bProfile);
@@ -144,6 +227,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                }
             }
         });
+        onCheckLogin();
         onLoadHomeData();
     }
 
@@ -202,8 +286,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentLogin);
                 break;
             case R.id.bProfile:
-//                Intent mIntentLogin2=new Intent(mContext,Login.class);
-//                startActivity(mIntentLogin2);
                 Intent mIntentProfile=new Intent(mContext,Profile.class);
                 startActivity(mIntentProfile);
                 break;
@@ -248,7 +330,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                 try {
                     JSONObject mJsonObject = new JSONObject(response);
-                    Log.i(MainApp.Tag,"Logout");
                     if (mJsonObject.has("success")){
                         Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح",Toast.LENGTH_SHORT).show();
 
@@ -266,6 +347,5 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestonLogut);
-
     }
 }
