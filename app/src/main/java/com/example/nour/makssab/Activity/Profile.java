@@ -1,6 +1,7 @@
 package com.example.nour.makssab.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -107,6 +108,9 @@ public class Profile extends AppCompatActivity {
 
                     }
                     mTextViewName.setText(username);
+                    Intent mIntent=new Intent(mContext,Home.class);
+                    mIntent.putExtra("name",username+"");
+                    mContext.startActivity(mIntent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
