@@ -117,7 +117,6 @@
             android:name=".Activity.MyAdvertisement"
             android:label="@string/title_activity_advertisement"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.Share"></activity>
     </application>
 
 </manifest>

@@ -197,11 +197,12 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                         next_page_url = mJsonObject.getString("next_page_url");
                         JSONArray data = mJsonObject.getJSONArray("data");
                         for (int k = 0; k < data.length(); k++) {
+                            Log.i(MainApp.Tag,k+"");
                             if (mDelete) {
                                 mDelete = false;
                                 ImagesModels = new ArrayList<String>();
                             }
-                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            JSONObject jsonObject1 = data.getJSONObject(k);
                             JSONArray comments_count = jsonObject1.getJSONArray("comments_count");
                             int CommentCount = comments_count.length();
                             String id = jsonObject1.getString("id");

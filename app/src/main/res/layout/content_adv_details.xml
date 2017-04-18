@@ -145,12 +145,12 @@
             android:textStyle="bold" />
 
         <com.daimajia.slider.library.SliderLayout
-            android:layout_margin="10dp"
-            android:background="@drawable/button_bg"
             android:id="@+id/slider"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            />
+            android:clickable="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_bg" />
         <ImageView
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"

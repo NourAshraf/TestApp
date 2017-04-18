@@ -1,4 +1,5 @@
 package com.example.nour.makssab.Activity;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -17,6 +19,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,6 +45,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private String mPhone;
     private Button mShare;
     private Button mComplaint;
+    private String Id;
+    private String ShareUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +103,11 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Share.class);
-                startActivity(intent);
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, ShareUrl);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
             }
         });
 
@@ -144,8 +152,11 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mDemoSlider.movePrevPosition();
     }
 
+
     private void onGetIntentData() {
         title = getIntent().getExtras().getString("Title");
+        Id = getIntent().getExtras().getString("Id");
+        ShareUrl="http://mkssab.com/ads-details/"+Id;
         city_name = getIntent().getExtras().getString("City_Name");
         description = getIntent().getExtras().getString("Description");
         userName = getIntent().getExtras().getString("UserName");

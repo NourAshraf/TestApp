@@ -40,7 +40,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
-    private  String filename2="mkssab";
     private GridView mGridView;
     private ArrayList<HomeModel> models;
     private Context mContext;
@@ -57,10 +56,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonLoginNow;
     private int REQUEST_CODE_INTRO=1;
     private SharedPreferences mSharedPreferences;
-    private SharedPreferences mSharedPreferences1;
     private String token;
     private RequestQueue mVolleySingletonRequestQueue;
     private String username;
+    private boolean mLogin;
 
 
     @Override
@@ -71,15 +70,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         onVariables();
-        onProfile();
+        mLogin = mSharedPreferences.getBoolean("Login",false);
+        Log.i(MainApp.Tag,mLogin+"");
+
+        if (mLogin) {
+            onProfile();
+        }
 
     }
 
     private void onVariables() {
         mContext=Home.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
-        mSharedPreferences1=getSharedPreferences(filename2,MODE_PRIVATE);
-        token = mSharedPreferences1.getString("token", "");
+        token = mSharedPreferences.getString("token", "");
         boolean intro = mSharedPreferences.getBoolean("Intro", false);
         if (intro){
             Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
@@ -249,11 +252,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }
     }
     public void onProfile(){
+        Log.i(MainApp.Tag,token);
         String Url= MainApp.ProfileUrl+token;
+        Log.i(MainApp.Tag,Url);
         StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.i(MainApp.Tag,response);
                     JSONArray mJsonArray=new JSONArray(response);
                     for (int i=0;i<mJsonArray.length();i++){
                         JSONObject jsonObject=mJsonArray.getJSONObject(i);
@@ -307,7 +313,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+               Log.i(MainApp.Tag,"Error");
             }
         }){
             @Override
