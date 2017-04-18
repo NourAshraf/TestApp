@@ -151,7 +151,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                    case R.id.tab_message:
 
                        break;
-
                }
             }
         });

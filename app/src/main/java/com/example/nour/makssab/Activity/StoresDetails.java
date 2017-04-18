@@ -6,8 +6,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 public class StoresDetails extends AppCompatActivity implements View.OnClickListener {
     private ImageView mImageView;
+    static final Integer CALL = 0x2;
     private TextView mTextViewName;
     private TextView mTextViewDes;
     private Button mButtonLocation;
@@ -36,6 +39,7 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
     private String mCity;
     private String mUserId;
     private String mUserName;
+    private StoresDetails mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
     }
 
     private void onVariable() {
+        mContext=StoresDetails.this;
         mImageView= (ImageView) findViewById(R.id.ivStoriesDetails);
         mTextViewName= (TextView) findViewById(R.id.tvStoresDetailsName);
         mTextViewDes= (TextView) findViewById(R.id.tvStoresDetailsDes);
@@ -104,23 +109,62 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
              startActivity(intent);
              break;
          case R.id.tvPhone:
-             Intent callIntent = new Intent(Intent.ACTION_CALL);
-             callIntent.setData(Uri.parse("tel:" + phone));
-             if (ActivityCompat.checkSelfPermission(MainApp.getAppContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                 // TODO: Consider calling
-                 //    ActivityCompat#requestPermissions
-                 // here to request the missing permissions, and then overriding
-                 //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                 //                                          int[] grantResults)
-                 // to handle the case where the user grants the permission. See the documentation
-                 // for ActivityCompat#requestPermissions for more details.
-                 return;
-             }
-             startActivity(callIntent);
+             askForPermission(Manifest.permission.CALL_PHONE,CALL);
              break;
          case R.id.ivBack:
              finish();
              break;
      }
+    }
+
+    private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mContext, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(mContext, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(mContext, new String[]{permission}, requestCode);
+            }
+        } else {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + phone));
+            if (ActivityCompat.checkSelfPermission(MainApp.getAppContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            startActivity(callIntent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                //Call
+                case 2:
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + phone));
+                    if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        startActivity(callIntent);
+                    }
+                    break;
+            }
+            Log.i(MainApp.Tag, "Permission granted");
+        } else {
+            Log.i(MainApp.Tag, "Permission denied");
+        }
     }
 }
