@@ -1,7 +1,14 @@
 package com.example.nour.makssab.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -33,6 +40,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private String mComments;
     private TextView mTextViewPhone;
     private String mPhone;
+    private Button mShare;
+    private Button mComplaint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,52 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
 
     private void onVariables() {
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
+        mComplaint= (Button) findViewById(R.id.bAdvDetailsComplaint);
+        mComplaint.setOnClickListener(new View.OnClickListener() {
+            public void onClick(final View view) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdvDetails.this);
+                alertDialog.setTitle("التبليغ عن اعلان");
+                alertDialog.setMessage("نص الرساله");
+
+                final EditText input = new EditText(AdvDetails.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setIcon(R.drawable.ic_call_answer2);
+
+                alertDialog.setPositiveButton("ارسال التبليغ",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+
+                            }
+                        });
+
+                alertDialog.setNegativeButton("الغاء",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.show();
+            }
+
+        });
+
+        mShare= (Button) findViewById(R.id.bShare);
+        mShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),Share.class);
+                startActivity(intent);
+            }
+        });
+
         mTextViewName= (TextView) findViewById(R.id.tvAdvOwner);
         mTextViewComments= (TextView) findViewById(R.id.tvAdvComments);
         mTextViewViews= (TextView) findViewById(R.id.tvAdvViews);

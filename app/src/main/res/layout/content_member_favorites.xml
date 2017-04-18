@@ -53,18 +53,15 @@
                 mstb:mstbSecondaryColor="@color/button_secondary_color"/>
         </LinearLayout>
     </LinearLayout>
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlAdv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lvMembersFavoritesList"
-        android:dividerHeight="20dp"
-        android:background="@drawable/button_bg1"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:divider="@null"
-
-        >
-
-    </ListView>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAdv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

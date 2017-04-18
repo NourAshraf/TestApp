@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -42,8 +44,8 @@ import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListene
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
 
-public class Advertisement extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-
+public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    private  String filename2="mkssab";
     private RecyclerView mRecyclerViewAdv;
     private ArrayList<AdvModel> models;
     private RequestQueue mVolleySingletonRequestQueue;
@@ -56,7 +58,8 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private ImageView mImageViewBack;
     private TextView mTextViewNoInternet;
     private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
-
+    private SharedPreferences mSharedPreferences;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,9 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
 
     private void onVariables() {
         mDelete=false;
-        mContext=Advertisement.this;
+        mContext=MyAdvertisement.this;
+        mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
+        token = mSharedPreferences.getString("token","");
         mSwipeRefreshLayoutAdv = (SwipeRefreshLayout) findViewById(R.id.srlAdv);
         mSwipeRefreshLayoutAdv.setOnRefreshListener(this);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
@@ -119,7 +124,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
-        onLoadAdv(MainApp.AdvUrl);
+        onLoadAdv(MainApp.ProfileUrl+token);
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page)
@@ -144,43 +149,48 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                     mRecyclerViewAdv.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     mTextViewNoInternet.setVisibility(View.GONE);
-                    JSONObject mJsonObject=new JSONObject(response);
+                    JSONArray mJsonArray = new JSONArray(response);
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        JSONObject mJsonObject = jsonObject.getJSONObject("ads");
                     next_page_url = mJsonObject.getString("next_page_url");
                     JSONArray data = mJsonObject.getJSONArray("data");
-                    for (int i=0;i<data.length();i++){
-                        if (mDelete){
-                            mDelete=false;
+                    for (int j = 0; j < data.length(); j++) {
+                        if (mDelete) {
+                            mDelete = false;
                             ImagesModels = new ArrayList<String>();
                         }
-                        JSONObject jsonObject=data.getJSONObject(i);
-                        JSONArray comments_count = jsonObject.getJSONArray("comments_count");
-                        int CommentCount=comments_count.length();
-                        String id = jsonObject.getString("id");
-                        String created_at = jsonObject.getString("created_at");
-                        jsonObject.getString("id");
-                        String city_id = jsonObject.getString("city_id");
-                        String title = jsonObject.getString("title");
-                        String description = jsonObject.getString("description");
-                        String views = jsonObject.getString("views");
-                        String category_id = jsonObject.getString("category_id");
-                        String phone = jsonObject.getString("phone");
-                        JSONObject city = jsonObject.getJSONObject("city");
+                        JSONObject jsonObject1 = data.getJSONObject(i);
+                        JSONArray comments_count = jsonObject1.getJSONArray("comments_count");
+                        int CommentCount = comments_count.length();
+                        String id = jsonObject1.getString("id");
+                        String created_at = jsonObject1.getString("created_at");
+                        jsonObject1.getString("id");
+                        String city_id = jsonObject1.getString("city_id");
+                        String title = jsonObject1.getString("title");
+                        String description = jsonObject1.getString("description");
+                        String views = jsonObject1.getString("views");
+                        String category_id = jsonObject1.getString("category_id");
+                        String phone = jsonObject1.getString("phone");
+                        JSONObject city = jsonObject1.getJSONObject("city");
                         String City_Name = city.getString("name");
-                        JSONArray images = jsonObject.getJSONArray("images");
-                        for (int j=0;j<images.length();j++) {
+                        JSONArray images = jsonObject1.getJSONArray("images");
+                        for (int k = 0; k < images.length(); k++) {
                             JSONObject jsonObject2 = images.getJSONObject(j);
                             String photo = jsonObject2.getString("photo");
                             ImagesModels.add(photo);
                         }
-                        JSONObject user = jsonObject.getJSONObject("user");
+                        JSONObject user = jsonObject1.getJSONObject("user");
                         String UserId = user.getString("id");
                         String username = user.getString("username");
-                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels,created_at,CommentCount);
+                        AdvModel advModel = new AdvModel(id, city_id, views, category_id, title, description, phone, City_Name, UserId, username, ImagesModels, created_at, CommentCount);
                         models.add(advModel);
-                        if (true){
-                            mDelete=true;
+                        if (true) {
+                            mDelete = true;
                         }
                     }
+                }
+
                     mAdvAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -192,7 +202,16 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
                 onLoadAdv(Url);
             }
-        });
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                Log.i(MainApp.Tag,split[1]);
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
     @Override
@@ -243,7 +262,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         if (models!=null){
         models.clear();
     }
-    onLoadAdv(MainApp.AdvUrl);
+    onLoadAdv(MainApp.ProfileUrl+token);
         if (mSwipeRefreshLayoutAdv.isRefreshing()){
         mSwipeRefreshLayoutAdv.setRefreshing(false);
     }

@@ -108,11 +108,16 @@
         <activity
             android:name=".Activity.StoresAds"
             android:label="@string/title_activity_stores_ads"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.CategoryDetails"
             android:label="@string/title_activity_advertisement"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.MyAdvertisement"
+            android:label="@string/title_activity_advertisement"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.Share"></activity>
     </application>
 
 </manifest>

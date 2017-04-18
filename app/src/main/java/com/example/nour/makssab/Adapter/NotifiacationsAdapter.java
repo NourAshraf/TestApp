@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.nour.makssab.Model.MembersFavoritesModel;
-import com.example.nour.makssab.Model.MembersModel;
 import com.example.nour.makssab.Model.NotificationsModel;
 import com.example.nour.makssab.R;
 

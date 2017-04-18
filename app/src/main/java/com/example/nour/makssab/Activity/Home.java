@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,6 +33,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +60,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private SharedPreferences mSharedPreferences1;
     private String token;
     private RequestQueue mVolleySingletonRequestQueue;
+    private String username;
 
 
     @Override
@@ -68,6 +71,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         onVariables();
+        onProfile();
+
     }
 
     private void onVariables() {
@@ -106,11 +111,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             public void onValueChanged(int position) {
                 switch (position){
                     case 0:
+                        Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                        startActivity(mIntent);
 
                         break;
                     case 1:
-                        Intent mIntentMembersFav=new Intent(mContext,MemberFavorites.class);
-                        startActivity(mIntentMembersFav);
+                        Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                        mIntentFavorites.putExtra("username",username+"");
+                        mContext.startActivity(mIntentFavorites);
                         break;
                     case 2:
                         Intent mIntentMembers=new Intent(mContext,Members.class);
@@ -174,6 +182,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.action_Adv_Favorites:
+
                 Intent mIntentAdvFavorites=new Intent(mContext,MemberFavorites.class);
                 startActivity(mIntentAdvFavorites);
                 break;
@@ -202,10 +211,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentLogin);
                 break;
             case R.id.bProfile:
-//                Intent mIntentLogin2=new Intent(mContext,Login.class);
-//                startActivity(mIntentLogin2);
-                Intent mIntentProfile=new Intent(mContext,Profile.class);
-                startActivity(mIntentProfile);
+                Intent mIntent=new Intent(getApplicationContext(),Profile.class);
+                mIntent.putExtra("username",username+"");
+                mContext.startActivity(mIntent);
                 break;
             case R.id.bShops:
                 Intent mIntentShops=new Intent(mContext,Stores.class);
@@ -240,6 +248,80 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
+    public void onProfile(){
+        String Url= MainApp.ProfileUrl+token;
+        StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray=new JSONArray(response);
+                    for (int i=0;i<mJsonArray.length();i++){
+                        JSONObject jsonObject=mJsonArray.getJSONObject(i);
+                        JSONObject mJsonObject=jsonObject.getJSONObject("user");
+                        String id=mJsonObject.getString("id");
+                         username=mJsonObject.getString("username");
+                        String email=mJsonObject.getString("email");
+                        String created_at=mJsonObject.getString("created_at");
+                        String last_login=mJsonObject.getString("last_login");
+
+                        JSONObject mJsonObject1=jsonObject.getJSONObject("ads");
+                        String next_page_url=mJsonObject1.getString("next_page_url");
+                        JSONArray jsonArray=mJsonObject1.getJSONArray("data");
+                        for (int j=0;j<jsonArray.length();j++){
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                            String id1=jsonObject1.getString("id");
+                            String category_id=jsonObject1.getString("category_id");
+                            String sub_category_id=jsonObject1.getString("sub_category_id");
+                            String title=jsonObject1.getString("title");
+                            String description=jsonObject1.getString("description");
+                            String created_at1=jsonObject1.getString("created_at");
+
+                        }
+                        JSONObject mJsonObject2=jsonObject.getJSONObject("favoriteAds");
+                        String next_page_url1=mJsonObject2.getString("next_page_url");
+                        JSONArray jsonArray1=mJsonObject2.getJSONArray("data");
+                        for (int j=0;j<jsonArray1.length();j++){
+                            JSONObject jsonObject2=jsonArray1.getJSONObject(i);
+                            String id2=jsonObject2.getString("id");
+                            String category_id1=jsonObject2.getString("category_id");
+                            String sub_category_id1=jsonObject2.getString("sub_category_id");
+                            String title1=jsonObject2.getString("title");
+                            String description1=jsonObject2.getString("description");
+                            String created_at2=jsonObject2.getString("created_at");
+                            String phone=jsonObject2.getString("phone");
+
+                        }
+
+                    }
+                   mTextViewProfileName.setText(username);
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                Log.i(MainApp.Tag,split[1]);
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonProfile);
+
+    }
     public void onLogout(){
         String Url= MainApp.LogoutUrl+token;
         StringRequest mStringRequestonLogut=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
@@ -253,6 +335,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح",Toast.LENGTH_SHORT).show();
 
                     }
+                    mTextViewProfileName.setText("اسم العضو");
 
                 } catch (JSONException e) {
                     e.printStackTrace();

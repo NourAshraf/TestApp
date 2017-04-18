@@ -1,7 +1,9 @@
 package com.example.nour.makssab.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,12 +41,14 @@ public class Login extends AppCompatActivity {
     private EditText mEditTextLoginPass;
     private CheckBox mCheckBoxLogin;
     private Button mButtonLoginMember;
-    private Button mButtonLoginEnter;
+    public static Button mButtonLoginEnter;
     private TextView mTextViewLogin;
     private RequestQueue mVolleySingletonRequestQueue;
     private ImageView mImageViewBack;
    private SharedPreferences mSharedPreferences;
     private String token;
+   // boolean clicked=false;
+    //PackageManager pm;
 
 
     @Override
@@ -106,13 +110,26 @@ public class Login extends AppCompatActivity {
                 }
                else {
                     onLogin(User,Pass);
+                    //clicked=true;
 
                 }
 
             }
         });
-
-    }
+//        if(clicked)
+//        {
+//             pm = getPackageManager();
+//            pm.setComponentEnabledSetting(new ComponentName(this, com.example.nour.makssab.Activity.MemberFavorites.class),
+//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+//
+//        }
+//        else
+//        {
+//            pm.setComponentEnabledSetting(new ComponentName(this, com.example.nour.makssab.Activity.MemberFavorites.class),
+//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+//        }
+//
+   }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

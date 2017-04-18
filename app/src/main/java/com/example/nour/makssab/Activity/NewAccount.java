@@ -141,6 +141,9 @@ public class NewAccount extends AppCompatActivity {
 
                 }else {
                   onRegister(Email,Pass,Phone,SurePass,User,mCityId,mStateId);
+                    TastyToast.makeText(getApplicationContext(), "تم تسجيل الدخول بنجاح!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(mIntent);
                 }
             }
         });

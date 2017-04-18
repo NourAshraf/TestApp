@@ -168,6 +168,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textSize="10dp"
                 android:text="نشر الاعلانات"
+                android:id="@+id/bShare"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -176,6 +177,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:textSize="10dp"
                 android:text="الابلاغ"
+                android:id="@+id/bAdvDetailsComplaint"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

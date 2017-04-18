@@ -37,7 +37,7 @@
                 android:layout_marginTop="20dp">
 
                 <EditText
-                    android:layout_width="280dp"
+                    android:layout_width="400dp"
                     android:layout_height="45dp"
                     android:id="@+id/etSearchAdv"
                     android:hint="اكتب رقم الاعلان او عباره البحث هنا" />
@@ -49,20 +49,19 @@
         android:layout_height="20dp"
         android:background="@color/UnderSearch">
 
-
-
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="end">
 
 
         <TextView
 
             android:layout_width="135dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="180dp"
             android:text="بحث السيارات: "
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
@@ -76,65 +75,62 @@
             android:layout_marginTop="3dp"
             android:background="@drawable/ic_user_search" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@drawable/button_bg"
         android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/shape"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
 
-        <TextView
-            android:layout_width="320dp"
+
+        <Spinner
+            android:background="@drawable/spinner_custom_test"
+            android:layout_marginLeft="5dp"
+            android:layout_width="250dp"
+            android:layout_gravity="center"
             android:layout_height="30dp"
+            android:id="@+id/SearchSpinnerMarka"
+            android:elevation="5dp"
+            >
+        </Spinner>
+        <TextView
+            android:textSize="20dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:text="الماركه"
-            android:textSize="18sp"
-            android:textColor="@color/words"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_user_arrow_down"
-            android:id="@+id/tvSearchMarka"
-            />
-
-
-    </LinearLayout>
+            android:textStyle="bold" />
+        </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/shape"
-        android:layout_marginLeft="15dp">
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@drawable/button_bg10"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
 
-        <TextView
-            android:layout_width="320dp"
+
+        <Spinner
+            android:background="@drawable/spinner_custom_test"
+            android:layout_marginLeft="5dp"
+            android:layout_width="250dp"
+            android:layout_gravity="center"
             android:layout_height="30dp"
-            android:text="النوع"
-            android:textColor="@color/words"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/ic_user_arrow_down"
-            android:id="@+id/tvSearchNoo3"
-            />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/shape"
-        android:layout_marginLeft="15dp">
-
+            android:id="@+id/SearchSpinnerKind"
+            android:elevation="5dp"
+            >
+        </Spinner>
         <TextView
-            android:layout_width="320dp"
+            android:textSize="20dp"
+            android:layout_width="80dp"
             android:layout_height="30dp"
-            android:text="الموديل"
-            android:textColor="@color/words"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:id="@+id/tvSearchModel"
-            android:drawableLeft="@drawable/ic_user_arrow_down"
-            />
-
-
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="الماركه"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Button
@@ -148,6 +144,8 @@
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:id="@+id/bSearchSearch"/>
+    </LinearLayout>
 
 
-</LinearLayout>
+
+
