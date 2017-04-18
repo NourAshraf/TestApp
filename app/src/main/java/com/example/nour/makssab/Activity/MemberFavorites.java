@@ -187,10 +187,12 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
             @Override
             public void onResponse(String response) {
                 try {
+
                     mRecyclerViewAdv.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     mTextViewNoInternet.setVisibility(View.GONE);
                     JSONArray mJsonArray = new JSONArray(response);
+                    Log.i(MainApp.Tag,"fav");
                     for (int i = 0; i < mJsonArray.length(); i++) {
                         JSONObject jsonObject = mJsonArray.getJSONObject(i);
                         JSONObject mJsonObject = jsonObject.getJSONObject("favoriteAds");

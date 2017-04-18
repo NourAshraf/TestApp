@@ -166,9 +166,15 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mComments = getIntent().getExtras().getString("Comments");
         mPhone = getIntent().getExtras().getString("Phone");
     }
+    private void onSendData(){
+        Intent intent=new Intent(AdvDetails.this,PhotoZoom.class);
+        intent.putExtra("Images",images);
+        startActivity(intent);
+    }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
+        onSendData();
 
     }
 
