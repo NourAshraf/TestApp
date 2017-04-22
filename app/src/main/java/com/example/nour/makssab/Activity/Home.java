@@ -71,7 +71,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         getSupportActionBar().setTitle("");
         onVariables();
         mLogin = mSharedPreferences.getBoolean("Login",false);
-        Log.i(MainApp.Tag,mLogin+"");
 
         if (mLogin) {
             onProfile();
@@ -230,11 +229,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.bProperty:
                 Intent mIntentProperty=new Intent(mContext,Buildings.class);
                 startActivity(mIntentProperty);
-
-
                 break;
             case R.id.bLoginNow:
-                Intent mIntentLogin3=new Intent(mContext,Login.class);
+                Intent mIntentLogin3=new Intent(mContext,Add_Advertisement.class);
                 startActivity(mIntentLogin3);
                 break;
         }
@@ -251,14 +248,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }
     }
     public void onProfile(){
-        Log.i(MainApp.Tag,token);
         String Url= MainApp.ProfileUrl+token;
-        Log.i(MainApp.Tag,Url);
+
         StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.i(MainApp.Tag,response);
                     JSONArray mJsonArray=new JSONArray(response);
                     for (int i=0;i<mJsonArray.length();i++){
                         JSONObject jsonObject=mJsonArray.getJSONObject(i);
