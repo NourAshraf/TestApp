@@ -74,7 +74,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         getSupportActionBar().setTitle("");
         onVariables();
         mLogin = mSharedPreferences.getBoolean("Login",false);
-
         if (mLogin) {
             onProfile();
         }
@@ -92,8 +91,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
-
-
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
         mImageViewPlus.setOnClickListener(this);
         mButtonProfile= (Button) findViewById(R.id.bProfile);
@@ -117,14 +114,28 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             public void onValueChanged(int position) {
                 switch (position){
                     case 0:
-                        Intent mIntent=new Intent(mContext,MyAdvertisement.class);
-                        startActivity(mIntent);
+                        if (mLogin){
+                            Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                            startActivity(mIntent);
+                        }else {
+                            Intent mIntent=new Intent(getApplicationContext(),Login.class);
+                            mContext.startActivity(mIntent);
+
+                        }
+
 
                         break;
                     case 1:
-                        Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                        mIntentFavorites.putExtra("username",username+"");
-                        mContext.startActivity(mIntentFavorites);
+                        if (mLogin){
+                            Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                            mIntentFavorites.putExtra("username",username+"");
+                            mContext.startActivity(mIntentFavorites);
+                        }else {
+                            Intent mIntent2=new Intent(getApplicationContext(),Login.class);
+                            mContext.startActivity(mIntent2);
+
+                        }
+
                         break;
                     case 2:
 
@@ -185,14 +196,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.action_Adv_Favorites:
-                if (mTextViewProfileName==null) {
-                    Toast.makeText(mContext,"error",Toast.LENGTH_SHORT).show();
-
-
-                }else{
-                    Intent mIntentAdvFavorites = new Intent(mContext, MemberFavorites.class);
-                    mIntentAdvFavorites.putExtra("username", username);
-                    startActivity(mIntentAdvFavorites);
+                if (mLogin){
+                    Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                    mIntentFavorites.putExtra("username",username+"");
+                    mContext.startActivity(mIntentFavorites);
+                }else {
+                    Intent mIntent2=new Intent(getApplicationContext(),Login.class);
+                    mContext.startActivity(mIntent2);
                 }
                 break;
 
@@ -201,8 +211,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentNewAccount);
                 break;
             case R.id.action_My_Adv:
-                Intent mIntentAdv=new Intent(mContext,MyAdvertisement.class);
-                startActivity(mIntentAdv);
+                if (mLogin){
+                    Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                    startActivity(mIntent);
+                }else {
+                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
+                    mContext.startActivity(mIntent);
+
+                }
                 break;
 
             case R.id.action_Login:
@@ -210,7 +226,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentLogin);
                 break;
             case R.id.action_Logout:
-                onLogout();
+                if (mLogin){
+                    onLogout();
+                }
+
                 break;
         }
         return true;
@@ -220,15 +239,28 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ivPlus:
-                Intent mIntentLogin=new Intent(mContext,Login.class);
-                startActivity(mIntentLogin);
+                if (mLogin){
+                    Intent mIntentLogin3=new Intent(mContext,Add_Advertisement.class);
+                    startActivity(mIntentLogin3);
+                }else {
+                    Intent mIntentLogin=new Intent(mContext,Login.class);
+                    startActivity(mIntentLogin);
+                }
+
                 break;
             case R.id.bProfile:
-                Intent mIntent=new Intent(getApplicationContext(),Profile.class);
-                mIntent.putExtra("username",username+"");
-                mIntent.putExtra("email",email+"");
-                mIntent.putExtra("phone",phone_main+"");
-                mContext.startActivity(mIntent);
+                if (mLogin){
+                    Intent mIntent=new Intent(getApplicationContext(),Profile.class);
+                    mIntent.putExtra("username",username+"");
+                    mIntent.putExtra("email",email+"");
+                    mIntent.putExtra("phone",phone_main+"");
+                    mContext.startActivity(mIntent);
+                }else {
+                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
+                    mContext.startActivity(mIntent);
+
+                }
+
                 break;
             case R.id.bShops:
                 Intent mIntentShops=new Intent(mContext,Stores.class);
@@ -245,8 +277,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentProperty);
                 break;
             case R.id.bLoginNow:
-                Intent mIntentLogin3=new Intent(mContext,Add_Advertisement.class);
-                startActivity(mIntentLogin3);
+                if (mLogin){
+                    Intent mIntentLogin3=new Intent(mContext,Add_Advertisement.class);
+                    startActivity(mIntentLogin3);
+                }else {
+                    Intent mIntent2=new Intent(getApplicationContext(),Login.class);
+                    mContext.startActivity(mIntent2);
+                }
+
+
                 break;
         }
     }
@@ -309,7 +348,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                     }
                    mTextViewProfileName.setText(username);
-                    //mTextViewProfileEmail.setText(email);
 
 
 
@@ -330,14 +368,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String phpsessid = response.headers.get("Authorization");
                 String[] split = phpsessid.split(" ");
-                Log.i(MainApp.Tag,split[1]);
                 mSharedPreferences.edit().putString("token",split[1]).commit();
+                token=split[1];
                 return super.parseNetworkResponse(response);
             }
         };
         mVolleySingletonRequestQueue.add(mStringRequestonProfile);
-
     }
+
+
     public void onLogout(){
         String Url= MainApp.LogoutUrl+token;
         StringRequest mStringRequestonLogut=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
@@ -348,8 +387,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                     JSONObject mJsonObject = new JSONObject(response);
                     Log.i(MainApp.Tag,"Logout");
                     if (mJsonObject.has("success")){
-                        Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح",Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح", Toast.LENGTH_SHORT).show();
+                        mSharedPreferences.edit().putBoolean("Login",false).commit();
+                        mSharedPreferences.edit().putString("token","").commit();
                     }
                     mTextViewProfileName.setText("اسم العضو");
 

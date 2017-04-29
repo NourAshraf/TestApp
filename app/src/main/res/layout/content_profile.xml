@@ -7,163 +7,120 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Profile"
     tools:showIn="@layout/activity_profile"
+    android:padding="10dp"
+    android:background="@drawable/mkssab_login"
     android:orientation="vertical"
     >
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@drawable/mkssab_login">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:id="@+id/tvProfile"
-            android:padding="5dp"
-            android:textSize="24dp"
-            android:text="الصفحه الشخصيه"
-            android:background="@drawable/button_bg11"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_below="@+id/tvProfile"
             android:id="@+id/linear1"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="180dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
                 android:id="@+id/tvProfileName"
                 android:textColor="@color/button_secondary_color"
                 android:textStyle="bold"
-                android:layout_marginTop="20dp"
                 android:gravity="left"
                 />
 
 
             <TextView
+                android:layout_weight="2"
                 android:id="@+id/name"
-                android:layout_width="120dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvProfileName"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
                 android:text="الاسم:"
                 android:textColor="@color/LoginSend"
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
-
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_below="@+id/linear1"
             android:id="@+id/linear2"
-            android:layout_height="wrap_content"
-            >
-
+            android:layout_height="wrap_content">
             <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
                 android:id="@+id/tvProfileEmail"
-                android:layout_width="240dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="kareemelsaid23@gmail.com"
                 android:textColor="@color/button_secondary_color"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="left"
+                />
 
 
             <TextView
-                android:layout_width="160dp"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvProfileName"
-                android:layout_marginTop="20dp"
-                android:text="البريد الالكترونى:"
+                android:text="البريد الالكتروني:"
                 android:textColor="@color/LoginSend"
-                android:gravity="left"
-                android:id="@+id/Email"
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
-
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_below="@+id/linear2"
             android:id="@+id/linear3"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
             <TextView
-                android:layout_width="160dp"
+                android:text="عضوية عاديه"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:padding="5dp"
                 android:textSize="18dp"
                 android:textColor="@color/button_secondary_color"
-                android:text="عضويه عاديه"
+                android:textStyle="bold"
                 android:gravity="left"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"/>
+                />
 
 
             <TextView
-                android:id="@+id/kind"
-                android:layout_width="160dp"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvProfileName"
-                android:layout_marginTop="20dp"
-                android:text=" نوع العضويه:"
+                android:text="نوع العضوية:"
                 android:textColor="@color/LoginSend"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_below="@+id/linear3"
-            android:id="@+id/linear4"
-            android:layout_height="wrap_content"
-            >
-            <TextView
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:padding="5dp"
-                android:id="@+id/tvProfilePhone"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/button_secondary_color"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"/>
-
-
-            <TextView
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvProfileName"
-                android:layout_marginTop="20dp"
-                android:text=" رقم الجوال:"
-                android:id="@+id/phone"
-                android:textColor="@color/LoginSend"
-               android:layout_marginLeft="20dp"
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:id="@+id/linear4"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvProfilePhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:textColor="@color/button_secondary_color"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
 
-
-
-
-
-    </RelativeLayout>
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvProfileName"
+                android:text="رقم الجوال:"
+                android:textColor="@color/LoginSend"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 </LinearLayout>
