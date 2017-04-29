@@ -121,6 +121,15 @@
             android:name=".Activity.PhotoZoom"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Add_Advertisement"
+            android:label="@string/title_activity_add__advertisement"
+            android:parentActivityName=".Activity.Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nour.makssab.Activity.Home" />
+        </activity>
     </application>
 
 </manifest>
