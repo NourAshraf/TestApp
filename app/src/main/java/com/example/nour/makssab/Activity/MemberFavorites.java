@@ -86,7 +86,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         mContext=MemberFavorites.this;
         mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
         token = mSharedPreferences.getString("token","");
-        mTextViewUsername= (TextView) findViewById(R.id.tvProfileName);
+        mTextViewUsername= (TextView) findViewById(R.id.tvProfileName1);
         mTextViewUsername.setText(username);
         mButtonProfile= (Button) findViewById(R.id.bProfile);
         mButtonProfile.setOnClickListener(new View.OnClickListener() {

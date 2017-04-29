@@ -1,5 +1,4 @@
 package com.example.nour.makssab.Activity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,7 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,11 +29,9 @@ import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.StoresModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

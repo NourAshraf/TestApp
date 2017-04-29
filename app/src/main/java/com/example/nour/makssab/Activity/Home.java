@@ -47,6 +47,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private ImageView mImageViewPlus;
     private Button mButtonProfile;
     private TextView mTextViewProfileName;
+    private TextView mTextViewProfileEmail;
     private Button mButtonShops;
     private Button mButtonGalleries;
     private Button mButton1;
@@ -59,7 +60,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private String token;
     private RequestQueue mVolleySingletonRequestQueue;
     private String username;
+    private String email;
     private boolean mLogin;
+    private String phone_main;
 
 
     @Override
@@ -105,6 +108,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mButtonProperty.setOnClickListener(this);
         mButtonLoginNow.setOnClickListener(this);
         mTextViewProfileName= (TextView) findViewById(R.id.tvProfileName);
+        mTextViewProfileEmail= (TextView) findViewById(R.id.tvProfileEmail);
         mGridView= (GridView) findViewById(R.id.gvHome);
         models=new ArrayList<HomeModel>();
         MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
@@ -124,8 +128,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         mContext.startActivity(mIntentFavorites);
                         break;
                     case 2:
-                        Intent mIntentMembers=new Intent(mContext,Members.class);
-                        startActivity(mIntentMembers);
+
                         break;
                 }
             }
@@ -145,8 +148,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                        break;
                    case R.id.tab_notify:
-                       Intent mIntentNotification=new Intent(mContext,Notifications.class);
-                       startActivity(mIntentNotification);
+
                        break;
                    case R.id.tab_message:
 
@@ -184,14 +186,24 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.action_Adv_Favorites:
+                if (mTextViewProfileName==null) {
+                    Toast.makeText(mContext,"error",Toast.LENGTH_SHORT).show();
 
-                Intent mIntentAdvFavorites=new Intent(mContext,MemberFavorites.class);
-                startActivity(mIntentAdvFavorites);
+
+                }else{
+                    Intent mIntentAdvFavorites = new Intent(mContext, MemberFavorites.class);
+                    mIntentAdvFavorites.putExtra("username", username);
+                    startActivity(mIntentAdvFavorites);
+                }
                 break;
 
             case R.id.action_New_Account:
                 Intent mIntentNewAccount=new Intent(mContext,NewAccount.class);
                 startActivity(mIntentNewAccount);
+                break;
+            case R.id.action_My_Adv:
+                Intent mIntentAdv=new Intent(mContext,MyAdvertisement.class);
+                startActivity(mIntentAdv);
                 break;
 
             case R.id.action_Login:
@@ -215,6 +227,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.bProfile:
                 Intent mIntent=new Intent(getApplicationContext(),Profile.class);
                 mIntent.putExtra("username",username+"");
+                mIntent.putExtra("email",email+"");
+                mIntent.putExtra("phone",phone_main+"");
                 mContext.startActivity(mIntent);
                 break;
             case R.id.bShops:
@@ -265,9 +279,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         JSONObject mJsonObject=jsonObject.getJSONObject("user");
                         String id=mJsonObject.getString("id");
                          username=mJsonObject.getString("username");
-                        String email=mJsonObject.getString("email");
+                         email=mJsonObject.getString("email");
                         String created_at=mJsonObject.getString("created_at");
                         String last_login=mJsonObject.getString("last_login");
+                         phone_main=mJsonObject.getString("phone");
 
                         JSONObject mJsonObject1=jsonObject.getJSONObject("ads");
                         String next_page_url=mJsonObject1.getString("next_page_url");
@@ -299,6 +314,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                     }
                    mTextViewProfileName.setText(username);
+                    //mTextViewProfileEmail.setText(email);
 
 
 

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#ff4081</color>
     <color name="LoginTitle">#f0f5f8</color>
-    <color name="LoginSend">#f386aa</color>
+    <color name="LoginSend">#ff4081</color>
     <color name="LoginButton">#0477bd</color>
     <color name="SearchTitle">#f8f8f8</color>
     <color name="UnderSearch">#f0f5f8</color>
@@ -15,7 +15,7 @@
     <color name="words">#333a3e</color>
     <color name="black_overlay">#000</color>
     <color name="inputs">#161e22</color>
-    <color name="active">#EA5287</color>
+    <color name="active">#ea5287</color>
     <color name="border5">#0D7DCD</color>
     <color name="gray2">#9FCCE7</color>
     <color name="green">#00b06c</color>

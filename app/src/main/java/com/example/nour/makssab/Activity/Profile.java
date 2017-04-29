@@ -26,15 +26,16 @@ import org.json.JSONObject;
 public class Profile extends AppCompatActivity {
     private  String filename2="mkssab";
     private TextView mTextViewName;
-    private TextView mTextViewAds;
-    private TextView mTextViewMember;
-    private TextView mTextViewTime;
-    private TextView mTextViewLast;
+    private TextView mTextViewEmail;
+    private TextView mTextViewPhone;
     private RequestQueue mVolleySingletonRequestQueue;
     private Context mContext;
     private SharedPreferences mSharedPreferences;
     private String token;
     private String username;
+    private String email;
+    private String phone;
+
 
 
     @Override
@@ -52,6 +53,8 @@ public class Profile extends AppCompatActivity {
 
     private void onGetIntentData() {
         username = getIntent().getExtras().getString("username");
+        email=getIntent().getExtras().getString("email");
+        phone=getIntent().getExtras().getString("phone");
     }
 
     private void onVariables() {
@@ -59,14 +62,13 @@ public class Profile extends AppCompatActivity {
         mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
         token = mSharedPreferences.getString("token","");
         mTextViewName= (TextView) findViewById(R.id.tvProfileName);
-        mTextViewAds= (TextView) findViewById(R.id.tvProfileads);
-        mTextViewMember= (TextView) findViewById(R.id.tvProfileMemebr);
-        mTextViewTime= (TextView) findViewById(R.id.tvTime);
-        mTextViewLast= (TextView) findViewById(R.id.Last);
+        mTextViewEmail= (TextView) findViewById(R.id.tvProfileEmail);
+        mTextViewPhone= (TextView) findViewById(R.id.tvProfilePhone);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mTextViewName.setText(username);
-
+        mTextViewEmail.setText(email);
+        mTextViewPhone.setText(phone);
 
     }
 

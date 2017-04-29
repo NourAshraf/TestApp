@@ -90,7 +90,6 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_exhibitions);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         onVariables();
 
