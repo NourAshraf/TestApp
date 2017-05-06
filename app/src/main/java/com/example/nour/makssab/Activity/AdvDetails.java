@@ -1,18 +1,19 @@
 package com.example.nour.makssab.Activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,13 +25,15 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.nour.makssab.MainApp.MainApp;
+import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
@@ -62,6 +65,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private String token;
     private RequestQueue mVolleySingletonRequestQueue;
     private boolean mLogin;
+    private EditText input;
+    private String text;
+    private EditText editText;
+    private String Msg;
 
 
     @Override
@@ -78,6 +85,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     }
 
     private void onVariables() {
+        VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
+        mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         token = mSharedPreferences.getString("token", "");
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
@@ -85,35 +94,32 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mComplaint.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View view) {
                 if (mLogin){
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdvDetails.this);
-                    alertDialog.setTitle("التبليغ عن اعلان");
-                    alertDialog.setMessage("نص الرساله");
 
-                    final EditText input = new EditText(AdvDetails.this);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT);
-                    input.setLayoutParams(lp);
-                    alertDialog.setView(input);
-                    alertDialog.setIcon(R.drawable.ic_call_answer2);
+                    final Dialog mDialog=new Dialog(AdvDetails.this);
+                    mDialog.setCancelable(true);
+                    mDialog.setContentView(R.layout.dialog);
+                    EditText mEditText=(EditText)mDialog.findViewById(R.id.etComplaint);
+                     Msg = mEditText.getText().toString();
+                    Button mButtonCancel= (Button) mDialog.findViewById(R.id.cancel);
+                    mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mDialog.dismiss();
+                        }
+                    });
+                    Button mButtonOk= (Button) mDialog.findViewById(R.id.send);
+                    mButtonOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onComplaint(Id);
 
-                    alertDialog.setPositiveButton("ارسال التبليغ",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
 
 
 
-                                }
-                            });
+                        }
+                    });
+                    mDialog.show();
 
-                    alertDialog.setNegativeButton("الغاء",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    alertDialog.show();
                 }else {
                     Intent intent=new Intent(getApplicationContext(),Login.class);
                     startActivity(intent);
@@ -123,6 +129,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
 
 
         });
+
 
         mShare= (Button) findViewById(R.id.bShare);
         mShare.setOnClickListener(new View.OnClickListener() {
@@ -217,15 +224,22 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     public void onPageScrollStateChanged(int state) {
 
     }
-    public void onComplaint(){
+    public void onComplaint(final String Id){
         String Url=MainApp.ComplaintUrl+token;
         StringRequest mStringRequestonComplaint=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
 
-                    JSONArray mJsonArray=new JSONArray("error");
+                    JSONObject jsonObject=new JSONObject(response);
+                    Log.i(MainApp.Tag,"error");
+                    if (jsonObject.has("success")){
+                        Toast.makeText(getApplicationContext(),"تم ارسال رسالة التبليغ بنجاح",Toast.LENGTH_SHORT).show();
+
+
+                    }
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
 
@@ -235,6 +249,19 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+
+
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String>paramter=new HashMap<String, String>();
+                paramter.put("ads_id",Id);
+                paramter.put("message", Msg);
+                paramter.put("comment_id","0");
+                paramter.put("type","0");
+                return paramter;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonComplaint);
     }
 }
