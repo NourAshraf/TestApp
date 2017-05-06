@@ -36,9 +36,6 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         onGetIntentData();
         onVariables();
-
-
-
     }
 
     private void onGetIntentData() {

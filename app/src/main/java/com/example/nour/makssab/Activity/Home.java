@@ -302,7 +302,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     }
     public void onProfile(){
         String Url= MainApp.ProfileUrl+token;
-
         StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -348,10 +347,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                     }
                    mTextViewProfileName.setText(username);
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -368,8 +363,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String phpsessid = response.headers.get("Authorization");
                 String[] split = phpsessid.split(" ");
-                mSharedPreferences.edit().putString("token",split[1]).commit();
                 token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
                 return super.parseNetworkResponse(response);
             }
         };
@@ -390,6 +385,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح", Toast.LENGTH_SHORT).show();
                         mSharedPreferences.edit().putBoolean("Login",false).commit();
                         mSharedPreferences.edit().putString("token","").commit();
+                        mLogin=false;
                     }
                     mTextViewProfileName.setText("اسم العضو");
 

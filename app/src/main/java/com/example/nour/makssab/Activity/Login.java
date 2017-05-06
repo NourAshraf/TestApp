@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
-    private  String filename2="mkssab";
+    private  String filename="mkssab";
     private EditText mEditTextLoginUser;
     private EditText mEditTextLoginPass;
     private CheckBox mCheckBoxLogin;
@@ -45,8 +45,7 @@ public class Login extends AppCompatActivity {
     private ImageView mImageViewBack;
    private SharedPreferences mSharedPreferences;
     private String token;
-   // boolean clicked=false;
-    //PackageManager pm;
+
 
 
     @Override
@@ -63,8 +62,8 @@ public class Login extends AppCompatActivity {
     }
 
     private void Allvariables() {
-        mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
-         token = mSharedPreferences.getString("token", "");
+        mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+         token = mSharedPreferences.getString("token","");
         mEditTextLoginUser=(EditText)findViewById(R.id.etLoginUser);
         mEditTextLoginPass=(EditText)findViewById(R.id.etLoginPass);
         mCheckBoxLogin=(CheckBox)findViewById(R.id.cbLogin);
@@ -73,8 +72,7 @@ public class Login extends AppCompatActivity {
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Home.class);
-                startActivity(intent);
+                     finish();
             }
         });
         mButtonLoginEnter=(Button)findViewById(R.id.bLoginEnter);
@@ -181,10 +179,10 @@ public class Login extends AppCompatActivity {
                     if (mJsonObject.has("error")){
                         Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
                     }
-
                     mSharedPreferences.edit().putBoolean("Login",true).commit();
                     mSharedPreferences.edit().putString("token",mJsonObject.getString("token")).commit();
                     Intent intent=new Intent(getApplicationContext(),Home.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
 
 
