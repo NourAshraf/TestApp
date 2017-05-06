@@ -353,37 +353,7 @@ public class Stores extends AppCompatActivity implements View.OnClickListener, S
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.home_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.action_search:
-//                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-//                startActivity(mIntentSearch);
-//                break;
-//
-//            case R.id.action_Adv_Favorites:
-//                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-//                startActivity(mIntentAdvFavorites);
-//                break;
-//
-//            case R.id.action_New_Account:
-//                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-//                startActivity(mIntentNewAccount);
-//                break;
-//
-//            case R.id.action_Login:
-//                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-//                startActivity(mIntentLogin);
-//                break;
-//        }
-//        return true;
-//    }
+
 
     @Override
     public void onBackPressed() {

@@ -8,6 +8,12 @@
     tools:context="com.example.nour.makssab.Activity.Search"
     tools:showIn="@layout/activity_search"
     android:orientation="vertical">
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/rvAdv"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,26 +28,27 @@
             android:background="@color/LoginButton">
 
             <Button
+                android:id="@+id/bSearchAdv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@drawable/search"
-                android:id="@+id/bSearchAdv"/>
+                android:background="@drawable/search" />
         </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
-                <EditText
-                    android:layout_width="290dp"
-                    android:layout_height="45dp"
-                    android:id="@+id/etSearchAdv"
-                    android:hint="اكتب رقم الاعلان او عباره البحث هنا" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/etSearchAdv"
+                android:layout_width="290dp"
+                android:layout_height="45dp"
+                android:hint="اكتب رقم الاعلان او عباره البحث هنا"
+                android:inputType="number" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -139,39 +146,6 @@
             android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:background="@drawable/button_bg10"
-        android:layout_height="55dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="15dp">
-
-
-        <Spinner
-            android:background="@drawable/spinner_custom_test"
-            android:layout_marginLeft="5dp"
-            android:layout_width="267dp"
-            android:layout_gravity="center"
-            android:layout_height="50dp"
-            android:id="@+id/SearchSpinnerModel"
-            android:elevation="5dp"
-            >
-        </Spinner>
-
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="الموديل"
-            android:textColor="@color/active"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-
 
 
     <Button

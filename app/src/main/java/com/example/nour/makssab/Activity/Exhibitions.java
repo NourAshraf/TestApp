@@ -214,8 +214,14 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
         mLinearLayoutSearchStories = (LinearLayout) findViewById(R.id.llSearchStories);
         mButtonAllAreas = (Button) findViewById(R.id.bAllAreas);
         mButtonSearchStories = (Button) findViewById(R.id.bSearchStories);
+        mButtonSearchStories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSearch();
+            }
+        });
         mButtonAllAreas.setOnClickListener(this);
-        mButtonSearchStories.setOnClickListener(this);
+//        mButtonSearchStories.setOnClickListener(this);
         mSwipeRefreshLayoutStories = (SwipeRefreshLayout) findViewById(R.id.srlStories);
         mSwipeRefreshLayoutStories.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -484,24 +490,24 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
                 mRecyclerViewStories.setAdapter(mStoresAdapter);
                 mLinearLayoutSearchStories.setVisibility(View.GONE);
                 break;
-            case R.id.bSearchStories:
-                mTextViewNoInternet.setVisibility(View.GONE);
-                if (modelsSearch!=null){
-                    modelsSearch.clear();
-                }
-                for (int i=0;i<models.size();i++){
-                    if (mCityId.equals(models.get(i).getCity_id())){
-                        modelsSearch.add(models.get(i));
-                    }
-                }
-                if (modelsSearch.size()==0){
-                    mTextViewNoInternet.setText("لا يوجد معارض في هذه المنطقة!");
-                    mTextViewNoInternet.setVisibility(View.VISIBLE);
-                }
-                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch, "3");
-                mRecyclerViewStories.setAdapter(mStoresAdapter2);
-                mLinearLayoutSearchStories.setVisibility(View.GONE);
-                break;
+//            case R.id.bSearchStories:
+//                mTextViewNoInternet.setVisibility(View.GONE);
+//                if (modelsSearch!=null){
+//                    modelsSearch.clear();
+//                }
+//                for (int i=0;i<models.size();i++){
+//                    if (mCityId.equals(models.get(i).getCity_id())){
+//                        modelsSearch.add(models.get(i));
+//                    }
+//                }
+//                if (modelsSearch.size()==0){
+//                    mTextViewNoInternet.setText("لا يوجد معارض في هذه المنطقة!");
+//                    mTextViewNoInternet.setVisibility(View.VISIBLE);
+//                }
+//                StoresAdapter mStoresAdapter2=new StoresAdapter(mContext,modelsSearch, "3");
+//                mRecyclerViewStories.setAdapter(mStoresAdapter2);
+//                mLinearLayoutSearchStories.setVisibility(View.GONE);
+//                break;
             case R.id.ivBackButton:
                 finish();
                 break;
@@ -519,38 +525,59 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
             mSwipeRefreshLayoutStories.setRefreshing(false);
         }
     }
+    public void onSearch(){
+        final String Url=MainApp.SearchUrl+mStateId+"&city_id="+mCityId+"&car_id="+mCarBrandsId+"&model_id="+mCarModelsId;
+        StringRequest mStringRequestonSearch=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.home_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.action_search:
-//                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-//                startActivity(mIntentSearch);
-//                break;
-//
-//            case R.id.action_Adv_Favorites:
-//                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-//                startActivity(mIntentAdvFavorites);
-//                break;
-//
-//            case R.id.action_New_Account:
-//                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-//                startActivity(mIntentNewAccount);
-//                break;
-//
-//            case R.id.action_Login:
-//                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-//                startActivity(mIntentLogin);
-//                break;
-//        }
-//        return true;
-//    }
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    Log.i(MainApp.Tag,response);
+                    if (modelsSearch!=null){
+                        modelsSearch.clear();
+                    }
+                    next_page_url = mJsonObject.getString("next_page_url");
+                    JSONArray data = mJsonObject.getJSONArray("data");
+                    for (int i=0;i<data.length();i++){
+                        JSONObject jsonObject=data.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        String photo = jsonObject.getString("photo");
+                        String description = jsonObject.getString("description");
+                        String phone = jsonObject.getString("phone");
+                        String longitude = jsonObject.getString("longitude");
+                        String latitude = jsonObject.getString("latitude");
+                        String ads_count = jsonObject.getString("ads_count");
+                        JSONObject user = jsonObject.getJSONObject("user");
+                        JSONObject city = user.getJSONObject("city");
+                        String name1 = city.getString("name");
+                        String id1 = city.getString("id");
+                        String username = user.getString("username");
+                        String UserId = user.getString("id");
+                        StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1,UserId,username);
+                        modelsSearch.add(storesModel);
+                    }
+                    mStoresAdapter=new StoresAdapter(mContext,modelsSearch, "3");
+                    mRecyclerViewStories.setAdapter(mStoresAdapter);
+                                    mLinearLayoutSearchStories.setVisibility(View.GONE);
+                    mRecyclerViewStories.setVisibility(View.VISIBLE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mTextViewNoInternet.setText("لا يوجد انترنت !");
+                mTextViewNoInternet.setVisibility(View.VISIBLE);
+                onLoadBuildingsData(Url);
+            }
+        });
+        mVolleySingletonRequestQueue.add(mStringRequestonSearch);
+    }
 
     @Override
     public void onBackPressed() {

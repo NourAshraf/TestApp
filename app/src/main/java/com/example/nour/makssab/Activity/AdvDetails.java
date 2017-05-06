@@ -3,6 +3,7 @@ package com.example.nour.makssab.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -19,6 +25,9 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +56,13 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private Button mComplaint;
     private String Id;
     private String ShareUrl;
+    private String filename="mkssab";
+    private int REQUEST_CODE_INTRO=1;
+    private SharedPreferences mSharedPreferences;
+    private String token;
+    private RequestQueue mVolleySingletonRequestQueue;
+    private boolean mLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,44 +74,53 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         getSupportActionBar().setTitle("");
         onGetIntentData();
         onVariables();
+        mLogin = mSharedPreferences.getBoolean("Login",false);
     }
 
     private void onVariables() {
+        mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        token = mSharedPreferences.getString("token", "");
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
         mComplaint= (Button) findViewById(R.id.bAdvDetailsComplaint);
         mComplaint.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View view) {
+                if (mLogin){
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdvDetails.this);
+                    alertDialog.setTitle("التبليغ عن اعلان");
+                    alertDialog.setMessage("نص الرساله");
 
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdvDetails.this);
-                alertDialog.setTitle("التبليغ عن اعلان");
-                alertDialog.setMessage("نص الرساله");
+                    final EditText input = new EditText(AdvDetails.this);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    alertDialog.setView(input);
+                    alertDialog.setIcon(R.drawable.ic_call_answer2);
 
-                final EditText input = new EditText(AdvDetails.this);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                alertDialog.setView(input);
-                alertDialog.setIcon(R.drawable.ic_call_answer2);
-
-                alertDialog.setPositiveButton("ارسال التبليغ",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.setPositiveButton("ارسال التبليغ",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
 
 
 
-                            }
-                        });
+                                }
+                            });
 
-                alertDialog.setNegativeButton("الغاء",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
+                    alertDialog.setNegativeButton("الغاء",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
 
-                alertDialog.show();
-            }
+                    alertDialog.show();
+                }else {
+                    Intent intent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
+                }
+
+
 
         });
 
@@ -191,5 +216,25 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+    public void onComplaint(){
+        String Url=MainApp.ComplaintUrl+token;
+        StringRequest mStringRequestonComplaint=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONArray mJsonArray=new JSONArray("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 }

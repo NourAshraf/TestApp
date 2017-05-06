@@ -112,19 +112,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
-//        if(clicked)
-//        {
-//             pm = getPackageManager();
-//            pm.setComponentEnabledSetting(new ComponentName(this, com.example.nour.makssab.Activity.MemberFavorites.class),
-//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-//
-//        }
-//        else
-//        {
-//            pm.setComponentEnabledSetting(new ComponentName(this, com.example.nour.makssab.Activity.MemberFavorites.class),
-//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-//        }
-//
+
    }
 
     @Override
@@ -158,10 +146,6 @@ public class Login extends AppCompatActivity {
             case R.id.action_Logout:
               onLogout();
                 break;
-
-
-
-
 
 
 

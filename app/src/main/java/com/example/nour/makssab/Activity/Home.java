@@ -294,9 +294,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_INTRO) {
             if (resultCode == RESULT_OK) {
-                // Finished the intro
+
             } else {
-                // Cancelled the intro. You can then e.g. finish this activity too.
+
             }
         }
     }
