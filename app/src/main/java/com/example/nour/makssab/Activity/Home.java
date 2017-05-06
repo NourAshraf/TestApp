@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
     private GridView mGridView;
@@ -63,6 +66,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private String email;
     private boolean mLogin;
     private String phone_main;
+    private String mUserName;
+    private String mPassword;
 
 
     @Override
@@ -75,15 +80,55 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         onVariables();
         mLogin = mSharedPreferences.getBoolean("Login",false);
         if (mLogin) {
+            mUserName = mSharedPreferences.getString("UserName", "");
+            mPassword = mSharedPreferences.getString("Password", "");
+            onLogin(mUserName,mPassword);
             onProfile();
         }
 
     }
 
+    private void onLogin(final String username, final String password) {
+        String Url= MainApp.LoginUrl;
+        StringRequest mStringRequestonLogin=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    Log.i(MainApp.Tag,"Login");
+                    if (mJsonObject.has("error")){
+                        Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
+                    }
+                    token = mJsonObject.getString("token");
+                    mSharedPreferences.edit().putBoolean("Login",true).commit();
+                    mSharedPreferences.edit().putString("token",token).commit();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String>paramter=new HashMap<String, String>();
+                paramter.put("login",username);
+                paramter.put("password",password);
+                return paramter;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonLogin);
+    }
+
     private void onVariables() {
         mContext=Home.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
-        token = mSharedPreferences.getString("token", "");
         boolean intro = mSharedPreferences.getBoolean("Intro", false);
         if (intro){
             Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
@@ -356,7 +401,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               Log.i(MainApp.Tag,"Error");
+               onProfile();
             }
         }){
             @Override

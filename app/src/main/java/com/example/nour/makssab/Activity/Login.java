@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     private  String filename="mkssab";
     private EditText mEditTextLoginUser;
     private EditText mEditTextLoginPass;
@@ -45,7 +46,9 @@ public class Login extends AppCompatActivity {
     private ImageView mImageViewBack;
    private SharedPreferences mSharedPreferences;
     private String token;
-
+    private boolean checked;
+    private String mUserName;
+    private String mPassword;
 
 
     @Override
@@ -63,10 +66,14 @@ public class Login extends AppCompatActivity {
 
     private void Allvariables() {
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
-         token = mSharedPreferences.getString("token","");
+        checked = mSharedPreferences.getBoolean("Checked", false);
+        token = mSharedPreferences.getString("token","");
+        mUserName = mSharedPreferences.getString("UserName", "");
+        mPassword = mSharedPreferences.getString("Password", "");
         mEditTextLoginUser=(EditText)findViewById(R.id.etLoginUser);
         mEditTextLoginPass=(EditText)findViewById(R.id.etLoginPass);
         mCheckBoxLogin=(CheckBox)findViewById(R.id.cbLogin);
+        mCheckBoxLogin.setOnCheckedChangeListener(this);
         mButtonLoginMember=(Button)findViewById(R.id.bLoginMember);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -106,12 +113,16 @@ public class Login extends AppCompatActivity {
                 }
                else {
                     onLogin(User,Pass);
-                    //clicked=true;
-
                 }
-
             }
         });
+        if (checked){
+            mCheckBoxLogin.setChecked(true);
+            mEditTextLoginUser.setText(mUserName);
+            mEditTextLoginPass.setText(mPassword);
+        }else {
+            mCheckBoxLogin.setChecked(false);
+        }
 
    }
 
@@ -147,8 +158,6 @@ public class Login extends AppCompatActivity {
               onLogout();
                 break;
 
-
-
         }
         return true;
     }
@@ -165,6 +174,8 @@ public class Login extends AppCompatActivity {
                     }
                     mSharedPreferences.edit().putBoolean("Login",true).commit();
                     mSharedPreferences.edit().putString("token",mJsonObject.getString("token")).commit();
+                    mSharedPreferences.edit().putString("UserName",user).commit();
+                    mSharedPreferences.edit().putString("Password",pass).commit();
                     Intent intent=new Intent(getApplicationContext(),Home.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -221,4 +232,13 @@ public void onLogout(){
     mVolleySingletonRequestQueue.add(mStringRequestonLogut);
 
 }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (b){
+            mSharedPreferences.edit().putBoolean("Checked",true).commit();
+        }else {
+            mSharedPreferences.edit().putBoolean("Checked",false).commit();
+        }
+    }
 }

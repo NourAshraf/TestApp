@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -59,6 +62,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     private AdvAdapter mAdvAdapter;
     private Button SearchAdv;
     private RecyclerView mRecyclerViewAdv;
+    private LinearLayout mLinearLayoutSearch;
+    private EditText mEditTextIdSearch;
 
 
     @Override
@@ -75,18 +80,21 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     private void Allvariables() {
         mContext = Search.this;
         mCarBrandsId = "";
+        mDelete=true;
         mCarModelsId = "";
+        mEditTextIdSearch= (EditText) findViewById(R.id.etSearchAdv);
         carBrands_Id = new ArrayList<String>();
         carBrands_Name = new ArrayList<String>();
         carModels_Id = new ArrayList<String>();
         carModels_Name = new ArrayList<String>();
+        mLinearLayoutSearch= (LinearLayout) findViewById(R.id.llSearch);
         VolleySingleton mVolleySingleton = VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mRecyclerViewAdv= (RecyclerView) findViewById(R.id.rvAdv);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewAdv.setLayoutManager(layoutManager);
-        mRecyclerViewAdv.addItemDecoration(new VerticalSpaceItemDecoration(100));
+        mRecyclerViewAdv.addItemDecoration(new VerticalSpaceItemDecoration(30));
         models=new ArrayList<AdvModel>();
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
@@ -146,7 +154,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         SearchAdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRecyclerViewAdv.setVisibility(View.VISIBLE);
                 onLoadAdv();
             }
         });
@@ -260,24 +267,17 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
 
 
     private void onLoadAdv() {
-        final String Url=MainApp.SearchNumberUrl;
+        String MyId = mEditTextIdSearch.getText().toString();
+        final String Url=MainApp.SearchNumberUrl+MyId;
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-
-                    JSONArray mJsonArray = new JSONArray(response);
-                    for (int i = 0; i < mJsonArray.length(); i++){
-                        if (mDelete) {
-                            mDelete = false;
-                            ImagesModels = new ArrayList<String>();
-                        }
-                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        JSONObject jsonObject = new JSONObject(response);
                         JSONArray comments_count = jsonObject.getJSONArray("comments");
                         int CommentCount=comments_count.length();
                         String id=jsonObject.getString("id");
                         String created_at = jsonObject.getString("created_at");
-                        jsonObject.getString("id");
                         String category_id=jsonObject.getString("category_id");
                         String city_id = jsonObject.getString("city_id");
                         String title=jsonObject.getString("title");
@@ -297,15 +297,14 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
                         JSONObject user = jsonObject.getJSONObject("user");
                         String UserId = user.getString("id");
                         String username = user.getString("username");
-
-
-                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,mCity,mUserId,mUserName,ImagesModels,created_at,CommentCount);
+                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels,created_at,CommentCount);
                         models.add(advModel);
-                        if (true){
-                            mDelete=true;
-                        }
-                    }
-                    mAdvAdapter.notifyDataSetChanged();
+
+                    Log.i(MainApp.Tag,models.size()+"");
+                    mRecyclerViewAdv.setVisibility(View.VISIBLE);
+                    mLinearLayoutSearch.setVisibility(View.GONE);
+                    mAdvAdapter=new AdvAdapter(mContext,models);
+                    mRecyclerViewAdv.setAdapter(mAdvAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

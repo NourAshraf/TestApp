@@ -16,149 +16,156 @@
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llSearch"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/SearchTitle">
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="18dp"
-            android:background="@color/LoginButton">
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/SearchTitle">
 
-            <Button
-                android:id="@+id/bSearchAdv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/search" />
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="18dp"
+                android:background="@color/LoginButton">
+
+                <Button
+                    android:id="@+id/bSearchAdv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/etSearchAdv"
+                    android:layout_width="290dp"
+                    android:layout_height="45dp"
+                    android:hint="اكتب رقم الاعلان او عباره البحث هنا"
+                    android:inputType="number" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/UnderSearch">
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginRight="10dp"
+            android:layout_gravity="end">
 
-            <EditText
-                android:id="@+id/etSearchAdv"
-                android:layout_width="290dp"
-                android:layout_height="45dp"
-                android:hint="اكتب رقم الاعلان او عباره البحث هنا"
-                android:inputType="number" />
+
+            <TextView
+
+                android:layout_width="135dp"
+                android:layout_height="30dp"
+                android:text="بحث السيارات: "
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/ic_user_search" />
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/UnderSearch">
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="end">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_bg10"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp">
 
 
-        <TextView
+            <Spinner
+                android:background="@drawable/spinner_custom_test"
+                android:layout_marginLeft="5dp"
+                android:layout_width="267dp"
+                android:layout_gravity="center"
+                android:layout_height="50dp"
+                android:id="@+id/SearchSpinnerMarka"
+                android:elevation="5dp"
+                >
+            </Spinner>
 
-            android:layout_width="135dp"
-            android:layout_height="30dp"
-            android:text="بحث السيارات: "
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="الماركه"
+                android:textColor="@color/active"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_bg10"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+
+            <Spinner
+                android:background="@drawable/spinner_custom_test"
+                android:layout_marginLeft="5dp"
+                android:layout_width="267dp"
+                android:layout_gravity="center"
+                android:layout_height="50dp"
+                android:id="@+id/SearchSpinnerKind"
+                android:elevation="5dp"
+                >
+            </Spinner>
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="النوع"
+                android:textColor="@color/active"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/LoginButton"
+            android:text="بحث"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
             android:textStyle="bold"
-            />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/ic_user_search" />
+            android:id="@+id/bSearchSearch"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:background="@drawable/button_bg10"
-        android:layout_height="55dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="15dp">
-
-
-        <Spinner
-            android:background="@drawable/spinner_custom_test"
-            android:layout_marginLeft="5dp"
-            android:layout_width="267dp"
-            android:layout_gravity="center"
-            android:layout_height="50dp"
-            android:id="@+id/SearchSpinnerMarka"
-            android:elevation="5dp"
-            >
-        </Spinner>
-
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="الماركه"
-            android:textColor="@color/active"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-        </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:background="@drawable/button_bg10"
-        android:layout_height="55dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-
-
-        <Spinner
-            android:background="@drawable/spinner_custom_test"
-            android:layout_marginLeft="5dp"
-            android:layout_width="267dp"
-            android:layout_gravity="center"
-            android:layout_height="50dp"
-            android:id="@+id/SearchSpinnerKind"
-            android:elevation="5dp"
-            >
-        </Spinner>
-
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="النوع"
-            android:textColor="@color/active"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-
-    <Button
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/LoginButton"
-        android:text="بحث"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/bSearchSearch"/>
     </LinearLayout>
 
 
