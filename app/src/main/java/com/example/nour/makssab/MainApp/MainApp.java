@@ -29,6 +29,7 @@ public class MainApp extends Application {
     public static String ExhibitionDetailsUrl="http://www.mkssab.com/api/museum/";
     public static String LogoutUrl="http://mkssab.com/api/logout?token=";
     public static String ComplaintUrl="http://mkssab.com/api/report-ads?token=";
+    public static String CommentUrl="http://mkssab.com/api/add-comment?token=";
     public static String SearchUrl="http://mkssab.com/api/museums?state_id=";
     public static String SearchNumberUrl="http://www.mkssab.com/api/ads-details/";
     public static String ChangePasswordUrl="http://www.mkssab.com/api/password/email";

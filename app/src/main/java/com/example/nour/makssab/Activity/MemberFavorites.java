@@ -66,6 +66,9 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
     private TextView mTextViewUsername;
     private Button mButtonProfile;
     private String username;
+    private String email;
+    private String phone_main;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,9 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
             @Override
             public void onClick(View v) {
                 Intent mIntent=new Intent(mContext,Profile.class);
+                mIntent.putExtra("username",username+"");
+                mIntent.putExtra("email",email+"");
+                mIntent.putExtra("phone",phone+"");
                 startActivity(mIntent);
             }
         });
@@ -179,6 +185,76 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 }
             }
         });
+    }
+    public void onProfile(){
+        String Url= MainApp.ProfileUrl+token;
+        StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray=new JSONArray(response);
+                    for (int i=0;i<mJsonArray.length();i++){
+                        JSONObject jsonObject=mJsonArray.getJSONObject(i);
+                        JSONObject mJsonObject=jsonObject.getJSONObject("user");
+                        String id=mJsonObject.getString("id");
+                        username=mJsonObject.getString("username");
+                        email=mJsonObject.getString("email");
+                        String created_at=mJsonObject.getString("created_at");
+                        String last_login=mJsonObject.getString("last_login");
+                        phone=mJsonObject.getString("phone");
+
+                        JSONObject mJsonObject1=jsonObject.getJSONObject("ads");
+                        String next_page_url=mJsonObject1.getString("next_page_url");
+                        JSONArray jsonArray=mJsonObject1.getJSONArray("data");
+                        for (int j=0;j<jsonArray.length();j++){
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                            String id1=jsonObject1.getString("id");
+                            String category_id=jsonObject1.getString("category_id");
+                            String sub_category_id=jsonObject1.getString("sub_category_id");
+                            String title=jsonObject1.getString("title");
+                            String description=jsonObject1.getString("description");
+                            String created_at1=jsonObject1.getString("created_at");
+
+                        }
+                        JSONObject mJsonObject2=jsonObject.getJSONObject("favoriteAds");
+                        String next_page_url1=mJsonObject2.getString("next_page_url");
+                        JSONArray jsonArray1=mJsonObject2.getJSONArray("data");
+                        for (int j=0;j<jsonArray1.length();j++){
+                            JSONObject jsonObject2=jsonArray1.getJSONObject(i);
+                            String id2=jsonObject2.getString("id");
+                            String category_id1=jsonObject2.getString("category_id");
+                            String sub_category_id1=jsonObject2.getString("sub_category_id");
+                            String title1=jsonObject2.getString("title");
+                            String description1=jsonObject2.getString("description");
+                            String created_at2=jsonObject2.getString("created_at");
+                            String phone1=jsonObject2.getString("phone");
+
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onProfile();
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonProfile);
     }
 
     private void onLoadAdv(final String Url) {

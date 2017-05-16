@@ -103,11 +103,11 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int j=0;j<carModels_Id.size();j++){
-                    if (mCarModelsId.equals(carModels_Id.get(j)));
-                    ModelSearch.add(carModels_Id.get(j));
-
-                }
+//                for (int j=0;j<carModels_Id.size();j++){
+//                    if (mCarModelsId.equals(carModels_Id.get(j)));
+//                    ModelSearch.add(carModels_Id.get(j));
+//
+//                }
 
             }
         });

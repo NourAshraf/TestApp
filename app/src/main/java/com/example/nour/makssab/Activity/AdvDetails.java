@@ -1,9 +1,14 @@
 package com.example.nour.makssab.Activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,8 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,6 +45,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private ArrayList<String> images;
     private String userName;
     private String title;
+    static final Integer CALL = 0x2;
     private String city_name;
     private String description;
     private TextView mTextViewTitle;
@@ -69,6 +75,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private String text;
     private EditText editText;
     private String Msg;
+    private String MsgComment;
+    private Button buttonCall;
+    private AdvDetails mContext;
+    private Button mcomment;
 
 
     @Override
@@ -85,21 +95,22 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     }
 
     private void onVariables() {
+        mContext=AdvDetails.this;
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         token = mSharedPreferences.getString("token", "");
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
-        mComplaint= (Button) findViewById(R.id.bAdvDetailsComplaint);
-        mComplaint.setOnClickListener(new View.OnClickListener() {
-            public void onClick(final View view) {
+        mcomment=(Button)findViewById(R.id.comment);
+        mcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (mLogin){
-
                     final Dialog mDialog=new Dialog(AdvDetails.this);
                     mDialog.setCancelable(true);
-                    mDialog.setContentView(R.layout.dialog);
-                    EditText mEditText=(EditText)mDialog.findViewById(R.id.etComplaint);
-                     Msg = mEditText.getText().toString();
+                    mDialog.setContentView(R.layout.comment_dialog);
+                    final EditText mEditTextComment=(EditText)mDialog.findViewById(R.id.etComment);
+
                     Button mButtonCancel= (Button) mDialog.findViewById(R.id.cancel);
                     mButtonCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -111,6 +122,45 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                     mButtonOk.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            MsgComment = mEditTextComment.getText().toString();
+                            onComment(Id);
+
+
+
+
+                        }
+                    });
+                    mDialog.show();
+
+                }else {
+                    Intent intent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
+        mComplaint= (Button) findViewById(R.id.bAdvDetailsComplaint);
+        mComplaint.setOnClickListener(new View.OnClickListener() {
+            public void onClick(final View view) {
+                if (mLogin){
+
+                    final Dialog mDialog=new Dialog(AdvDetails.this);
+                    mDialog.setCancelable(true);
+                    mDialog.setContentView(R.layout.dialog);
+                    final EditText mEditText=(EditText)mDialog.findViewById(R.id.etComplaint);
+
+                    Button mButtonCancel= (Button) mDialog.findViewById(R.id.cancel);
+                    mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mDialog.dismiss();
+                        }
+                    });
+                    Button mButtonOk= (Button) mDialog.findViewById(R.id.send);
+                    mButtonOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Msg = mEditText.getText().toString();
                             onComplaint(Id);
 
 
@@ -182,6 +232,44 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mDemoSlider.setDuration(5000);
         mDemoSlider.addOnPageChangeListener(this);
         mDemoSlider.movePrevPosition();
+        buttonCall=(Button) findViewById(R.id.button3);
+        buttonCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askForPermission(Manifest.permission.CALL_PHONE,CALL);
+            }
+        });
+    }
+
+    private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mContext, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(mContext, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(mContext, new String[]{permission}, requestCode);
+            }
+        } else {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + mPhone));
+            if (ActivityCompat.checkSelfPermission(MainApp.getAppContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            startActivity(callIntent);
+        }
     }
 
 
@@ -232,9 +320,14 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                 try {
 
                     JSONObject jsonObject=new JSONObject(response);
-                    Log.i(MainApp.Tag,"error");
+                    Log.i(MainApp.Tag,response);
                     if (jsonObject.has("success")){
                         Toast.makeText(getApplicationContext(),"تم ارسال رسالة التبليغ بنجاح",Toast.LENGTH_SHORT).show();
+
+
+                    }else if (Msg.equals("")){
+                        Toast.makeText(getApplicationContext(),"لابد من ادخال نص الرساله",Toast.LENGTH_SHORT).show();
+
 
 
                     }
@@ -261,7 +354,69 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                 paramter.put("type","0");
                 return paramter;
             }
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+
         };
         mVolleySingletonRequestQueue.add(mStringRequestonComplaint);
+    }
+    public void onComment(final String Id){
+        String Url=MainApp.CommentUrl+token;
+        StringRequest mStringRequestonComment=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONObject jsonObject=new JSONObject(response);
+                    Log.i(MainApp.Tag,response);
+                    if (jsonObject.has("success")){
+                        Toast.makeText(getApplicationContext(),"تم اضافة تعليق بنجاح",Toast.LENGTH_SHORT).show();
+
+
+                    }else if (MsgComment.equals("")){
+                        Toast.makeText(getApplicationContext(),"لابد من ادخال نص التعليق",Toast.LENGTH_SHORT).show();
+
+
+
+                    }
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String>paramter=new HashMap<String, String>();
+                paramter.put("ads_id",Id);
+                paramter.put("comment",MsgComment);
+
+                return paramter;
+            }
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonComment);
     }
 }
