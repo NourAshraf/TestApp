@@ -79,6 +79,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private Button buttonCall;
     private AdvDetails mContext;
     private Button mcomment;
+    private Button mButtonCommentFollow;
+    private Button mButtonCommentFollow2;
 
 
     @Override
@@ -101,6 +103,17 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         token = mSharedPreferences.getString("token", "");
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
+        mButtonCommentFollow= (Button) findViewById(R.id.button2);
+        mButtonCommentFollow2= (Button) findViewById(R.id.button4);
+        mButtonCommentFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCommentFollow();
+                mButtonCommentFollow2.setVisibility(View.VISIBLE);
+                mButtonCommentFollow.setVisibility(View.GONE);
+
+            }
+        });
         mcomment=(Button)findViewById(R.id.comment);
         mcomment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -407,6 +420,44 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
 
                 return paramter;
             }
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonComment);
+    }
+    public void onCommentFollow(){
+        String Url=MainApp.CommentFollowUrl+Id+"?token="+token;
+        StringRequest mStringRequestonComment=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    if (jsonObject.has("success")) {
+                        Toast.makeText(getApplicationContext(), "تمت الغاء متابعة الردود بنجاح", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+
+        }){
+
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String phpsessid = response.headers.get("Authorization");
