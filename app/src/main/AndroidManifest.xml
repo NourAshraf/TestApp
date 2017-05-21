@@ -24,6 +24,8 @@
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
         <activity android:name=".Activity.Splash">
+        </activity>
+        <activity android:name=".Activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,9 +102,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Advertisement" />
         </activity>
-        <activity
-            android:name=".Activity.ActivityIntro"
-            android:theme="@style/Theme.Intro" />
         <activity
             android:name=".Activity.StoresDetails"
             android:label="@string/title_activity_stores_details"

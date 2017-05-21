@@ -129,11 +129,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private void onVariables() {
         mContext=Home.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
-        boolean intro = mSharedPreferences.getBoolean("Intro", false);
-        if (intro){
-            Intent mIntentIntro=new Intent(mContext,ActivityIntro.class);
-            startActivityForResult(mIntentIntro,REQUEST_CODE_INTRO);
-        }
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
