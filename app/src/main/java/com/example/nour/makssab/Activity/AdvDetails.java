@@ -104,15 +104,9 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         }
     }
 
-    private void OnCheckFav() {
-
-    }
-
     private void onVariables() {
         mContext=AdvDetails.this;
         mFav=false;
-        mButtonFav= (Button) findViewById(R.id.bFavAdv);
-        mButtonFav.setOnClickListener(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mDrawableFavOn=getDrawable(R.drawable.ic_favorite_heart_button);
             mDrawableFavOff=getDrawable(R.drawable.ic_heart);
@@ -120,7 +114,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        mLogin = mSharedPreferences.getBoolean("Login",false);
         token = mSharedPreferences.getString("token", "");
+        mButtonFav= (Button) findViewById(R.id.bFavAdv);
+        mButtonFav.setOnClickListener(this);
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
         mButtonCommentFollow= (Button) findViewById(R.id.button2);
         mButtonCommentFollow2= (Button) findViewById(R.id.button4);
@@ -156,10 +153,6 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                         public void onClick(View view) {
                             MsgComment = mEditTextComment.getText().toString();
                             onComment(Id);
-
-
-
-
                         }
                     });
                     mDialog.show();
@@ -194,10 +187,6 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                         public void onClick(View view) {
                             Msg = mEditText.getText().toString();
                             onComplaint(Id);
-
-
-
-
                         }
                     });
                     mDialog.show();
@@ -271,6 +260,52 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                 askForPermission(Manifest.permission.CALL_PHONE,CALL);
             }
         });
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bFavAdv:
+                onAddFav();
+
+                break;
+        }
+    }
+
+    private void OnCheckFav() {
+        String Url=MainApp.likedAdsUrl+Id+"?token="+token;
+        StringRequest mStringRequestCheckFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    if (mJsonObject.getBoolean("like")){
+                        mFav=true;
+                        mButtonFav.setCompoundDrawablesWithIntrinsicBounds(null,mDrawableFavOn,null,null);
+                    }else {
+                      mFav=false;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestCheckFav);
     }
 
     private void askForPermission(String permission, Integer requestCode) {
@@ -490,12 +525,42 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mVolleySingletonRequestQueue.add(mStringRequestonComment);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.bFavAdv:
+    private void onAddFav() {
+        String Url= MainApp.likeAdsUrl+Id+"?token="+token;
+        StringRequest mStringRequestAddFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (mFav){
+                        mFav=false;
+                        mButtonFav.setCompoundDrawablesWithIntrinsicBounds(null,mDrawableFavOff,null,null);
+                    }else {
+                        mFav=true;
+                        mButtonFav.setCompoundDrawablesWithIntrinsicBounds(null,mDrawableFavOn,null,null);
+                    }
+                    JSONObject mJsonObject=new JSONObject(response);
+                    Toast.makeText(mContext,mJsonObject.getString("success"),Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                break;
-        }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestAddFav);
     }
+
 }
