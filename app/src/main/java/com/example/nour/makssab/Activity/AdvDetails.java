@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener {
 
     private ArrayList<String> images;
     private String userName;
@@ -85,6 +85,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private Drawable mDrawableFavOn;
     private Drawable mDrawableFavOff;
     private boolean mFav;
+    private Button mButtonCommentFollow;
+    private Button mButtonCommentFollow2;
 
 
     @Override
@@ -100,6 +102,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         if (mLogin){
             OnCheckFav();
         }
+    }
+
+    private void OnCheckFav() {
+
     }
 
     private void onVariables() {
@@ -482,5 +488,14 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
 
         };
         mVolleySingletonRequestQueue.add(mStringRequestonComment);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bFavAdv:
+
+                break;
+        }
     }
 }
