@@ -37,4 +37,6 @@
     <string name="title_activity_stores_details">StoresDetails</string>
     <string name="title_activity_stores_ads">StoresAds</string>
     <string name="title_activity_add__advertisement">Add_Advertisement</string>
+    <string name="title_activity_messages">Messages</string>
+    <string name="title_activity_conversation_message">ConversationMessage</string>
 </resources>

@@ -33,6 +33,11 @@ public class MainApp extends Application {
     public static String SearchUrl="http://mkssab.com/api/museums?state_id=";
     public static String SearchNumberUrl="http://www.mkssab.com/api/ads-details/";
     public static String ChangePasswordUrl="http://www.mkssab.com/api/password/email";
+    public static String likeAdsUrl="http://www.mkssab.com/api/like-ads/";
+    public static String MessagesUrl="http://mkssab.com/api/messages?token=";
+    public static String MessagesConvUrl="http://mkssab.com/api/messages/";
+    public static String likedAdsUrl="http://mkssab.com/api/liked_ads/";
+    public static String SendMessageUrl="http://mkssab.com/api/send-message?token=";
 
 
 

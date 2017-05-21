@@ -209,6 +209,7 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
                 String[] split = phpsessid.split(" ");
                 Log.i(MainApp.Tag,split[1]);
                 mSharedPreferences.edit().putString("token",split[1]).commit();
+                token=split[1];
                 return super.parseNetworkResponse(response);
             }
         };

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.nour.makssab">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +21,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:supportsRtl">
         <activity android:name=".Activity.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -129,6 +131,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Home" />
+        </activity>
+        <activity
+            android:name=".Activity.MyMessages"
+            android:label="@string/title_activity_messages"
+            android:parentActivityName=".Activity.Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nour.makssab.Activity.Home" />
+        </activity>
+        <activity
+            android:name=".Activity.ConversationMessage"
+            android:label="@string/title_activity_conversation_message"
+            android:parentActivityName=".Activity.MyMessages"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nour.makssab.Activity.MyMessages" />
         </activity>
     </application>
 

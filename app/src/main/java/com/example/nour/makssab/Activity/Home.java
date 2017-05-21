@@ -206,7 +206,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                        break;
                    case R.id.tab_message:
-
+                          Intent mIntent=new Intent(mContext,MyMessages.class);
+                          startActivity(mIntent);
                        break;
                }
             }
@@ -356,6 +357,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         JSONObject jsonObject=mJsonArray.getJSONObject(i);
                         JSONObject mJsonObject=jsonObject.getJSONObject("user");
                         String id=mJsonObject.getString("id");
+                        mSharedPreferences.edit().putString("ID",id).commit();
                          username=mJsonObject.getString("username");
                          email=mJsonObject.getString("email");
                         String created_at=mJsonObject.getString("created_at");
@@ -387,7 +389,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                             String description1=jsonObject2.getString("description");
                             String created_at2=jsonObject2.getString("created_at");
                             String phone=jsonObject2.getString("phone");
-
                         }
 
                     }
