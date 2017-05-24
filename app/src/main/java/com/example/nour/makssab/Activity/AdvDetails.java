@@ -89,8 +89,9 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private boolean mFav;
     private boolean mFollowed;
     private Button mButtonCommentFollow;
-    private Button mButtonCommentFollow2;
     private Button mSendMassage;
+    private Drawable mDrawableFollowOff;
+    private Drawable mDrawableFollowOn;
 
 
     @Override
@@ -116,6 +117,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
             mDrawableFavOn=getDrawable(R.drawable.ic_favorite_heart_button);
             mDrawableFavOff=getDrawable(R.drawable.ic_heart);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDrawableFollowOn=getDrawable(R.drawable.ic_like);
+            mDrawableFollowOff=getDrawable(R.drawable.ic_comments);
+        }
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
@@ -125,23 +130,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mButtonFav.setOnClickListener(this);
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
         mButtonCommentFollow= (Button) findViewById(R.id.button2);
-        mButtonCommentFollow2= (Button) findViewById(R.id.button4);
         mButtonCommentFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onCommentFollow();
-
-
-            }
-        });
-        mButtonCommentFollow2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                onCommentFollow();
-
-
             }
         });
 
@@ -324,7 +316,6 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         switch (view.getId()){
             case R.id.bFavAdv:
                 onAddFav();
-
                 break;
         }
     }
@@ -377,17 +368,12 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                     JSONObject mJsonObject=new JSONObject(response);
                     if (mJsonObject.getBoolean("follow")){
                         mFollowed=true;
-//                        mButtonCommentFollow2.setVisibility(View.VISIBLE);
-//                        mButtonCommentFollow.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(),"TRUE",Toast.LENGTH_SHORT).show();
-
-
+                        mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOn,null,null,null);
                     }else {
                         mFollowed=false;
-//                        mButtonCommentFollow.setVisibility(View.VISIBLE);
-//                        mButtonCommentFollow2.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(),"False",Toast.LENGTH_SHORT).show();
-
+                        mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOff,null,null,null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -548,12 +534,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                     Log.i(MainApp.Tag,response);
                     if (jsonObject.has("success")){
                         Toast.makeText(getApplicationContext(),"تم اضافة تعليق بنجاح",Toast.LENGTH_SHORT).show();
-
-
                     }else if (MsgComment.equals("")){
                         Toast.makeText(getApplicationContext(),"لابد من ادخال نص التعليق",Toast.LENGTH_SHORT).show();
-
-
 
                     }
                 } catch (JSONException e) {
@@ -598,12 +580,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                 Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
                 if (mFollowed){
                     mFollowed=false;
-                    mButtonCommentFollow.setVisibility(View.VISIBLE);
-                    mButtonCommentFollow2.setVisibility(View.GONE);
+                    mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOff,null,null,null);
                 }else {
                     mFollowed=true;
-                    mButtonCommentFollow2.setVisibility(View.VISIBLE);
-                    mButtonCommentFollow.setVisibility(View.GONE);
+                    mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOn,null,null,null);
                 }
 
 
@@ -697,7 +677,6 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
 
