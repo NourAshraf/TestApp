@@ -31,10 +31,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@color/LoginTitle">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -43,16 +45,18 @@
             android:layout_marginTop="13dip"
             android:background="@drawable/button_bg5"
             android:padding="5dp">
+
             <org.honorato.multistatetogglebutton.MultiStateToggleButton
-                android:layout_gravity="center"
                 android:id="@+id/mstb_multi_id"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                mstb:values="@array/HomeButtons"
+                android:layout_gravity="center"
                 mstb:mstbPrimaryColor="@color/border5"
-                mstb:mstbSecondaryColor="@color/button_secondary_color"/>
+                mstb:mstbSecondaryColor="@color/button_secondary_color"
+                mstb:values="@array/HomeButtons" />
         </LinearLayout>
     </LinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srlAdv"
         android:layout_width="match_parent"

@@ -19,12 +19,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -85,8 +87,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private Drawable mDrawableFavOn;
     private Drawable mDrawableFavOff;
     private boolean mFav;
+    private boolean mFollowed;
     private Button mButtonCommentFollow;
     private Button mButtonCommentFollow2;
+    private Button mSendMassage;
 
 
     @Override
@@ -101,6 +105,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         onVariables();
         if (mLogin){
             OnCheckFav();
+            OnCheckFollow();
         }
     }
 
@@ -124,12 +129,22 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mButtonCommentFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onCommentFollow();
-                mButtonCommentFollow2.setVisibility(View.VISIBLE);
-                mButtonCommentFollow.setVisibility(View.GONE);
+
 
             }
         });
+        mButtonCommentFollow2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onCommentFollow();
+
+
+            }
+        });
+
         mcomment=(Button)findViewById(R.id.comment);
         mcomment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +168,47 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                         public void onClick(View view) {
                             MsgComment = mEditTextComment.getText().toString();
                             onComment(Id);
+                        }
+                    });
+                    mDialog.show();
+
+                }else {
+                    Intent intent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
+        mSendMassage=(Button)findViewById(R.id.bSendMessage);
+        mSendMassage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mLogin){
+
+                    final Dialog mDialog=new Dialog(AdvDetails.this);
+                    mDialog.setCancelable(true);
+                    mDialog.setContentView(R.layout.send_massage);
+                    final EditText mEditText=(EditText)mDialog.findViewById(R.id.etComplaint);
+                    mEditText.setText("بخوص اعلانك رقم "+Id);
+                    final TextView mTextView=(TextView) mDialog.findViewById(R.id.tvsendname);
+                    mTextView.setText("ارسال رساله الى العضو "+userName);
+
+
+                    Button mButtonCancel= (Button) mDialog.findViewById(R.id.cancel);
+                    mButtonCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mDialog.dismiss();
+                        }
+                    });
+                    Button mButtonOk= (Button) mDialog.findViewById(R.id.send);
+                    mButtonOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Msg = mEditText.getText().toString();
+                            SendMessage(Msg);
+
+                            mDialog.dismiss();
                         }
                     });
                     mDialog.show();
@@ -310,6 +366,50 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         };
         mVolleySingletonRequestQueue.add(mStringRequestCheckFav);
     }
+    private void OnCheckFollow() {
+        String Url=MainApp.FollowedAdsUrl+Id+"?token="+token;
+        StringRequest mStringRequestCheckFollow=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    if (mJsonObject.getBoolean("follow")){
+                        mFollowed=true;
+//                        mButtonCommentFollow2.setVisibility(View.VISIBLE);
+//                        mButtonCommentFollow.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"TRUE",Toast.LENGTH_SHORT).show();
+
+
+                    }else {
+                        mFollowed=false;
+//                        mButtonCommentFollow.setVisibility(View.VISIBLE);
+//                        mButtonCommentFollow2.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"False",Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestCheckFollow);
+    }
 
     private void askForPermission(String permission, Integer requestCode) {
         if (ContextCompat.checkSelfPermission(mContext, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -436,6 +536,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         };
         mVolleySingletonRequestQueue.add(mStringRequestonComplaint);
     }
+
     public void onComment(final String Id){
         String Url=MainApp.CommentUrl+token;
         StringRequest mStringRequestonComment=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
@@ -494,14 +595,15 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         StringRequest mStringRequestonComment=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    if (jsonObject.has("success")) {
-                        Toast.makeText(getApplicationContext(), "تمت الغاء متابعة الردود بنجاح", Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+                if (mFollowed){
+                    mFollowed=false;
+                    mButtonCommentFollow.setVisibility(View.VISIBLE);
+                    mButtonCommentFollow2.setVisibility(View.GONE);
+                }else {
+                    mFollowed=true;
+                    mButtonCommentFollow2.setVisibility(View.VISIBLE);
+                    mButtonCommentFollow.setVisibility(View.GONE);
                 }
 
 
@@ -509,7 +611,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+              Log.i(MainApp.Tag,"Error 220");
             }
 
 
@@ -565,5 +667,38 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         };
         mVolleySingletonRequestQueue.add(mStringRequestAddFav);
     }
+    private void SendMessage(final String Message) {
+        JSONObject mJsonObject=new JSONObject();
+        try {
+            mJsonObject.put("ads_id",Id);
+            mJsonObject.put("message",Message);
+            JsonObjectRequest mJsonObjectRequest=new JsonObjectRequest(Request.Method.POST, MainApp.SendMessageUrl + token, mJsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(mContext,response+"", Toast.LENGTH_SHORT).show();
+                    Log.i(MainApp.Tag,response+"");
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i(MainApp.Tag,"Error");
+                }
+            }){
+                @Override
+                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                    String phpsessid = response.headers.get("Authorization");
+                    String[] split = phpsessid.split(" ");
+                    token=split[1];
+                    mSharedPreferences.edit().putString("token",split[1]).commit();
+                    return super.parseNetworkResponse(response);
+                }
+            };
+            mVolleySingletonRequestQueue.add(mJsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

@@ -154,8 +154,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
 
                         break;
                     case 2:
-                        Intent mIntentMembers=new Intent(mContext,Members.class);
-                        startActivity(mIntentMembers);
+
                         break;
                 }
             }

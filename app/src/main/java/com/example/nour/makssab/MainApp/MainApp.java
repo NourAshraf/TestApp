@@ -39,6 +39,7 @@ public class MainApp extends Application {
     public static String MessagesUrl="http://mkssab.com/api/messages?token=";
     public static String MessagesConvUrl="http://mkssab.com/api/messages/";
     public static String likedAdsUrl="http://mkssab.com/api/liked_ads/";
+    public static String FollowedAdsUrl="http://www.mkssab.com/api/followed_ads/";
     public static String SendMessageUrl="http://mkssab.com/api/send-message?token=";
 
 
