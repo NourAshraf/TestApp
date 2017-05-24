@@ -184,7 +184,16 @@ public class ConversationMessage extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.i(MainApp.Tag,"Error");
                 }
-            });
+            }){
+                @Override
+                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                    String phpsessid = response.headers.get("Authorization");
+                    String[] split = phpsessid.split(" ");
+                    mSharedPreferences.edit().putString("token",split[1]).commit();
+                    token=split[1];
+                    return super.parseNetworkResponse(response);
+                }
+            };
             mVolleySingletonRequestQueue.add(mJsonObjectRequest);
         } catch (JSONException e) {
             e.printStackTrace();

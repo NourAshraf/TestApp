@@ -32,6 +32,7 @@ public class MainApp extends Application {
     public static String CommentUrl="http://mkssab.com/api/add-comment?token=";
     public static String CommentFollowUrl="http://mkssab.com/api/add-comment-follows/";
     public static String SearchUrl="http://mkssab.com/api/museums?state_id=";
+    public static String SearchUrl2="http://mkssab.com/api/museums?car_id=";
     public static String SearchNumberUrl="http://www.mkssab.com/api/ads-details/";
     public static String ChangePasswordUrl="http://www.mkssab.com/api/password/email";
     public static String likeAdsUrl="http://www.mkssab.com/api/like-ads/";

@@ -41,14 +41,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
-
-
-
-
 public class Exhibitions extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
     private Context mContext;
     private RecyclerView mRecyclerViewStories;
@@ -573,7 +565,7 @@ public class Exhibitions extends AppCompatActivity implements View.OnClickListen
             public void onErrorResponse(VolleyError error) {
                 mTextViewNoInternet.setText("لا يوجد انترنت !");
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
-                onLoadBuildingsData(Url);
+                onSearch();
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestonSearch);

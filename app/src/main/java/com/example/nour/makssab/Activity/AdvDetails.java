@@ -275,9 +275,11 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
 
     private void OnCheckFav() {
         String Url=MainApp.likedAdsUrl+Id+"?token="+token;
+        Log.i(MainApp.Tag,Url);
         StringRequest mStringRequestCheckFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.i(MainApp.Tag,response);
                 try {
                     JSONObject mJsonObject=new JSONObject(response);
                     if (mJsonObject.getBoolean("like")){
@@ -293,7 +295,8 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.i(MainApp.Tag,"Error");
+                OnCheckFav();
             }
         }){
             @Override

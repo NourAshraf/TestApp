@@ -39,4 +39,5 @@
     <string name="title_activity_add__advertisement">Add_Advertisement</string>
     <string name="title_activity_messages">Messages</string>
     <string name="title_activity_conversation_message">ConversationMessage</string>
+    <string name="title_activity_search2">SearchActivity2</string>
 </resources>

@@ -42,10 +42,7 @@ public class ActivationCode extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-
         onVariables();
-
-
     }
     private void onVariables() {
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();

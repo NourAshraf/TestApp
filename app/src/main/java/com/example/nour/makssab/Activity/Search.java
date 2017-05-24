@@ -23,9 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.AdvAdapter;
+import com.example.nour.makssab.Adapter.StoresAdapter;
 import com.example.nour.makssab.Decoration.VerticalSpaceItemDecoration;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.AdvModel;
+import com.example.nour.makssab.Model.StoresModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 
@@ -64,6 +66,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     private RecyclerView mRecyclerViewAdv;
     private LinearLayout mLinearLayoutSearch;
     private EditText mEditTextIdSearch;
+    private ArrayList<StoresModel> modelsSearch;
+    private StoresAdapter mStoresAdapter;
 
 
     @Override
@@ -73,11 +77,11 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        Allvariables();
+        AllVariables();
 
     }
 
-    private void Allvariables() {
+    private void AllVariables() {
         mContext = Search.this;
         mCarBrandsId = "";
         mDelete=true;
@@ -85,6 +89,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         mEditTextIdSearch= (EditText) findViewById(R.id.etSearchAdv);
         carBrands_Id = new ArrayList<String>();
         carBrands_Name = new ArrayList<String>();
+        modelsSearch = new ArrayList<StoresModel>();
         carModels_Id = new ArrayList<String>();
         carModels_Name = new ArrayList<String>();
         mLinearLayoutSearch= (LinearLayout) findViewById(R.id.llSearch);
@@ -103,12 +108,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                for (int j=0;j<carModels_Id.size();j++){
-//                    if (mCarModelsId.equals(carModels_Id.get(j)));
-//                    ModelSearch.add(carModels_Id.get(j));
-//
-//                }
-
+                onSearch();
             }
         });
         mSpinnerSearchMarka = (Spinner) findViewById(R.id.SearchSpinnerMarka);
@@ -262,6 +262,59 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+
+    public void onSearch(){
+        final String Url=MainApp.SearchUrl2+mCarBrandsId+"&model_id="+mCarModelsId;
+        StringRequest mStringRequestonSearch=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    Log.i(MainApp.Tag,response);
+                    if (modelsSearch!=null){
+                        modelsSearch.clear();
+                    }
+                    next_page_url = mJsonObject.getString("next_page_url");
+                    JSONArray data = mJsonObject.getJSONArray("data");
+                    for (int i=0;i<data.length();i++){
+                        JSONObject jsonObject=data.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        String photo = jsonObject.getString("photo");
+                        String description = jsonObject.getString("description");
+                        String phone = jsonObject.getString("phone");
+                        String longitude = jsonObject.getString("longitude");
+                        String latitude = jsonObject.getString("latitude");
+                        String ads_count = jsonObject.getString("ads_count");
+                        JSONObject user = jsonObject.getJSONObject("user");
+                        JSONObject city = user.getJSONObject("city");
+                        String name1 = city.getString("name");
+                        String id1 = city.getString("id");
+                        String username = user.getString("username");
+                        String UserId = user.getString("id");
+                        StoresModel storesModel = new StoresModel(id, name, photo, description, phone, longitude, latitude, ads_count, name1, id1,UserId,username);
+                        modelsSearch.add(storesModel);
+                    }
+                    mLinearLayoutSearch.setVisibility(View.GONE);
+                    mStoresAdapter=new StoresAdapter(mContext,modelsSearch, "3");
+                    mRecyclerViewAdv.setAdapter(mStoresAdapter);
+                    mRecyclerViewAdv.setVisibility(View.VISIBLE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onSearch();
+            }
+        });
+        mVolleySingletonRequestQueue.add(mStringRequestonSearch);
     }
 
 

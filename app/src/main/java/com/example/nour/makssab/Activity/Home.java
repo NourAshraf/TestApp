@@ -169,6 +169,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         if (mLogin){
                             Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
                             mIntentFavorites.putExtra("username",username+"");
+                            mIntentFavorites.putExtra("email",email);
+                            mIntentFavorites.putExtra("phone",phone_main);
                             mContext.startActivity(mIntentFavorites);
                         }else {
                             Intent mIntent2=new Intent(getApplicationContext(),Login.class);

@@ -82,6 +82,8 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
     }
     private void onGetIntentData() {
         username = getIntent().getExtras().getString("username");
+        email = getIntent().getExtras().getString("email");
+        phone = getIntent().getExtras().getString("phone");
     }
 
     private void onVariables() {
@@ -97,8 +99,8 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
             public void onClick(View v) {
                 Intent mIntent=new Intent(mContext,Profile.class);
                 mIntent.putExtra("username",username+"");
-                mIntent.putExtra("email",email+"");
-                mIntent.putExtra("phone",phone+"");
+                mIntent.putExtra("email",email);
+                mIntent.putExtra("phone",phone);
                 startActivity(mIntent);
             }
         });
