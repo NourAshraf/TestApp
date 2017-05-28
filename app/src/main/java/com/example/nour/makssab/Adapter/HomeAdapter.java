@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Activity.CategoryDetails;
+import com.example.nour.makssab.Activity.Home;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.CategoryModel;
 import com.example.nour.makssab.Model.HomeModel;
@@ -146,6 +147,7 @@ public class HomeAdapter extends ArrayAdapter{
                                 Intent mIntent=new Intent(mContext, CategoryDetails.class);
                                 mIntent.putExtra("ID",mId+"");
                                 mContext.startActivity(mIntent);
+                                ((Home)mContext).finish();
 //                                Intent intent=new Intent(mContext, CategoryDetails.class);
 //                                mContext.startActivity(intent);
 

@@ -2,7 +2,6 @@ package com.example.nour.makssab.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;

@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,10 +30,10 @@ import com.sdsmdg.tastytoast.TastyToast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class NewAccount extends AppCompatActivity {
     private EditText mEditTextNewAccountUser;
@@ -42,8 +44,8 @@ public class NewAccount extends AppCompatActivity {
     private EditText mEditTextNewAccountPass;
     private EditText mEditTextNewAccountSurePass;
     private Button mButtonNewAccount;
-    private MaterialSpinner mSpinnerNewAccountArea;
-    private MaterialSpinner mSpinnerNewAccountCity;
+    private Spinner mSpinnerNewAccountArea;
+    private Spinner mSpinnerNewAccountCity;
     private  RequestQueue mVolleySingletonRequestQueue;
     private ArrayList<String>State_Id;
     private ArrayList<String>State_Name;
@@ -82,8 +84,6 @@ public class NewAccount extends AppCompatActivity {
         mEditTextNewAccountUser= (EditText) findViewById(R.id.etNewAccountUser);
         mEditTextNewAccountPhone= (EditText) findViewById(R.id.etNewAccountPhone);
         mEditTextNewAccountEmail= (EditText) findViewById(R.id.etNewAccountEmail);
-        mTextViewNewAccountArea= (TextView) findViewById(R.id.tvNewAccountArea);
-        mTextViewNewAccountCity= (TextView) findViewById(R.id.tvNewAccountCity);
         mEditTextNewAccountPass= (EditText) findViewById(R.id.etNewAccountPass);
         mEditTextNewAccountSurePass= (EditText) findViewById(R.id.etNewAccountSurePass);
         mButtonNewAccount= (Button) findViewById(R.id.bNewAccount);
@@ -141,15 +141,12 @@ public class NewAccount extends AppCompatActivity {
 
                 }else {
                   onRegister(Email,Pass,Phone,SurePass,User,mCityId,mStateId);
-                    TastyToast.makeText(getApplicationContext(), "تم تسجيل الدخول بنجاح!", TastyToast.LENGTH_LONG, TastyToast.INFO);
-                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
-                    startActivity(mIntent);
                 }
             }
         });
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
-        mSpinnerNewAccountArea= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerArea);
+        mSpinnerNewAccountArea= (Spinner) findViewById(R.id.NewAccountSpinnerArea);
         mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -167,7 +164,7 @@ public class NewAccount extends AppCompatActivity {
 
             }
         });
-        mSpinnerNewAccountCity= (MaterialSpinner) findViewById(R.id.NewAccountSpinnerCity);
+        mSpinnerNewAccountCity= (Spinner) findViewById(R.id.NewAccountSpinnerCity);
         mSpinnerNewAccountCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -194,14 +191,13 @@ public class NewAccount extends AppCompatActivity {
        StringRequest mStringRequestonRegister=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
            @Override
            public void onResponse(String response) {
-
-
+                 finish();
+               TastyToast.makeText(getApplicationContext(), "تم تسجيل الدخول بنجاح!", TastyToast.LENGTH_LONG, TastyToast.INFO);
 
            }
        }, new Response.ErrorListener() {
            @Override
            public void onErrorResponse(VolleyError error) {
-
 
            }
        }){
@@ -240,7 +236,7 @@ public class NewAccount extends AppCompatActivity {
                         State_Id.add(id);
                         State_Name.add(name);
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                              R.layout.item_spinner,R.id.tvItem,State_Name);
+                              R.layout.item_spinner2,R.id.tvItem,State_Name);
                         mSpinnerNewAccountArea.setAdapter(dataAdapter);
 
                     }
@@ -288,7 +284,7 @@ public class NewAccount extends AppCompatActivity {
                         City_Id.add(id);
                         City_Name.add(name);
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                                R.layout.item_spinner,R.id.tvItem,City_Name);
+                                R.layout.item_spinner2,R.id.tvItem,City_Name);
                         mSpinnerNewAccountCity.setAdapter(dataAdapter);
 
                     }
