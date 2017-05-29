@@ -103,7 +103,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                     mSharedPreferences.edit().putBoolean("Login",true).commit();
                     mSharedPreferences.edit().putString("token",token).commit();
 
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -213,6 +212,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                            Intent mIntent = new Intent(mContext, MyMessages.class);
                            startActivity(mIntent);
                        }else {
+                           Intent mIntent = new Intent(mContext, Login.class);
+                           startActivity(mIntent);
                        }
                        break;
                }
