@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,8 +29,6 @@ import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.AdvModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;
@@ -115,30 +110,30 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 finish();
             }
         });
-        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId){
-                    case R.id.tab_adv:
-
-                        break;
-                    case R.id.tab_main:
-                        Intent mIntentHome=new Intent(mContext,Home.class);
-                        startActivity(mIntentHome);
-                        finish();
-                        break;
-                    case R.id.tab_notify:
-                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
-                        startActivity(mIntentNotification);
-                        finish();
-                        break;
-                    case R.id.tab_message:
-
-                        break;
-                }
-            }
-        });
+//        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+//        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+//            @Override
+//            public void onTabSelected(@IdRes int tabId) {
+//                switch (tabId){
+//                    case R.id.tab_adv:
+//
+//                        break;
+//                    case R.id.tab_main:
+//                        Intent mIntentHome=new Intent(mContext,Home.class);
+//                        startActivity(mIntentHome);
+//                        finish();
+//                        break;
+//                    case R.id.tab_notify:
+//                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
+//                        startActivity(mIntentNotification);
+//                        finish();
+//                        break;
+//                    case R.id.tab_message:
+//
+//                        break;
+//                }
+//            }
+//        });
         final MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
         button.setSelected(false);
         button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
@@ -334,37 +329,9 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         };
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_search:
-                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-                startActivity(mIntentSearch);
-                break;
 
-            case R.id.action_Adv_Favorites:
-                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                startActivity(mIntentAdvFavorites);
-                break;
 
-            case R.id.action_New_Account:
-                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-                startActivity(mIntentNewAccount);
-                break;
-
-            case R.id.action_Login:
-                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-                startActivity(mIntentLogin);
-                break;
-        }
-        return true;
-    }
 
     @Override
     public void onBackPressed() {
