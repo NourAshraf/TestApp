@@ -110,30 +110,6 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 finish();
             }
         });
-//        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-//        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelected(@IdRes int tabId) {
-//                switch (tabId){
-//                    case R.id.tab_adv:
-//
-//                        break;
-//                    case R.id.tab_main:
-//                        Intent mIntentHome=new Intent(mContext,Home.class);
-//                        startActivity(mIntentHome);
-//                        finish();
-//                        break;
-//                    case R.id.tab_notify:
-//                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
-//                        startActivity(mIntentNotification);
-//                        finish();
-//                        break;
-//                    case R.id.tab_message:
-//
-//                        break;
-//                }
-//            }
-//        });
         final MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
         button.setSelected(false);
         button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {

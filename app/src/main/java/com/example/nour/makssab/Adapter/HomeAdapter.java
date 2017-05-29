@@ -148,8 +148,6 @@ public class HomeAdapter extends ArrayAdapter{
                                 mIntent.putExtra("ID",mId+"");
                                 mContext.startActivity(mIntent);
                                 ((Home)mContext).finish();
-//                                Intent intent=new Intent(mContext, CategoryDetails.class);
-//                                mContext.startActivity(intent);
 
 
 

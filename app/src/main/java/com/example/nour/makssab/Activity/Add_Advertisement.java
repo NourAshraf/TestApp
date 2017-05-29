@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.ImageAdapter;
 import com.example.nour.makssab.MainApp.MainApp;
+import com.example.nour.makssab.Model.CategoryModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 
@@ -42,6 +44,7 @@ import java.util.Map;
 
 public class Add_Advertisement extends AppCompatActivity implements View.OnClickListener {
 
+    private  ArrayList<String>ID;
     private Add_Advertisement mContext;
     private ImageView mImageViewMainImage;
     private int PICK_IMAGE_CAMERA=1;
@@ -53,6 +56,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
     private ImageAdapter mImageAdapter;
     private String mStateId;
     private String mCityId;
+    private String mID;
     private Spinner mSpinnerNewAccountArea;
     private Spinner mSpinnerNewAccountCity;
     private ArrayList<String> State_Name;
@@ -60,6 +64,13 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
     private RequestQueue mVolleySingletonRequestQueue;
     private ArrayList<String> State_Id;
     private ArrayList<String> City_Name;
+    private Spinner mSpinnerMain;
+    private Spinner mSpinnerSub;
+    private String[] arraySpinner;
+    private ArrayList<CategoryModel> models;
+    private ArrayList<String> Names;
+    private int idSelected;
+    private int[] CategoryID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +88,27 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mSize=1;
         mStateId = "";
         mCityId = "";
+        mSpinnerMain= (Spinner) findViewById(R.id.spMainSection);
+        mSpinnerSub= (Spinner) findViewById(R.id.spSubSection);
+        arraySpinner = new String[] {
+                "السيارات", "متفرقات", "المنزل", "الموضه", "اجهزه" ,"حيوانات","عقارات","خدمات"
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+               R.layout.item_spinner2,R.id.tvItem ,arraySpinner);
+        mSpinnerMain.setAdapter(adapter);
+        mSpinnerMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                 idSelected=CategoryID[position];
+                onGetCategory();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         mImageViewMainImage= (ImageView) findViewById(R.id.ivMainImage);
         mImageViewMainImage.setOnClickListener(this);
         mSpinnerNewAccountArea = (Spinner) findViewById(R.id.NewAccountSpinnerArea);
@@ -113,6 +145,10 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
 
             }
         });
+        Names = new ArrayList<String>();
+        CategoryID= new int[]{1, 6, 4, 5, 3, 8, 2, 7};
+        models = new ArrayList<CategoryModel>();
+        ID = new ArrayList<String>();
         State_Id = new ArrayList<String>();
         State_Name = new ArrayList<String>();
         City_Id = new ArrayList<String>();
@@ -126,6 +162,52 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mImageAdapter=new ImageAdapter(mContext,mSize,mBitmaps);
         mRecyclerViewSubImages.setAdapter(mImageAdapter);
         onStates();
+    }
+    private void onGetCategory() {
+        if (Names!=null){
+            Names.clear();
+
+        }
+        String Url=MainApp.CategoryUrl+idSelected;
+        StringRequest mStringRequestGetCategory=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray=new JSONArray(response);
+                    if (mJsonArray.length()==1){
+                        JSONObject mJsonObject=mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(mContext,error,Toast.LENGTH_SHORT).show();
+                    }else {
+                        for (int i=0;i<mJsonArray.length();i++){
+                            JSONObject mJsonObject=mJsonArray.getJSONObject(i);
+                            String name = mJsonObject.getString("name");
+                            String id2 = mJsonObject.getString("id");
+                            String category_id = mJsonObject.getString("category_id");
+                            CategoryModel categoryModel=new CategoryModel(id2,name,category_id);
+                            models.add(categoryModel);
+                            Names.add(name);
+                            ID.add(id2);
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.item_spinner2,R.id.tvItem,Names);
+                            mSpinnerSub.setAdapter(dataAdapter);
+
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(MainApp.Tag,"Worked Error");
+            }
+        });
+        mVolleySingletonRequestQueue.add(mStringRequestGetCategory);
     }
 
     public void onStates(){
