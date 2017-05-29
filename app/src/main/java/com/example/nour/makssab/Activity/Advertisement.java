@@ -2,6 +2,7 @@ package com.example.nour.makssab.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -55,6 +56,12 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private ImageView mImageViewBack;
     private TextView mTextViewNoInternet;
     private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
+    private SharedPreferences mSharedPreferences;
+    private String filename="mkssab";
+    private String mUserName;
+    private String mPhone;
+    private String mEmail;
+    private boolean mLogin;
 
 
     @Override
@@ -70,6 +77,11 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private void onVariables() {
         mDelete=false;
         mContext=Advertisement.this;
+        mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        mLogin = mSharedPreferences.getBoolean("Login",false);
+        mUserName = mSharedPreferences.getString("UserName", "");
+        mPhone = mSharedPreferences.getString("Phone", "");
+        mEmail = mSharedPreferences.getString("Email", "");
         mSwipeRefreshLayoutAdv = (SwipeRefreshLayout) findViewById(R.id.srlAdv);
         mSwipeRefreshLayoutAdv.setOnRefreshListener(this);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
@@ -95,16 +107,22 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                         finish();
                         break;
                     case R.id.tab_notify:
-                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
-                        startActivity(mIntentNotification);
-                        finish();
+
                         break;
                     case R.id.tab_message:
+                        if (mLogin) {
+                            Intent mIntent = new Intent(mContext, MyMessages.class);
+                            startActivity(mIntent);
+                        }else {
+                            Intent mIntent = new Intent(mContext, Login.class);
+                            startActivity(mIntent);
+                        }
 
                         break;
                 }
             }
         });
+
         mTextViewNoInternet= (TextView) findViewById(R.id.tvNoInternet);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
@@ -151,6 +169,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                             mDelete=false;
                             ImagesModels = new ArrayList<String>();
                         }
+
                         JSONObject jsonObject=data.getJSONObject(i);
                         JSONArray comments_count = jsonObject.getJSONArray("comments_count");
                         int CommentCount=comments_count.length();
@@ -210,6 +229,9 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
 
             case R.id.action_Adv_Favorites:
                 Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                mIntentAdvFavorites.putExtra("username",mUserName);
+                mIntentAdvFavorites.putExtra("email",mEmail);
+                mIntentAdvFavorites.putExtra("phone",mPhone);
                 startActivity(mIntentAdvFavorites);
                 break;
 

@@ -168,7 +168,6 @@ public class Login extends AppCompatActivity implements CompoundButton.OnChecked
             public void onResponse(String response) {
                 try {
                     JSONObject mJsonObject=new JSONObject(response);
-                    Log.i(MainApp.Tag,"Login");
                     if (mJsonObject.has("error")){
                         Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
                     }
@@ -176,9 +175,12 @@ public class Login extends AppCompatActivity implements CompoundButton.OnChecked
                     mSharedPreferences.edit().putString("token",mJsonObject.getString("token")).commit();
                     mSharedPreferences.edit().putString("UserName",user).commit();
                     mSharedPreferences.edit().putString("Password",pass).commit();
-                    Intent intent=new Intent(getApplicationContext(),Home.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    Intent mIntent=new Intent(Login.this,Home.class);
+                    mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mIntent);
+                    finish();
 
 
                 } catch (JSONException e) {

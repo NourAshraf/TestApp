@@ -96,7 +96,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             public void onResponse(String response) {
                 try {
                     JSONObject mJsonObject=new JSONObject(response);
-                    Log.i(MainApp.Tag,"Login");
                     if (mJsonObject.has("error")){
                         Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
                     }
@@ -252,6 +251,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 if (mLogin){
                     Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
                     mIntentFavorites.putExtra("username",username+"");
+                    mIntentFavorites.putExtra("email",email+"");
+                    mIntentFavorites.putExtra("phone",phone_main+"");
                     mContext.startActivity(mIntentFavorites);
                 }else {
                     Intent mIntent2=new Intent(getApplicationContext(),Login.class);
@@ -415,7 +416,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         String created_at=mJsonObject.getString("created_at");
                         String last_login=mJsonObject.getString("last_login");
                          phone_main=mJsonObject.getString("phone");
-
+                        mSharedPreferences.edit().putString("Phone",phone_main).commit();
+                        mSharedPreferences.edit().putString("Email",email).commit();
                         JSONObject mJsonObject1=jsonObject.getJSONObject("ads");
                         String next_page_url=mJsonObject1.getString("next_page_url");
                         JSONArray jsonArray=mJsonObject1.getJSONArray("data");
