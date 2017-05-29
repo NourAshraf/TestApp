@@ -142,8 +142,9 @@ public class NewAccount extends AppCompatActivity {
                 }else {
                   onRegister(Email,Pass,Phone,SurePass,User,mCityId,mStateId);
                     TastyToast.makeText(getApplicationContext(), "تم تسجيل الدخول بنجاح!", TastyToast.LENGTH_LONG, TastyToast.INFO);
-                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
-                    startActivity(mIntent);
+                    finish();
+//                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
+//                    startActivity(mIntent);
                 }
             }
         });
@@ -288,7 +289,7 @@ public class NewAccount extends AppCompatActivity {
                         City_Id.add(id);
                         City_Name.add(name);
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                                R.layout.item_spinner,R.id.tvItem,City_Name);
+                                R.layout.item_spinner2,R.id.tvItem,City_Name);
                         mSpinnerNewAccountCity.setAdapter(dataAdapter);
 
                     }

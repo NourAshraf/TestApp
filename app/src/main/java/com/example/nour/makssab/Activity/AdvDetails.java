@@ -133,7 +133,13 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mButtonCommentFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCommentFollow();
+                if (mLogin){
+                    onCommentFollow();
+                }else {
+                    Intent intent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -315,7 +321,12 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bFavAdv:
-                onAddFav();
+                if (mLogin){
+                    onAddFav();
+                }else {
+                    Intent intent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

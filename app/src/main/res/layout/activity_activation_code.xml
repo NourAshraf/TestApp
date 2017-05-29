@@ -45,13 +45,13 @@
     </LinearLayout>
 
 
-        <com.roughike.bottombar.BottomBar
-            android:layout_gravity="bottom"
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/tabs" />
+        <!--<com.roughike.bottombar.BottomBar-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:id="@+id/bottomBar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--app:bb_tabXmlResource="@xml/tabs" />-->
     </FrameLayout>
 
 
