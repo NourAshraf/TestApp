@@ -56,11 +56,6 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private ImageView mImageViewBack;
     private TextView mTextViewNoInternet;
     private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
-    private boolean mLogin;
-    private SharedPreferences mSharedPreferences;
-    private String filename="mkssab";
-    private String mUserName;
-    private String username;
 
 
     @Override
@@ -76,9 +71,6 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private void onVariables() {
         mDelete=false;
         mContext=Advertisement.this;
-        mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
-        mUserName = mSharedPreferences.getString("UserName", "");
-        mLogin = mSharedPreferences.getBoolean("Login",false);
         mSwipeRefreshLayoutAdv = (SwipeRefreshLayout) findViewById(R.id.srlAdv);
         mSwipeRefreshLayoutAdv.setOnRefreshListener(this);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
@@ -212,34 +204,15 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_My_Adv:
-                if (mLogin){
-                    Intent mIntent=new Intent(mContext,MyAdvertisement.class);
-                    mIntent.putExtra("username",username+"");
-                    startActivity(mIntent);
-                }else {
-                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
-                    mContext.startActivity(mIntent);
-
-                }
-                break;
-
             case R.id.action_search:
                 Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
                 startActivity(mIntentSearch);
                 break;
 
             case R.id.action_Adv_Favorites:
-                if (mLogin){
-                    Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                    startActivity(mIntentAdvFavorites);
-                }else {
-                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
-                    mContext.startActivity(mIntent);
-
-                }
+                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                startActivity(mIntentAdvFavorites);
                 break;
-
 
             case R.id.action_New_Account:
                 Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);

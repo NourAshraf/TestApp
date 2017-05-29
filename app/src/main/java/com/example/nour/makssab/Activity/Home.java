@@ -32,8 +32,6 @@ import com.example.nour.makssab.R;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
-import org.honorato.multistatetogglebutton.MultiStateToggleButton;
-import org.honorato.multistatetogglebutton.ToggleButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +66,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private String phone_main;
     private String mUserName;
     private String mPassword;
+    private Button mButtonMyAdv;
+    private Button mButtonMyFav;
+    private Button mButtonMyMember;
 
 
     @Override
@@ -95,7 +96,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             public void onResponse(String response) {
                 try {
                     JSONObject mJsonObject=new JSONObject(response);
-                    Log.i(MainApp.Tag,"Login");
                     if (mJsonObject.has("error")){
                         Toast.makeText(getApplicationContext(),"البريد الالكترونى او كلمه المرور غير صحيحه",Toast.LENGTH_SHORT).show();
                     }
@@ -143,48 +143,54 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mButtonGalleries.setOnClickListener(this);
         mButtonProperty.setOnClickListener(this);
         mButtonLoginNow.setOnClickListener(this);
+        mButtonMyFav= (Button) findViewById(R.id.bMyFav);
+        mButtonMyAdv= (Button) findViewById(R.id.bMyAdv);
+        mButtonMyMember= (Button) findViewById(R.id.bMyMember);
+        mButtonMyAdv.setOnClickListener(this);
+        mButtonMyFav.setOnClickListener(this);
+        mButtonMyMember.setOnClickListener(this);
         mTextViewProfileName= (TextView) findViewById(R.id.tvProfileName);
         mTextViewProfileEmail= (TextView) findViewById(R.id.tvProfileEmail);
         mGridView= (GridView) findViewById(R.id.gvHome);
         models=new ArrayList<HomeModel>();
-        MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
-        button.setSelected(false);
-        button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
-            @Override
-            public void onValueChanged(int position) {
-                switch (position){
-                    case 0:
-                        if (mLogin){
-                            Intent mIntent=new Intent(mContext,MyAdvertisement.class);
-                            startActivity(mIntent);
-                        }else {
-                            Intent mIntent=new Intent(getApplicationContext(),Login.class);
-                            mContext.startActivity(mIntent);
-
-                        }
-
-
-                        break;
-                    case 1:
-                        if (mLogin){
-                            Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                            mIntentFavorites.putExtra("username",username+"");
-                            mIntentFavorites.putExtra("email",email);
-                            mIntentFavorites.putExtra("phone",phone_main);
-                            mContext.startActivity(mIntentFavorites);
-                        }else {
-                            Intent mIntent2=new Intent(getApplicationContext(),Login.class);
-                            mContext.startActivity(mIntent2);
-
-                        }
-
-                        break;
-                    case 2:
-
-                        break;
-                }
-            }
-        });
+//        MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
+//        button.setSelected(false);
+//        button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
+//            @Override
+//            public void onValueChanged(int position) {
+//                switch (position){
+//                    case 0:
+//                        if (mLogin){
+//                            Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+//                            startActivity(mIntent);
+//                        }else {
+//                            Intent mIntent=new Intent(getApplicationContext(),Login.class);
+//                            mContext.startActivity(mIntent);
+//
+//                        }
+//
+//
+//                        break;
+//                    case 1:
+//                        if (mLogin){
+//                            Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+//                            mIntentFavorites.putExtra("username",username+"");
+//                            mIntentFavorites.putExtra("email",email);
+//                            mIntentFavorites.putExtra("phone",phone_main);
+//                            mContext.startActivity(mIntentFavorites);
+//                        }else {
+//                            Intent mIntent2=new Intent(getApplicationContext(),Login.class);
+//                            mContext.startActivity(mIntent2);
+//
+//                        }
+//
+//                        break;
+//                    case 2:
+//
+//                        break;
+//                }
+//            }
+//        });
         final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_main);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -203,8 +209,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                        break;
                    case R.id.tab_message:
-                          Intent mIntent=new Intent(mContext,MyMessages.class);
-                          startActivity(mIntent);
+                       if (mLogin) {
+                           Intent mIntent = new Intent(mContext, MyMessages.class);
+                           startActivity(mIntent);
+                       }else {
+                       }
                        break;
                }
             }
@@ -242,6 +251,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 if (mLogin){
                     Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
                     mIntentFavorites.putExtra("username",username+"");
+                    mIntentFavorites.putExtra("email",email+"");
+                    mIntentFavorites.putExtra("phone",phone_main+"");
                     mContext.startActivity(mIntentFavorites);
                 }else {
                     Intent mIntent2=new Intent(getApplicationContext(),Login.class);
@@ -271,6 +282,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.action_Logout:
                 if (mLogin){
                     onLogout();
+                }else {
+                    Toast.makeText(mContext, "يجب عليك تسجيل الدخول اولا !", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -330,6 +343,49 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
 
                 break;
+            case R.id.bMyAdv:
+                mButtonMyFav.setBackgroundResource(R.drawable.button_bg_3);
+                mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_7);
+                mButtonMyMember.setBackgroundResource(R.drawable.button_bg_2);
+                mButtonMyAdv.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonMyFav.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mButtonMyMember.setTextColor(getResources().getColor(R.color.colorPrimary));
+                if (mLogin){
+
+                            Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                            startActivity(mIntent);
+                        }else {
+                            Intent mIntent=new Intent(getApplicationContext(),Login.class);
+                            mContext.startActivity(mIntent);
+
+                        }
+                break;
+            case R.id.bMyFav:
+                mButtonMyFav.setBackgroundResource(R.drawable.button_bg_6);
+                mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_4);
+                mButtonMyMember.setBackgroundResource(R.drawable.button_bg_2);
+                mButtonMyFav.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mButtonMyMember.setTextColor(getResources().getColor(R.color.colorPrimary));
+                if (mLogin){
+                            Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+                            mIntentFavorites.putExtra("username",username+"");
+                            mIntentFavorites.putExtra("email",email);
+                            mIntentFavorites.putExtra("phone",phone_main);
+                            mContext.startActivity(mIntentFavorites);
+                        }else {
+                            Intent mIntent2=new Intent(getApplicationContext(),Login.class);
+                            mContext.startActivity(mIntent2);
+                        }
+                break;
+            case R.id.bMyMember:
+                mButtonMyFav.setBackgroundResource(R.drawable.button_bg_3);
+                mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_4);
+                mButtonMyMember.setBackgroundResource(R.drawable.button_bg_5);
+                mButtonMyMember.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonMyFav.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                break;
         }
     }
     @Override
@@ -360,7 +416,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         String created_at=mJsonObject.getString("created_at");
                         String last_login=mJsonObject.getString("last_login");
                          phone_main=mJsonObject.getString("phone");
-
+                        mSharedPreferences.edit().putString("Phone",phone_main).commit();
+                        mSharedPreferences.edit().putString("Email",email).commit();
                         JSONObject mJsonObject1=jsonObject.getJSONObject("ads");
                         String next_page_url=mJsonObject1.getString("next_page_url");
                         JSONArray jsonArray=mJsonObject1.getJSONArray("data");

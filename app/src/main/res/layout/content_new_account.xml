@@ -94,30 +94,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <fr.ganfra.materialspinner.MaterialSpinner
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="اختر المنطقة"
                 android:layout_width="match_parent"
-                app:ms_hint="اختر المنطقة"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/NewAccountSpinnerArea"
                 >
 
-            </fr.ganfra.materialspinner.MaterialSpinner>
-
-            <TextView
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:textColor="@color/inputs"
-                android:textStyle="bold"
-                android:id="@+id/tvNewAccountArea"
-                android:drawableRight="@drawable/ic_user_area"
-                />
+            </Spinner>
 
         </LinearLayout>
-
+<ImageView
+    android:background="#9E9E9E"
+    android:layout_width="match_parent"
+    android:layout_height="1dp" />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:text="اختر المدينة"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:id="@+id/llCity"
             android:visibility="gone"
@@ -125,26 +125,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-            <fr.ganfra.materialspinner.MaterialSpinner
-                app:ms_hint="اختر المدينه"
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/NewAccountSpinnerCity"
 
                 />
-            <TextView
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:textColor="@color/inputs"
-                android:textStyle="bold"
-                android:id="@+id/tvNewAccountCity"
-                android:drawableRight="@drawable/ic_user_city"
-                />
 
         </LinearLayout>
+
+        <ImageView
+            android:background="#9E9E9E"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
