@@ -30,8 +30,6 @@ import com.example.nour.makssab.Model.AdvModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 
-import org.honorato.multistatetogglebutton.MultiStateToggleButton;
-import org.honorato.multistatetogglebutton.ToggleButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +40,7 @@ import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListene
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
 
-public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private  String filename2="mkssab";
     private RecyclerView mRecyclerViewAdv;
     private ArrayList<AdvModel> models;
@@ -64,6 +62,10 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
     private String email;
     private String phone_main;
     private String phone;
+    private Button mButtonMyAdv;
+    private Button mButtonMyFav;
+    private Button mButtonMyMember;
+    private boolean mLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +87,19 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         mDelete=false;
         mContext=MemberFavorites.this;
         mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
+
+        mLogin = mSharedPreferences.getBoolean("Login",false);
         token = mSharedPreferences.getString("token","");
         mTextViewUsername= (TextView) findViewById(R.id.tvProfileName1);
         mTextViewUsername.setText(username);
+        mButtonMyFav= (Button) findViewById(R.id.bMyFav);
+        mButtonMyAdv= (Button) findViewById(R.id.bMyAdv);
+        mButtonMyMember= (Button) findViewById(R.id.bMyMember);
+        mButtonMyAdv.setOnClickListener(this);
+        mButtonMyFav.setOnClickListener(this);
+        mButtonMyMember.setOnClickListener(this);
+        mButtonMyFav.setBackgroundResource(R.drawable.button_bg_6);
+        mButtonMyFav.setTextColor(getResources().getColor(android.R.color.background_light));
         mButtonProfile= (Button) findViewById(R.id.bProfile);
         mButtonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,31 +117,34 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntentHome=new Intent(mContext,Home.class);
-                startActivity(mIntentHome);
                 finish();
             }
         });
-        final MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
-        button.setSelected(false);
-        button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
-            @Override
-            public void onValueChanged(int position) {
-                switch (position){
-                    case 0:
-                        Intent mIntent=new Intent(mContext,MyAdvertisement.class);
-                        startActivity(mIntent);
+//        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+//        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+//            @Override
+//            public void onTabSelected(@IdRes int tabId) {
+//                switch (tabId){
+//                    case R.id.tab_adv:
+//
+//                        break;
+//                    case R.id.tab_main:
+//                        Intent mIntentHome=new Intent(mContext,Home.class);
+//                        startActivity(mIntentHome);
+//                        finish();
+//                        break;
+//                    case R.id.tab_notify:
+//                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
+//                        startActivity(mIntentNotification);
+//                        finish();
+//                        break;
+//                    case R.id.tab_message:
+//
+//                        break;
+//                }
+//            }
+//        });
 
-                        break;
-                    case 1:
-
-                        break;
-                    case 2:
-
-                        break;
-                }
-            }
-        });
         mTextViewNoInternet= (TextView) findViewById(R.id.tvNoInternet);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
@@ -307,12 +322,8 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
     }
 
 
-
-
     @Override
     public void onBackPressed() {
-        Intent mIntentHome=new Intent(mContext,Home.class);
-        startActivity(mIntentHome);
         finish();
     }
 
@@ -330,4 +341,43 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         mSwipeRefreshLayoutAdv.setRefreshing(false);
     }
 }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.bMyAdv:
+                mButtonMyFav.setBackgroundResource(R.drawable.button_bg_3);
+                mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_7);
+                mButtonMyMember.setBackgroundResource(R.drawable.button_bg_2);
+                mButtonMyAdv.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonMyFav.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mButtonMyMember.setTextColor(getResources().getColor(R.color.colorPrimary));
+                if (mLogin){
+
+                    Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                    startActivity(mIntent);
+                }else {
+                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
+                    mContext.startActivity(mIntent);
+
+                }
+                break;
+            case R.id.bMyFav:
+                mButtonMyFav.setBackgroundResource(R.drawable.button_bg_6);
+                mButtonMyFav.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_4);
+                mButtonMyMember.setBackgroundResource(R.drawable.button_bg_2);
+                mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mButtonMyMember.setTextColor(getResources().getColor(R.color.colorPrimary));
+                break;
+            case R.id.bMyMember:
+                mButtonMyFav.setBackgroundResource(R.drawable.button_bg_3);
+                mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_4);
+                mButtonMyMember.setBackgroundResource(R.drawable.button_bg_5);
+                mButtonMyMember.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonMyFav.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                break;
+        }
+    }
 }

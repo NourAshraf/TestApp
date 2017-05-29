@@ -83,6 +83,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         onVariables();
     }
 
+
     private void onVariables() {
         mContext=Add_Advertisement.this;
         mSize=1;

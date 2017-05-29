@@ -68,11 +68,6 @@
             android:layout_centerVertical="true"
             android:layout_width="30dp"
             android:layout_height="30dp" />
-
-
     </FrameLayout>
-
-
-
 
 </android.support.design.widget.CoordinatorLayout>

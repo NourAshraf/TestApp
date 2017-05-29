@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -82,12 +81,11 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntentHome=new Intent(mContext,Home.class);
-                startActivity(mIntentHome);
                 finish();
             }
         });
         final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setVisibility(View.GONE);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -215,11 +213,7 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
         };
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -249,8 +243,6 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
 
     @Override
     public void onBackPressed() {
-        Intent mIntentHome=new Intent(mContext,Home.class);
-        startActivity(mIntentHome);
         finish();
     }
 

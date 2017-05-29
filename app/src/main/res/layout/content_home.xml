@@ -90,15 +90,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="13dip"
         >
-    <org.honorato.multistatetogglebutton.MultiStateToggleButton
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:id="@+id/mstb_multi_id"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        mstb:values="@array/HomeButtons"
-        mstb:mstbPrimaryColor="@color/border5"
-        mstb:mstbSecondaryColor="@color/button_secondary_color"/>
         <Button
             android:id="@+id/bMyMember"
             android:background="@drawable/button_bg_2"

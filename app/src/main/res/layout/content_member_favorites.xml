@@ -38,22 +38,38 @@
         android:background="@color/LoginTitle">
 
         <LinearLayout
+            android:orientation="horizontal"
+            android:padding="2.2dp"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="13dip"
-            android:background="@drawable/button_bg5"
-            android:padding="5dp">
-
-            <org.honorato.multistatetogglebutton.MultiStateToggleButton
-                android:id="@+id/mstb_multi_id"
+            >
+            <Button
+                android:id="@+id/bMyMember"
+                android:background="@drawable/button_bg_2"
+                android:textColor="@color/colorPrimary"
+                android:text="الاعضاء"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                mstb:mstbPrimaryColor="@color/border5"
-                mstb:mstbSecondaryColor="@color/button_secondary_color"
-                mstb:values="@array/HomeButtons" />
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bMyFav"
+                android:background="@drawable/button_bg_3"
+                android:textColor="@color/colorPrimary"
+                android:text="المفضلة"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bMyAdv"
+                android:background="@drawable/button_bg_4"
+                android:textColor="@color/colorPrimary"
+                android:text="اعلاناتي"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 

@@ -250,6 +250,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                 }else {
                     Intent mIntent=new Intent(getApplicationContext(),Login.class);
                     mContext.startActivity(mIntent);
+
                 }
                 break;
         }
