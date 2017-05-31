@@ -3,6 +3,7 @@ package com.example.nour.makssab.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -13,15 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,6 +35,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.ImageAdapter;
 import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.CategoryModel;
+import com.example.nour.makssab.Network.AppHelper;
+import com.example.nour.makssab.Network.VolleyMultipartRequest;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 
@@ -37,10 +44,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Add_Advertisement extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,6 +80,12 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
     private ArrayList<String> Names;
     private int idSelected;
     private int[] CategoryID;
+    private Button mButtonAddAdv;
+    private SharedPreferences mSharedPreferences;
+    private String token;
+    private String filename="mkssab";
+    private EditText mEditTextTitle;
+    private ArrayList<String> Images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +104,10 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mSize=1;
         mStateId = "";
         mCityId = "";
+        VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
+        mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
+        mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        token = mSharedPreferences.getString("token", "");
         mSpinnerMain= (Spinner) findViewById(R.id.spMainSection);
         mSpinnerSub= (Spinner) findViewById(R.id.spSubSection);
         arraySpinner = new String[] {
@@ -147,6 +166,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             }
         });
         Names = new ArrayList<String>();
+        Images = new ArrayList<String>();
         CategoryID= new int[]{1, 6, 4, 5, 3, 8, 2, 7};
         models = new ArrayList<CategoryModel>();
         ID = new ArrayList<String>();
@@ -154,14 +174,15 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         State_Name = new ArrayList<String>();
         City_Id = new ArrayList<String>();
         City_Name = new ArrayList<String>();
-        VolleySingleton mVolleySingleton = VolleySingleton.getsInstance();
-        mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
+        mEditTextTitle= (EditText) findViewById(R.id.etTitle);
         mRecyclerViewSubImages= (RecyclerView)findViewById(R.id.rvSubImages);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true);
         mRecyclerViewSubImages.setLayoutManager(layoutManager);
         mBitmaps=new ArrayList<Bitmap>();
         mImageAdapter=new ImageAdapter(mContext,mSize,mBitmaps);
         mRecyclerViewSubImages.setAdapter(mImageAdapter);
+        mButtonAddAdv= (Button) findViewById(R.id.bAddAdv);
+        mButtonAddAdv.setOnClickListener(this);
         onStates();
     }
     private void onGetCategory() {
@@ -338,8 +359,68 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 });
                 mAlertDialog.create().show();
                 break;
+            case R.id.bAddAdv:
+                for (int i=0;i<mBitmaps.size();i++){
+                    String upload = upload(mBitmaps.get(i));
+                    Images.add(upload);
+                }
+                onAddAdv();
+                break;
         }
     }
+
+    private void onAddAdv() {
+        final String Title = mEditTextTitle.getText().toString();
+        VolleyMultipartRequest mVolleyMultipartRequest=new VolleyMultipartRequest(Request.Method.POST, MainApp.AddAdsUrl+token, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+                Log.i(MainApp.Tag,resultResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(MainApp.Tag,error.toString());
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("category_id", "1");
+                params.put("sub_category_id", "17");
+                params.put("state_id", "14");
+                params.put("city_id", "6");
+                params.put("phone", "1111111");
+                params.put("title","Test");
+                params.put("description", "سيارة للبيع jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+                params.put("car_id", "6");
+                params.put("model_id", "70");
+                params.put("year", "2017");
+                int i=0;
+                for(String object: Images){
+                    params.put("related_photos["+(i++)+"]", object);
+                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
+                }
+                return params;
+            }
+            @Override
+            protected Map<String, DataPart> getByteData() throws AuthFailureError {
+                Map<String, DataPart> params = new HashMap<>();
+                Random mRandom=new Random();
+                int i = mRandom.nextInt(1000);
+                params.put("main_photo",new DataPart(i+"ProfilePic.jpg", AppHelper.getFileDataFromBitmap(mContext,mBitmapProfileImage)));
+//                int j=0;
+//                for(Bitmap object: mBitmaps){
+//                    params.put("related_photos["+(j++)+"]",new DataPart(i+"Pic.jpg", AppHelper.getFileDataFromBitmap(mContext,object)));
+//                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
+//                }
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mVolleyMultipartRequest);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -389,4 +470,11 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             }
         }
     }
+        public String upload(Bitmap mBitmap){
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            mBitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            byte [] byte_arr = stream.toByteArray();
+            String image_str = Base64.encodeToString(byte_arr,Base64.DEFAULT);
+            return image_str;
+        }
 }

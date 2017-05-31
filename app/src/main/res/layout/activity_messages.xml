@@ -22,6 +22,13 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/logo" />
+            <ImageView
+                android:id="@+id/ivBack"
+                android:background="@drawable/ic_arrow_left"
+                android:layout_gravity="left"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                />
             </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

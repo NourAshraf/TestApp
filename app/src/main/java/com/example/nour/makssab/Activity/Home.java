@@ -211,6 +211,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                        if (mLogin) {
                            Intent mIntent = new Intent(mContext, MyMessages.class);
                            startActivity(mIntent);
+                           finish();
                        }else {
                            Intent mIntent = new Intent(mContext, Login.class);
                            startActivity(mIntent);

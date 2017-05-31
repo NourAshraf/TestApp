@@ -1,5 +1,6 @@
 package com.example.nour.makssab.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -40,6 +42,7 @@ public class MyMessages extends AppCompatActivity implements View.OnClickListene
     private RequestQueue mVolleySingletonRequestQueue;
     private Button mButtonSendMessages;
     private Button mButtonReciveMessages;
+    private ImageView mImageViewBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,14 @@ public class MyMessages extends AppCompatActivity implements View.OnClickListene
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         onVariables();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent Home=new Intent(mContext, com.example.nour.makssab.Activity.Home.class);
+        startActivity(Home);
+        finish();
     }
 
     private void onVariables() {
@@ -68,6 +77,15 @@ public class MyMessages extends AppCompatActivity implements View.OnClickListene
         mButtonReciveMessages= (Button) findViewById(R.id.bReciveMessages);
         mButtonReciveMessages.setOnClickListener(this);
         mButtonSendMessages.setOnClickListener(this);
+        mImageViewBack = (ImageView) findViewById(R.id.ivBack);
+        mImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntentHome=new Intent(mContext,Home.class);
+                startActivity(mIntentHome);
+                finish();
+            }
+        });
         onLoadMessageData();
     }
 
