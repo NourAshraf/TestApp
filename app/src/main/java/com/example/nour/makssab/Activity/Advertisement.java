@@ -10,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -62,6 +60,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private String mPhone;
     private String mEmail;
     private boolean mLogin;
+    private String token;
 
 
     @Override
@@ -78,6 +77,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         mDelete=false;
         mContext=Advertisement.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
+        token = mSharedPreferences.getString("token","");
         mLogin = mSharedPreferences.getBoolean("Login",false);
         mUserName = mSharedPreferences.getString("UserName", "");
         mPhone = mSharedPreferences.getString("Phone", "");
@@ -212,50 +212,92 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         });
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.home_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.action_search:
+//                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
+//                startActivity(mIntentSearch);
+//                break;
+//
+//            case R.id.action_Adv_Favorites:
+//                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
+//                mIntentAdvFavorites.putExtra("username",mUserName);
+//                mIntentAdvFavorites.putExtra("email",mEmail);
+//                mIntentAdvFavorites.putExtra("phone",mPhone);
+//                startActivity(mIntentAdvFavorites);
+//                break;
+//
+//            case R.id.action_New_Account:
+//                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
+//                startActivity(mIntentNewAccount);
+//                break;
+//
+//            case R.id.action_Login:
+//                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
+//                startActivity(mIntentLogin);
+//                break;
+//            case R.id.action_My_Adv:
+//                if (mLogin){
+//                    Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+//                    startActivity(mIntent);
+//                }else {
+//                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
+//                    mContext.startActivity(mIntent);
+//
+//                }
+//                break;
+//            case R.id.action_Logout:
+//                if (mLogin){
+//                    onLogout();
+//                }else {
+//                    Toast.makeText(mContext, "يجب عليك تسجيل الدخول اولا !", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                break;
+//
+//
+//        }
+//        return true;
+//    }
+//    public void onLogout(){
+//        String Url= MainApp.LogoutUrl+token;
+//        StringRequest mStringRequestonLogut=new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//
+//                try {
+//                    JSONObject mJsonObject = new JSONObject(response);
+//                    Log.i(MainApp.Tag,"Logout");
+//                    if (mJsonObject.has("success")){
+//                        Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح", Toast.LENGTH_SHORT).show();
+//                        mSharedPreferences.edit().putBoolean("Login",false).commit();
+//                        mSharedPreferences.edit().putString("token","").commit();
+//                        mLogin=false;
+//                    }
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+//        mVolleySingletonRequestQueue.add(mStringRequestonLogut);
+//
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_search:
-                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-                startActivity(mIntentSearch);
-                break;
-
-            case R.id.action_Adv_Favorites:
-                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                mIntentAdvFavorites.putExtra("username",mUserName);
-                mIntentAdvFavorites.putExtra("email",mEmail);
-                mIntentAdvFavorites.putExtra("phone",mPhone);
-                startActivity(mIntentAdvFavorites);
-                break;
-
-            case R.id.action_New_Account:
-                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-                startActivity(mIntentNewAccount);
-                break;
-
-            case R.id.action_Login:
-                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-                startActivity(mIntentLogin);
-                break;
-            case R.id.action_My_Adv:
-                if (mLogin){
-                    Intent mIntent=new Intent(mContext,MyAdvertisement.class);
-                    startActivity(mIntent);
-                }else {
-                    Intent mIntent=new Intent(getApplicationContext(),Login.class);
-                    mContext.startActivity(mIntent);
-
-                }
-                break;
-        }
-        return true;
-    }
 
     @Override
     public void onBackPressed() {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="300dp"
-    android:layout_height="match_parent">
+    android:layout_height="250dp"
+    android:padding="10dp">
 
 
     <TextView
@@ -9,9 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="التعليق عن اعلان"
-        android:textColor="@color/black_overlay"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/blue"
         android:layout_marginRight="10dp"/>
 
     <TextView
@@ -20,6 +21,7 @@
         android:layout_gravity="right"
         android:text="  نص التعليق"
         android:textSize="18sp"
+        android:textColor="@color/dot_dark_screen3"
         android:layout_marginTop="15dp"
         android:textStyle="bold"
         android:layout_marginRight="5dp"/>
@@ -42,14 +44,18 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:background="@drawable/button_bg_8"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
             android:id="@+id/cancel"
             android:text=" الغاء"
             android:layout_weight="1"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            android:background="@drawable/button_bg_8"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/send"
             android:text=" اضافه رد"
             android:layout_weight="1"/>

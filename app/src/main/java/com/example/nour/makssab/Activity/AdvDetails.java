@@ -373,17 +373,17 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         StringRequest mStringRequestCheckFollow=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
 
                 try {
                     JSONObject mJsonObject=new JSONObject(response);
                     if (mJsonObject.getBoolean("follow")){
                         mFollowed=true;
-                        Toast.makeText(getApplicationContext(),"TRUE",Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(),"TRUE",Toast.LENGTH_SHORT).show();
                         mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOn,null,null,null);
                     }else {
                         mFollowed=false;
-                        Toast.makeText(getApplicationContext(),"False",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(),"False",Toast.LENGTH_SHORT).show();
                         mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOff,null,null,null);
                     }
                 } catch (JSONException e) {
@@ -404,6 +404,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                 mSharedPreferences.edit().putString("token",split[1]).commit();
                 return super.parseNetworkResponse(response);
             }
+
         };
         mVolleySingletonRequestQueue.add(mStringRequestCheckFollow);
     }
@@ -588,7 +589,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         StringRequest mStringRequestonComment=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
                 if (mFollowed){
                     mFollowed=false;
                     mButtonCommentFollow.setCompoundDrawablesWithIntrinsicBounds(mDrawableFollowOff,null,null,null);
@@ -635,7 +636,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                         mButtonFav.setCompoundDrawablesWithIntrinsicBounds(null,mDrawableFavOn,null,null);
                     }
                     JSONObject mJsonObject=new JSONObject(response);
-                    Toast.makeText(mContext,mJsonObject.getString("success"),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext,mJsonObject.getString("success"),Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -666,7 +667,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
             JsonObjectRequest mJsonObjectRequest=new JsonObjectRequest(Request.Method.POST, MainApp.SendMessageUrl + token, mJsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Toast.makeText(mContext,response+"", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(mContext,response+"", Toast.LENGTH_SHORT).show();
                     Log.i(MainApp.Tag,response+"");
                 }
             }, new Response.ErrorListener() {
