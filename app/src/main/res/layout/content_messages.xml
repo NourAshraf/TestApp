@@ -10,23 +10,28 @@
     tools:showIn="@layout/activity_messages">
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/bReciveMessages"
             android:text="الرسائل الوارده"
             android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/button_secondary_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/bSendMessages"
             android:text="الرسائل المرسلة"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 <android.support.v7.widget.RecyclerView
     android:id="@+id/rvMesssages"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    android:layout_height="match_parent">
+</android.support.v7.widget.RecyclerView>
 </LinearLayout>

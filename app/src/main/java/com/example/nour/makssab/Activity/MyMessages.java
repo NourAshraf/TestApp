@@ -2,6 +2,7 @@ package com.example.nour.makssab.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -142,6 +143,8 @@ public class MyMessages extends AppCompatActivity implements View.OnClickListene
             case R.id.bSendMessages:
                 MessagesAdapter messagesAdapter=new MessagesAdapter(mContext,modelsSend);
                 mRecyclerViewMessage.setAdapter(messagesAdapter);
+                mButtonSendMessages.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                mButtonSendMessages.setTextColor(Color.WHITE);
                 break;
             case R.id.bReciveMessages:
                 MessagesAdapter messagesAdapter2=new MessagesAdapter(mContext,modelsRecive);
