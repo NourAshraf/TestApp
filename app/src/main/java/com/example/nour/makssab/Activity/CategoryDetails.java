@@ -1,16 +1,14 @@
 package com.example.nour.makssab.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -29,7 +27,6 @@ import com.example.nour.makssab.Model.AdvModel;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,30 +83,6 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
                 finish();
             }
         });
-        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                switch (tabId){
-                    case R.id.tab_adv:
-
-                        break;
-                    case R.id.tab_main:
-                        Intent mIntentHome=new Intent(mContext,Home.class);
-                        startActivity(mIntentHome);
-                        finish();
-                        break;
-                    case R.id.tab_notify:
-                        Intent mIntentNotification=new Intent(mContext,Notifications.class);
-                        startActivity(mIntentNotification);
-                        finish();
-                        break;
-                    case R.id.tab_message:
-
-                        break;
-                }
-            }
-        });
         mTextViewNoInternet= (TextView) findViewById(R.id.tvNoInternet);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
@@ -119,6 +92,8 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
         mRecyclerViewAdv.addItemDecoration(new VerticalSpaceItemDecoration(100));
         models=new ArrayList<AdvModel>();
         mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
+        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
@@ -200,37 +175,6 @@ public class CategoryDetails extends AppCompatActivity implements SwipeRefreshLa
             }
         });
         mVolleySingletonRequestQueue.add(mStringRequestAdv);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_search:
-                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-                startActivity(mIntentSearch);
-                break;
-
-            case R.id.action_Adv_Favorites:
-                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                startActivity(mIntentAdvFavorites);
-                break;
-
-            case R.id.action_New_Account:
-                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-                startActivity(mIntentNewAccount);
-                break;
-
-            case R.id.action_Login:
-                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-                startActivity(mIntentLogin);
-                break;
-        }
-        return true;
     }
 
     @Override

@@ -9,11 +9,13 @@
     tools:context="com.example.nour.makssab.Activity.MyMessages"
     tools:showIn="@layout/activity_messages">
     <LinearLayout
+        android:layout_margin="5dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:background="@drawable/button_bg_10"
             android:id="@+id/bReciveMessages"
             android:text="الرسائل الوارده"
             android:layout_weight="1"
@@ -22,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
+            android:background="@drawable/button_bg_9"
             android:id="@+id/bSendMessages"
             android:text="الرسائل المرسلة"
             android:layout_weight="1"

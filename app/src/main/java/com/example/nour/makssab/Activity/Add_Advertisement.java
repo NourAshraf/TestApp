@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,10 +21,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +45,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +53,7 @@ import java.util.Random;
 
 public class Add_Advertisement extends AppCompatActivity implements View.OnClickListener {
 
-    private  ArrayList<String>ID;
+    private  ArrayList<String> SubCaID;
     private Add_Advertisement mContext;
     private ImageView mImageViewMainImage;
     private int PICK_IMAGE_CAMERA=1;
@@ -62,6 +62,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
     private RecyclerView mRecyclerViewSubImages;
     private ArrayList<Bitmap> mBitmaps;
     private int mSize;
+    private ArrayList<String> carModels_Name;
     private ImageAdapter mImageAdapter;
     private String mStateId;
     private String mCityId;
@@ -85,7 +86,21 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
     private String token;
     private String filename="mkssab";
     private EditText mEditTextTitle;
-    private ArrayList<String> Images;
+    private Bitmap mMainBitmapPic;
+
+    private ArrayList<String> carBrands_Id;
+    private ArrayList<String> carBrands_Name;
+    private String mCarBrandsId;
+    private ArrayList<String> carModels_Id;
+    private String mCarModelsId;
+    private Spinner mSpinnerSearchMarka;
+    private Spinner mSpinnerSearchKind;
+    private LinearLayout mLinearLayoutCar;
+    private String mMySubCatId;
+    private EditText mEditTextDescraption;
+    private EditText mEditTextPhone;
+    private EditText mEditTextCarModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +119,13 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mSize=1;
         mStateId = "";
         mCityId = "";
+        mCarBrandsId = "";
+        mCarModelsId = "";
+        carBrands_Id = new ArrayList<String>();
+        carBrands_Name = new ArrayList<String>();
+        carModels_Id = new ArrayList<String>();
+        carModels_Name = new ArrayList<String>();
+        mLinearLayoutCar= (LinearLayout) findViewById(R.id.llCar);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
@@ -119,12 +141,28 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mSpinnerMain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                     mLinearLayoutCar.setVisibility(View.VISIBLE);
+                }else {
+                    mLinearLayoutCar.setVisibility(View.GONE);
+                }
                  idSelected=CategoryID[position];
                 onGetCategory();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mSpinnerSub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mMySubCatId=SubCaID.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -166,10 +204,9 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             }
         });
         Names = new ArrayList<String>();
-        Images = new ArrayList<String>();
         CategoryID= new int[]{1, 6, 4, 5, 3, 8, 2, 7};
         models = new ArrayList<CategoryModel>();
-        ID = new ArrayList<String>();
+        SubCaID = new ArrayList<String>();
         State_Id = new ArrayList<String>();
         State_Name = new ArrayList<String>();
         City_Id = new ArrayList<String>();
@@ -183,12 +220,145 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mRecyclerViewSubImages.setAdapter(mImageAdapter);
         mButtonAddAdv= (Button) findViewById(R.id.bAddAdv);
         mButtonAddAdv.setOnClickListener(this);
+        mSpinnerSearchMarka = (Spinner) findViewById(R.id.SearchSpinnerMarka);
+        mSpinnerSearchKind = (Spinner) findViewById(R.id.SearchSpinnerKind);
+        mEditTextPhone= (EditText) findViewById(R.id.etPhone);
+        mEditTextDescraption=(EditText)findViewById(R.id.etDescraption);
+        mEditTextCarModel=(EditText)findViewById(R.id.etCarModel);
+        mSpinnerSearchKind.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == -1) {
+                    mCarModelsId = "";
+                } else {
+                    mCarModelsId = carModels_Id.get(position);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mSpinnerSearchMarka.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == -1) {
+                    mCarBrandsId = "";
+
+                } else {
+
+                    mCarBrandsId = carBrands_Id.get(position);
+                    onCarModels(carBrands_Id.get(position));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        onCarBrands();
         onStates();
     }
+
+    public void onCarModels(final String position){
+        if (carModels_Name!=null){
+            carModels_Name.clear();
+            carModels_Id.clear();
+        }
+        String Url= MainApp.CarModelsUrl+position;
+        StringRequest mStringRequestonCarModels=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray = new JSONArray(response);
+                    if (mJsonArray.length() == 1) {
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        carModels_Id.add(id);
+                        carModels_Name.add(name);
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.item_spinner_test,R.id.tvItemSpinner,carModels_Name);
+                        mSpinnerSearchKind.setAdapter(dataAdapter);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onCarModels(position);
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonCarModels);
+    }
+    public void onCarBrands(){
+        String Url=MainApp.CarBrandsUrl;
+        StringRequest mStringRequestonCarBrands=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray = new JSONArray(response);
+                    if (mJsonArray.length() == 1) {
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        carBrands_Id.add(id);
+                        carBrands_Name.add(name);
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.item_spinner_test,R.id.tvItemSpinner,carBrands_Name);
+                        mSpinnerSearchMarka.setAdapter(dataAdapter);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onCarBrands();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonCarBrands);
+    }
+
     private void onGetCategory() {
         if (Names!=null){
             Names.clear();
-
         }
         String Url=MainApp.CategoryUrl+idSelected;
         StringRequest mStringRequestGetCategory=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
@@ -209,7 +379,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                             CategoryModel categoryModel=new CategoryModel(id2,name,category_id);
                             models.add(categoryModel);
                             Names.add(name);
-                            ID.add(id2);
+                            SubCaID.add(id2);
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
                                     R.layout.item_spinner2,R.id.tvItem,Names);
                             mSpinnerSub.setAdapter(dataAdapter);
@@ -360,66 +530,78 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 mAlertDialog.create().show();
                 break;
             case R.id.bAddAdv:
-                for (int i=0;i<mBitmaps.size();i++){
-                    String upload = upload(mBitmaps.get(i));
-                    Images.add(upload);
-                }
                 onAddAdv();
                 break;
         }
     }
 
     private void onAddAdv() {
+        final String Descraption = mEditTextDescraption.getText().toString();
         final String Title = mEditTextTitle.getText().toString();
-        VolleyMultipartRequest mVolleyMultipartRequest=new VolleyMultipartRequest(Request.Method.POST, MainApp.AddAdsUrl+token, new Response.Listener<NetworkResponse>() {
+        final String Phone = mEditTextPhone.getText().toString();
+        final String CarModel = mEditTextCarModel.getText().toString();
+        String url = MainApp.AddAdsUrl+token;
+        VolleyMultipartRequest volleyMultipartRequest=new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
-                Log.i(MainApp.Tag,resultResponse);
+                Toast.makeText(mContext,"تم اضافة اعلانكم بنجاج",Toast.LENGTH_SHORT).show();
+                Intent mIntentHome=new Intent(mContext,Home.class);
+                mIntentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mIntentHome.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                mIntentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mIntentHome);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(MainApp.Tag,error.toString());
+               Log.i(MainApp.Tag,error.toString());
             }
         }){
-
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("category_id", "1");
-                params.put("sub_category_id", "17");
-                params.put("state_id", "14");
-                params.put("city_id", "6");
-                params.put("phone", "1111111");
-                params.put("title","Test");
-                params.put("description", "سيارة للبيع jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
-                params.put("car_id", "6");
-                params.put("model_id", "70");
-                params.put("year", "2017");
-//                int i=0;
-//                for(String object: Images){
-//                    params.put("related_photos["+(i++)+"]", object);
-//                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
-//                }
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<>();
+                params.put("category_id",idSelected+"");
+                params.put("sub_category_id", mMySubCatId);
+                params.put("state_id", mStateId);
+                params.put("city_id", mCityId);
+                params.put("phone", Phone);
+                params.put("title", Title);
+                params.put("description", Descraption);
+                params.put("car_id", mCarBrandsId);
+                params.put("model_id", mCarModelsId);
+                params.put("year", CarModel);
                 return params;
             }
+
             @Override
             protected Map<String, DataPart> getByteData() throws AuthFailureError {
                 Map<String, DataPart> params = new HashMap<>();
                 Random mRandom=new Random();
                 int i = mRandom.nextInt(1000);
-                params.put("main_photo",new DataPart(i+"ProfilePic.jpg", AppHelper.getFileDataFromBitmap(mContext,mBitmapProfileImage)));
-//                int j=0;
-//                for(Bitmap object: mBitmaps){
-//                    params.put("related_photos["+(j++)+"]",new DataPart(i+"Pic.jpg", AppHelper.getFileDataFromBitmap(mContext,object)));
-//                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
-//                }
+                params.put("main_photo",new DataPart(i+"ProfilePic.jpg", AppHelper.getFileDataFromBitmap(mContext,mMainBitmapPic)));
+                for (int j=0;j<mBitmaps.size();j++) {
+                    params.put("related_photos["+j+"]", new DataPart("MyPic"+j+".jpg", AppHelper.getFileDataFromBitmap(mContext, mBitmaps.get(j))));
+                }
                 return params;
             }
+            @Override
+            protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                Log.i(MainApp.Tag,split[1]);
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                token=split[1];
+                return super.parseNetworkResponse(response);
+            }
         };
-        mVolleySingletonRequestQueue.add(mVolleyMultipartRequest);
+        volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mVolleySingletonRequestQueue.add(volleyMultipartRequest);
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -433,6 +615,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                     mBitmapProfileImage = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                     mBitmapProfileImage= mBitmapProfileImage.createScaledBitmap(mBitmapProfileImage, 300, 300, false);
                     mImageViewMainImage.setImageBitmap(mBitmapProfileImage);
+                    mMainBitmapPic=mBitmapProfileImage;
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -442,6 +625,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 mBitmapProfileImage= (Bitmap) data.getExtras().get("data");
                 mBitmapProfileImage= mBitmapProfileImage.createScaledBitmap(mBitmapProfileImage, 300, 300, false);
                 mImageViewMainImage.setImageBitmap(mBitmapProfileImage);
+                mMainBitmapPic=mBitmapProfileImage;
             }else if (requestCode==3){
                 Uri filePath = data.getData();
                 try {
@@ -470,11 +654,4 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             }
         }
     }
-        public String upload(Bitmap mBitmap){
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-            byte [] byte_arr = stream.toByteArray();
-            String image_str = Base64.encodeToString(byte_arr,Base64.DEFAULT);
-            return image_str;
-        }
 }

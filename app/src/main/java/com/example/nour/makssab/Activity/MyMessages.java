@@ -141,12 +141,20 @@ public class MyMessages extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bSendMessages:
+                mButtonSendMessages.setBackgroundResource(R.drawable.button_bg_10);
+                mButtonSendMessages.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonReciveMessages.setBackgroundResource(R.drawable.button_bg_9);
+                mButtonReciveMessages.setTextColor(getResources().getColor(R.color.colorPrimary));
                 MessagesAdapter messagesAdapter=new MessagesAdapter(mContext,modelsSend);
                 mRecyclerViewMessage.setAdapter(messagesAdapter);
                 mButtonSendMessages.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 mButtonSendMessages.setTextColor(Color.WHITE);
                 break;
             case R.id.bReciveMessages:
+                mButtonSendMessages.setBackgroundResource(R.drawable.button_bg_9);
+                mButtonReciveMessages.setTextColor(getResources().getColor(android.R.color.background_light));
+                mButtonReciveMessages.setBackgroundResource(R.drawable.button_bg_10);
+                mButtonSendMessages.setTextColor(getResources().getColor(R.color.colorPrimary));
                 MessagesAdapter messagesAdapter2=new MessagesAdapter(mContext,modelsRecive);
                 mRecyclerViewMessage.setAdapter(messagesAdapter2);
                 break;

@@ -28,18 +28,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:gravity="center"
-
-
                 android:text="البحث فى مكسب"
-
                 android:textColor="@color/button_secondary_color"
                 android:textSize="18sp"
                 android:textStyle="bold" />
             <ImageView
                 android:id="@+id/ivBack"
-                android:background="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_arrow_left"
                 android:layout_gravity="left"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -51,14 +48,6 @@
     <include layout="@layout/content_search" />
     </LinearLayout>
 
-
-        <com.roughike.bottombar.BottomBar
-            android:layout_gravity="bottom"
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/tabs" />
     </FrameLayout>
 
 

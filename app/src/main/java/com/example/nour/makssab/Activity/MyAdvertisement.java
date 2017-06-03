@@ -174,7 +174,7 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
                         String City_Name = city.getString("name");
                         JSONArray images = jsonObject1.getJSONArray("images");
                         for (int k = 0; k < images.length(); k++) {
-                            JSONObject jsonObject2 = images.getJSONObject(j);
+                            JSONObject jsonObject2 = images.getJSONObject(k);
                             String photo = jsonObject2.getString("photo");
                             ImagesModels.add(photo);
                         }

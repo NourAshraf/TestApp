@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonMyAdv;
     private Button mButtonMyFav;
     private Button mButtonMyMember;
+    private ProgressBar mProgressBar;
 
 
     @Override
@@ -151,45 +153,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mTextViewProfileName= (TextView) findViewById(R.id.tvProfileName);
         mTextViewProfileEmail= (TextView) findViewById(R.id.tvProfileEmail);
         mGridView= (GridView) findViewById(R.id.gvHome);
+        mProgressBar= (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.GONE);
         models=new ArrayList<HomeModel>();
-//        MultiStateToggleButton button = (MultiStateToggleButton) this.findViewById(R.id.mstb_multi_id);
-//        button.setSelected(false);
-//        button.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
-//            @Override
-//            public void onValueChanged(int position) {
-//                switch (position){
-//                    case 0:
-//                        if (mLogin){
-//                            Intent mIntent=new Intent(mContext,MyAdvertisement.class);
-//                            startActivity(mIntent);
-//                        }else {
-//                            Intent mIntent=new Intent(getApplicationContext(),Login.class);
-//                            mContext.startActivity(mIntent);
-//
-//                        }
-//
-//
-//                        break;
-//                    case 1:
-//                        if (mLogin){
-//                            Intent mIntentFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-//                            mIntentFavorites.putExtra("username",username+"");
-//                            mIntentFavorites.putExtra("email",email);
-//                            mIntentFavorites.putExtra("phone",phone_main);
-//                            mContext.startActivity(mIntentFavorites);
-//                        }else {
-//                            Intent mIntent2=new Intent(getApplicationContext(),Login.class);
-//                            mContext.startActivity(mIntent2);
-//
-//                        }
-//
-//                        break;
-//                    case 2:
-//
-//                        break;
-//                }
-//            }
-//        });
         final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_main);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -402,10 +368,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }
     }
     public void onProfile(){
+        mProgressBar.setVisibility(View.VISIBLE);
         String Url= MainApp.ProfileUrl+token;
         StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                mProgressBar.setVisibility(View.GONE);
                 try {
                     JSONArray mJsonArray=new JSONArray(response);
                     for (int i=0;i<mJsonArray.length();i++){

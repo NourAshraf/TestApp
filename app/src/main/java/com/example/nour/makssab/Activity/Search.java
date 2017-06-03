@@ -1,6 +1,7 @@
 package com.example.nour.makssab.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -42,15 +44,15 @@ import java.util.Map;
 public class Search extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Context mContext;
     private RequestQueue mVolleySingletonRequestQueue;
+    private ArrayList<AdvModel> models;
     private ArrayList<String> carBrands_Id;
     private ArrayList<String> carBrands_Name;
-    private ArrayList<AdvModel> models;
     private String mCarBrandsId;
     private ArrayList<String> carModels_Id;
     private String mCarModelsId;
     private Spinner mSpinnerSearchMarka;
-    private Spinner mSpinnerSearchModel;
     private Spinner mSpinnerSearchKind;
+    private Spinner mSpinnerSearchModel;
     private ArrayList<String> carModels_Name;
     private Button mButtonSearch;
     private ArrayList<String>ModelSearch;
@@ -68,6 +70,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
     private EditText mEditTextIdSearch;
     private ArrayList<StoresModel> modelsSearch;
     private StoresAdapter mStoresAdapter;
+    private ImageView mImageViewBack;
 
 
     @Override
@@ -92,6 +95,15 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
         modelsSearch = new ArrayList<StoresModel>();
         carModels_Id = new ArrayList<String>();
         carModels_Name = new ArrayList<String>();
+        mImageViewBack = (ImageView) findViewById(R.id.ivBack);
+        mImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntentHome=new Intent(mContext,Home.class);
+                startActivity(mIntentHome);
+                finish();
+            }
+        });
         mLinearLayoutSearch= (LinearLayout) findViewById(R.id.llSearch);
         VolleySingleton mVolleySingleton = VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
