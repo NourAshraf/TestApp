@@ -397,11 +397,11 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 params.put("car_id", "6");
                 params.put("model_id", "70");
                 params.put("year", "2017");
-                int i=0;
-                for(String object: Images){
-                    params.put("related_photos["+(i++)+"]", object);
-                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
-                }
+//                int i=0;
+//                for(String object: Images){
+//                    params.put("related_photos["+(i++)+"]", object);
+//                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
+//                }
                 return params;
             }
             @Override

@@ -122,7 +122,7 @@
         android:background="@color/LoginTitle"
         android:text="  اضف اول اعلان مجانا"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="100dp" />
 
 
 </LinearLayout>
