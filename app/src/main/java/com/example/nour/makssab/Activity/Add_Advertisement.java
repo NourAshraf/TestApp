@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,6 +102,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
     private EditText mEditTextDescraption;
     private EditText mEditTextPhone;
     private EditText mEditTextCarModel;
+    private String mYear;
 
 
     @Override
@@ -121,6 +124,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         mCityId = "";
         mCarBrandsId = "";
         mCarModelsId = "";
+        mYear="";
         carBrands_Id = new ArrayList<String>();
         carBrands_Name = new ArrayList<String>();
         carModels_Id = new ArrayList<String>();
@@ -144,6 +148,8 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 if (position==0){
                      mLinearLayoutCar.setVisibility(View.VISIBLE);
                 }else {
+                    mCarBrandsId="0";
+                    mCarModelsId="0";
                     mLinearLayoutCar.setVisibility(View.GONE);
                 }
                  idSelected=CategoryID[position];
@@ -229,7 +235,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == -1) {
-                    mCarModelsId = "";
+                    mCarModelsId = "0";
                 } else {
                     mCarModelsId = carModels_Id.get(position);
                 }
@@ -504,9 +510,9 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         switch (view.getId()){
             case R.id.ivMainImage:
                 final AlertDialog.Builder mAlertDialog=new AlertDialog.Builder(mContext);
-                mAlertDialog.setMessage("Select Profile Picture From");
-                mAlertDialog.setTitle("Select Image");
-                mAlertDialog.setNeutralButton("Camera",new DialogInterface.OnClickListener() {
+                mAlertDialog.setMessage("اختر الصوره عن طريق");
+                mAlertDialog.setTitle("اضافة صوره");
+                mAlertDialog.setNeutralButton("الكاميرا",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent mIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -514,7 +520,7 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                         dialog.dismiss();
                     }
                 });
-                mAlertDialog.setPositiveButton("Exists Image",new DialogInterface.OnClickListener() {
+                mAlertDialog.setPositiveButton("الاستديو",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -530,21 +536,33 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 mAlertDialog.create().show();
                 break;
             case R.id.bAddAdv:
-                onAddAdv();
+                try {
+                    onAddAdv();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
 
-    private void onAddAdv() {
+    private void onAddAdv() throws UnsupportedEncodingException {
         final String Descraption = mEditTextDescraption.getText().toString();
         final String Title = mEditTextTitle.getText().toString();
         final String Phone = mEditTextPhone.getText().toString();
-        final String CarModel = mEditTextCarModel.getText().toString();
+        mYear = mEditTextCarModel.getText().toString();
+        if (mLinearLayoutCar.getVisibility()==View.VISIBLE){
+            mYear = mEditTextCarModel.getText().toString();
+        }else {
+            mCarModelsId="0";
+            mCarBrandsId="0";
+            mYear="0";
+        }
         String url = MainApp.AddAdsUrl+token;
         VolleyMultipartRequest volleyMultipartRequest=new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
+                Log.i(MainApp.Tag,resultResponse);
                 Toast.makeText(mContext,"تم اضافة اعلانكم بنجاج",Toast.LENGTH_SHORT).show();
                 Intent mIntentHome=new Intent(mContext,Home.class);
                 mIntentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -563,14 +581,14 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 Map<String,String> params=new HashMap<>();
                 params.put("category_id",idSelected+"");
                 params.put("sub_category_id", mMySubCatId);
-                params.put("state_id", mStateId);
+                params.put("state_id",mStateId);
                 params.put("city_id", mCityId);
                 params.put("phone", Phone);
                 params.put("title", Title);
                 params.put("description", Descraption);
                 params.put("car_id", mCarBrandsId);
                 params.put("model_id", mCarModelsId);
-                params.put("year", CarModel);
+                params.put("year", mYear);
                 return params;
             }
 
@@ -586,15 +604,16 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 return params;
             }
             @Override
-            protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
-                String phpsessid = response.headers.get("Authorization");
-                String[] split = phpsessid.split(" ");
-                Log.i(MainApp.Tag,split[1]);
-                mSharedPreferences.edit().putString("token",split[1]).commit();
-                token=split[1];
-                return super.parseNetworkResponse(response);
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(
+                        "Authorization",
+                        String.format("Basic %s", Base64.encodeToString(
+                                String.format("%s:%s", "username", "password").getBytes(), Base64.DEFAULT)));
+                return params;
             }
         };
+
         volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
                 10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

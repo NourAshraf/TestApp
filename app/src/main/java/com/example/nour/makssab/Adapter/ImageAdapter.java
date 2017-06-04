@@ -60,9 +60,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesHolder
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder mAlertDialog=new AlertDialog.Builder(mContext);
-                mAlertDialog.setMessage("Select Profile Picture From");
-                mAlertDialog.setTitle("Select Image");
-                mAlertDialog.setNeutralButton("Camera",new DialogInterface.OnClickListener() {
+                mAlertDialog.setMessage("اختار صوره عن طريق");
+                mAlertDialog.setTitle("اضافة صوره");
+                mAlertDialog.setNeutralButton("الكاميرا",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent mIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -70,7 +70,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImagesHolder
                         dialog.dismiss();
                     }
                 });
-                mAlertDialog.setPositiveButton("Exists Image",new DialogInterface.OnClickListener() {
+                mAlertDialog.setPositiveButton("الاستديو",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
