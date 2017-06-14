@@ -147,6 +147,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mButtonGalleries.setOnClickListener(this);
         mButtonProperty.setOnClickListener(this);
         mButtonLoginNow.setOnClickListener(this);
+        mButtonLoginNow1.setOnClickListener(this);
         mButtonMyFav= (Button) findViewById(R.id.bMyFav);
         mButtonMyAdv= (Button) findViewById(R.id.bMyAdv);
         mButtonMyMember= (Button) findViewById(R.id.bMyMember);
@@ -307,18 +308,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(mIntentProperty);
                 break;
             case R.id.bLoginNow:
-                if (mLogin){
-                    Intent mIntentLogin3=new Intent(mContext,Add_Advertisement.class);
-                    startActivity(mIntentLogin3);
-                }else {
+
                     Intent mIntent2=new Intent(getApplicationContext(),Login.class);
                     mContext.startActivity(mIntent2);
+               break;
 
-                }
-
-
-
+            case R.id.bLoginNow1:
+              Intent intentbLoginNow1=new Intent(getApplicationContext(),Add_Advertisement.class);
+                startActivity(intentbLoginNow1);
                 break;
+
+
+
+
             case R.id.bMyAdv:
                 mButtonMyFav.setBackgroundResource(R.drawable.button_bg_3);
                 mButtonMyAdv.setBackgroundResource(R.drawable.button_bg_7);
@@ -350,8 +352,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                             mIntentFavorites.putExtra("phone",phone_main);
                             mContext.startActivity(mIntentFavorites);
                         }else {
-                            Intent mIntent2=new Intent(getApplicationContext(),Login.class);
-                            mContext.startActivity(mIntent2);
+                            Intent mIntent5=new Intent(getApplicationContext(),Login.class);
+                            mContext.startActivity(mIntent5);
                         }
                 break;
             case R.id.bMyMember:
