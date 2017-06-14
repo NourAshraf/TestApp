@@ -535,10 +535,35 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 mAlertDialog.create().show();
                 break;
             case R.id.bAddAdv:
-                try {
-                    onAddAdv();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                final String Descraption = mEditTextDescraption.getText().toString();
+                final String Title = mEditTextTitle.getText().toString();
+                final String Phone = mEditTextPhone.getText().toString();
+                if (Title.equals("")){
+                 Toast.makeText(mContext,"يحب عليك ادخال عنوان الاعلان",Toast.LENGTH_SHORT).show();
+                }else if (Descraption.equals("")){
+                    Toast.makeText(mContext,"يحب عليك ادخال محتوي الاعلان",Toast.LENGTH_SHORT).show();
+                }else if (Phone.equals("")){
+                    Toast.makeText(mContext,"يحب عليك ادخال رقم الجوال",Toast.LENGTH_SHORT).show();
+                }else if (mLinearLayoutCar.getVisibility()==View.VISIBLE){
+                    mYear = mEditTextCarModel.getText().toString();
+                    if (mYear.equals("")){
+                        Toast.makeText(mContext,"يحب عليك ادخال موديل السياره",Toast.LENGTH_SHORT).show();
+                    }else {
+                        try {
+                            onAddAdv();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }else {
+                    mCarModelsId="0";
+                    mCarBrandsId="0";
+                    mYear="0";
+                    try {
+                        onAddAdv();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
         }
@@ -549,13 +574,6 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
         final String Title = mEditTextTitle.getText().toString();
         final String Phone = mEditTextPhone.getText().toString();
         mYear = mEditTextCarModel.getText().toString();
-        if (mLinearLayoutCar.getVisibility()==View.VISIBLE){
-            mYear = mEditTextCarModel.getText().toString();
-        }else {
-            mCarModelsId="0";
-            mCarBrandsId="0";
-            mYear="0";
-        }
         String url = MainApp.AddAdsUrl+token;
         VolleyMultipartRequest volleyMultipartRequest=new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
@@ -573,6 +591,8 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             @Override
             public void onErrorResponse(VolleyError error) {
                Log.i(MainApp.Tag,error.toString());
+                Toast.makeText(mContext,"لا يوجد انترنت او الانترنت ضعيف يرجي المحاولة مره اخري!",Toast.LENGTH_SHORT).show();
+
             }
         }){
             @Override
