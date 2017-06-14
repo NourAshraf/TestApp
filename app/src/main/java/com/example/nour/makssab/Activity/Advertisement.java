@@ -11,10 +11,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,12 +42,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.current_page;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
 
-public class Advertisement extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Advertisement extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private RecyclerView mRecyclerViewAdv;
     private ArrayList<AdvModel> models;
@@ -61,6 +70,24 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     private String mEmail;
     private boolean mLogin;
     private String token;
+    private String mStateId;
+    private String mCityId;
+    private Spinner mSpinnerNewAccountArea;
+    private Spinner mSpinnerNewAccountCity;
+    private ArrayList<String> State_Id;
+    private ArrayList<String> State_Name;
+    private ArrayList<String> City_Id;
+    private ArrayList<String> City_Name;
+    private ImageView mImageViewSearch;
+    private LinearLayout mLinearLayoutSearchStories;
+    private Button mButtonAllAreas;
+    private Button mButtonSearchStories;
+    private boolean mSearch;
+    private boolean mSearchLoading;
+    private String MyCity_id;
+    private String MyState_id;
+    private int MyPostionState;
+    private int MyPostionCity;
 
 
     @Override
@@ -74,11 +101,65 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
     }
 
     private void onVariables() {
-        mDelete=false;
-        mContext=Advertisement.this;
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         token = mSharedPreferences.getString("token","");
+        MyCity_id = mSharedPreferences.getString("city_id","");
+        MyState_id = mSharedPreferences.getString("state_id","");
         mLogin = mSharedPreferences.getBoolean("Login",false);
+        mDelete=false;
+        mSearch=false;
+        mSearchLoading=false;
+        mStateId = "";
+        mCityId = "";
+        mButtonAllAreas = (Button) findViewById(R.id.bAllAreas);
+        mButtonSearchStories = (Button) findViewById(R.id.bSearchStories);
+        mButtonAllAreas.setOnClickListener(this);
+        mButtonSearchStories.setOnClickListener(this);
+        mSpinnerNewAccountArea = (Spinner) findViewById(R.id.NewAccountSpinnerArea);
+        mSpinnerNewAccountArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == -1) {
+                    mStateId = "";
+                    mSpinnerNewAccountCity.setVisibility(View.GONE);
+                } else {
+                    mStateId = State_Id.get(position);
+                    onCity(State_Id.get(position));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mImageViewSearch= (ImageView) findViewById(R.id.ivSearch);
+        mImageViewSearch.setOnClickListener(this);
+        if (!mLogin){
+            mImageViewSearch.setVisibility(View.GONE);
+        }
+        mSpinnerNewAccountCity = (Spinner) findViewById(R.id.NewAccountSpinnerCity);
+        mSpinnerNewAccountCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == -1) {
+                    mCityId = "";
+                } else {
+                    mCityId = City_Id.get(i);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        State_Id = new ArrayList<String>();
+        State_Name = new ArrayList<String>();
+        City_Id = new ArrayList<String>();
+        City_Name = new ArrayList<String>();
+
+        mContext=Advertisement.this;
         mUserName = mSharedPreferences.getString("UserName", "");
         mPhone = mSharedPreferences.getString("Phone", "");
         mEmail = mSharedPreferences.getString("Email", "");
@@ -121,7 +202,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                 }
             }
         });
-
+        mLinearLayoutSearchStories = (LinearLayout) findViewById(R.id.llSearchStories);
         mTextViewNoInternet= (TextView) findViewById(R.id.tvNoInternet);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
@@ -135,24 +216,135 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
+        mProgressBar.setVisibility(View.VISIBLE);
         onLoadAdv(MainApp.AdvUrl);
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page)
-
             {
+
                 if (next_page_url.equals("null")){
 
                 }else {
-                    mDelete = true;
-                    onLoadAdv(next_page_url);
+                    if (mSearchLoading){
+
+                    }else {
+                        mDelete = true;
+                        onLoadAdv(next_page_url);
+                    }
                 }
             }
         });
+        onStates();
     }
 
+
+
+    public void onStates(){
+        String Url=MainApp.StatesUrl;
+        StringRequest mStringRequestonStates=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray = new JSONArray(response);
+                    if (mJsonArray.length() == 1) {
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        State_Id.add(id);
+                        State_Name.add(name);
+                        if (MyState_id.equals(id)){
+                            MyPostionState=i;
+                        }
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.item_spinner,R.id.tvItem,State_Name);
+                        mSpinnerNewAccountArea.setAdapter(dataAdapter);
+                        mSpinnerNewAccountArea.setSelection(MyPostionState);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onStates();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonStates);
+    }
+
+
+
+    public void onCity(final String position){
+        if (City_Name!=null){
+            City_Name.clear();
+            City_Id.clear();
+        }
+        String Url=MainApp.CitiesUrl+position;
+        StringRequest mStringRequestonCity=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mJsonArray = new JSONArray(response);
+                    if (mJsonArray.length() == 1) {
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(0);
+                        String error = mJsonObject.getString("error");
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                    }
+                    for (int i = 0; i < mJsonArray.length(); i++) {
+                        JSONObject jsonObject = mJsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String name = jsonObject.getString("name");
+                        City_Id.add(id);
+                        City_Name.add(name);
+                        if (MyCity_id.equals(id)){
+                            MyPostionCity=i;
+                        }
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.item_spinner,R.id.tvItem,City_Name);
+                        mSpinnerNewAccountCity.setAdapter(dataAdapter);
+                        mSpinnerNewAccountCity.setSelection(MyPostionCity);
+                        mSpinnerNewAccountCity.setVisibility(View.VISIBLE);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onCity(position);
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String, String>();
+                return params;
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestonCity);
+    }
+
+
     private void onLoadAdv(final String Url) {
-        mProgressBar.setVisibility(View.VISIBLE);
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -176,6 +368,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                         String created_at = jsonObject.getString("created_at");
                         jsonObject.getString("id");
                         String city_id = jsonObject.getString("city_id");
+                        String state_id = jsonObject.getString("state_id");
                         String title = jsonObject.getString("title");
                         String description = jsonObject.getString("description");
                         String views = jsonObject.getString("views");
@@ -192,13 +385,27 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                         JSONObject user = jsonObject.getJSONObject("user");
                         String UserId = user.getString("id");
                         String username = user.getString("username");
-                        AdvModel advModel=new AdvModel(id,city_id,views,category_id,title,description,phone,City_Name,UserId,username,ImagesModels,created_at,CommentCount);
-                        models.add(advModel);
+                        if (mSearch==true){
+                            if (city_id.equals(mCityId)&&state_id.equals(mStateId)){
+                                AdvModel advModel = new AdvModel(id, city_id, views, category_id, title, description, phone, City_Name, UserId, username, ImagesModels, created_at, CommentCount);
+                                models.add(advModel);
+                            }
+                        }else {
+                            AdvModel advModel = new AdvModel(id, city_id, views, category_id, title, description, phone, City_Name, UserId, username, ImagesModels, created_at, CommentCount);
+                            models.add(advModel);
+                        }
                         if (true){
                             mDelete=true;
                         }
+
                     }
                     mAdvAdapter.notifyDataSetChanged();
+                    if (models.size()<10){
+                        mSearchLoading=true;
+                        onLoadAdv(next_page_url);
+                    }else {
+                        mSearchLoading=false;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -206,6 +413,7 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
                 onLoadAdv(Url);
             }
@@ -315,9 +523,51 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
         if (models!=null){
             models.clear();
         }
+        mProgressBar.setVisibility(View.VISIBLE);
         onLoadAdv(MainApp.AdvUrl);
         if (mSwipeRefreshLayoutAdv.isRefreshing()){
             mSwipeRefreshLayoutAdv.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ivSearch:
+                mTextViewNoInternet.setVisibility(View.GONE);
+                if (mLinearLayoutSearchStories.getVisibility()==View.GONE){
+                    mLinearLayoutSearchStories.setVisibility(View.VISIBLE);
+                }else {
+                    mLinearLayoutSearchStories.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.bAllAreas:
+                mSearch=false;
+                mStateId="";
+                mCityId="";
+                current_page=1;
+                previousTotal=0;
+                loading=true;
+                mRecyclerViewAdv.setVisibility(View.INVISIBLE);
+                if (models!=null){
+                    models.clear();
+                }
+                onLoadAdv(MainApp.AdvUrl);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
+                break;
+            case R.id.bSearchStories:
+                mSearch=true;
+                current_page=1;
+                previousTotal=0;
+                loading=true;
+                mRecyclerViewAdv.setVisibility(View.INVISIBLE);
+                if (models!=null){
+                    models.clear();
+                }
+                mProgressBar.setVisibility(View.VISIBLE);
+                onLoadAdv(MainApp.AdvUrl);
+                mLinearLayoutSearchStories.setVisibility(View.GONE);
+                break;
         }
     }
 }

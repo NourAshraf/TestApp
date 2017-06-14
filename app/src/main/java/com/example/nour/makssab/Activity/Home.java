@@ -393,6 +393,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                         mSharedPreferences.edit().putString("ID",id).commit();
                          username=mJsonObject.getString("username");
                          email=mJsonObject.getString("email");
+                        String city_id = mJsonObject.getString("city_id");
+                        String state_id = mJsonObject.getString("state_id");
+                        mSharedPreferences.edit().putString("city_id",city_id).commit();
+                        mSharedPreferences.edit().putString("state_id",state_id).commit();
                         String created_at=mJsonObject.getString("created_at");
                         String last_login=mJsonObject.getString("last_login");
                          phone_main=mJsonObject.getString("phone");

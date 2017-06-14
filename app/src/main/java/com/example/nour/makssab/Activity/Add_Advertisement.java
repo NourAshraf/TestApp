@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -579,13 +578,15 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params=new HashMap<>();
+                Log.i(MainApp.Tag,Title);
+                Log.i(MainApp.Tag,Descraption);
                 params.put("category_id",idSelected+"");
                 params.put("sub_category_id", mMySubCatId);
                 params.put("state_id",mStateId);
                 params.put("city_id", mCityId);
                 params.put("phone", Phone);
-                params.put("title", Title);
-                params.put("description", Descraption);
+                params.put("title",Title);
+                params.put("description",Descraption);
                 params.put("car_id", mCarBrandsId);
                 params.put("model_id", mCarModelsId);
                 params.put("year", mYear);
@@ -606,10 +607,6 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(
-                        "Authorization",
-                        String.format("Basic %s", Base64.encodeToString(
-                                String.format("%s:%s", "username", "password").getBytes(), Base64.DEFAULT)));
                 return params;
             }
         };
