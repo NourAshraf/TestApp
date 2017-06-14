@@ -24,8 +24,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
         <activity android:name=".Activity.Splash"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Activity.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

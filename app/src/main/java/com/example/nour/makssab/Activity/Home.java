@@ -71,6 +71,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonMyFav;
     private Button mButtonMyMember;
     private ProgressBar mProgressBar;
+    private Button mButtonLoginNow1;
 
 
     @Override
@@ -85,6 +86,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         if (mLogin) {
             mUserName = mSharedPreferences.getString("UserName", "");
             mPassword = mSharedPreferences.getString("Password", "");
+            mButtonLoginNow.setVisibility(View.GONE);
             onLogin(mUserName,mPassword);
             onProfile();
         }
@@ -139,6 +141,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mButtonGalleries= (Button) findViewById(R.id.bGalleries);
         mButtonShops= (Button) findViewById(R.id.bShops);
         mButtonLoginNow= (Button) findViewById(R.id.bLoginNow);
+        mButtonLoginNow1= (Button) findViewById(R.id.bLoginNow1);
         mButtonProfile.setOnClickListener(this);
         mButtonShops.setOnClickListener(this);
         mButtonGalleries.setOnClickListener(this);
@@ -250,6 +253,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.action_Logout:
                 if (mLogin){
                     onLogout();
+                    mButtonLoginNow1.setVisibility(View.GONE);
+                    mButtonLoginNow.setVisibility(View.VISIBLE);
+
                 }else {
                     Toast.makeText(mContext, "يجب عليك تسجيل الدخول اولا !", Toast.LENGTH_SHORT).show();
                 }
@@ -307,7 +313,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 }else {
                     Intent mIntent2=new Intent(getApplicationContext(),Login.class);
                     mContext.startActivity(mIntent2);
+
                 }
+
 
 
                 break;
