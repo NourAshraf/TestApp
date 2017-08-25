@@ -40,6 +40,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import static android.R.attr.id;
+import static android.R.attr.x;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
     private GridView mGridView;
@@ -72,6 +76,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonMyMember;
     private ProgressBar mProgressBar;
     private Button mButtonLoginNow1;
+    private ArrayList<String> FollowesNames;
+    public static ArrayList<String> FollowesIds;
 
 
     @Override
@@ -134,6 +140,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
         mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
+        FollowesNames=new ArrayList<String>();
+        FollowesIds=new ArrayList<String>();
         mImageViewPlus= (ImageView) findViewById(R.id.ivPlus);
         mImageViewPlus.setOnClickListener(this);
         mButtonProfile= (Button) findViewById(R.id.bProfile);
@@ -363,6 +371,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 mButtonMyMember.setTextColor(getResources().getColor(android.R.color.background_light));
                 mButtonMyFav.setTextColor(getResources().getColor(R.color.colorPrimary));
                 mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                Intent mIntent=new Intent(mContext,Members.class);
+                mIntent.putExtra("MembersName",FollowesNames);
+                mIntent.putExtra("MembersIds",FollowesIds);
+                startActivity(mIntent);
                 break;
         }
     }
@@ -383,12 +395,24 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         StringRequest mStringRequestonProfile=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.i(MainApp.Tag,response);
                 mProgressBar.setVisibility(View.GONE);
                 try {
                     JSONArray mJsonArray=new JSONArray(response);
                     for (int i=0;i<mJsonArray.length();i++){
                         JSONObject jsonObject=mJsonArray.getJSONObject(i);
                         JSONObject mJsonObject=jsonObject.getJSONObject("user");
+                        JSONArray followers = mJsonObject.getJSONArray("followers");
+                        int length = followers.length();
+                        mSharedPreferences.edit().putString("Followers",length+"").commit();
+                        JSONArray followees = mJsonObject.getJSONArray("followees");
+                        for (int o=0;o<followees.length();o++){
+                            JSONObject followe = followees.getJSONObject(o);
+                            String followeusername = followe.getString("username");
+                            String followeid = followe.getString("id");
+                            FollowesNames.add(followeusername);
+                            FollowesIds.add(followeid);
+                        }
                         String id=mJsonObject.getString("id");
                         mSharedPreferences.edit().putString("ID",id).commit();
                          username=mJsonObject.getString("username");

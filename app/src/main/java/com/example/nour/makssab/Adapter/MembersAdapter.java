@@ -52,8 +52,6 @@ public class MembersAdapter extends BaseAdapter {
         MembersModel membersModel=members.get(position);
 
         Name.setText(membersModel.getName());
-        Follow.setText(membersModel.getFollow());
-        TextProfile.setText(membersModel.getImageProfile());
 
         return view;
     }

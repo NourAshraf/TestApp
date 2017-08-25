@@ -618,7 +618,9 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 Map<String, DataPart> params = new HashMap<>();
                 Random mRandom=new Random();
                 int i = mRandom.nextInt(1000);
-                params.put("main_photo",new DataPart(i+"ProfilePic.jpg", AppHelper.getFileDataFromBitmap(mContext,mMainBitmapPic)));
+                if (mMainBitmapPic!=null) {
+                    params.put("main_photo", new DataPart(i + "ProfilePic.jpg", AppHelper.getFileDataFromBitmap(mContext, mMainBitmapPic)));
+                }
                 for (int j=0;j<mBitmaps.size();j++) {
                     params.put("related_photos["+j+"]", new DataPart("MyPic"+j+".jpg", AppHelper.getFileDataFromBitmap(mContext, mBitmaps.get(j))));
                 }
@@ -686,7 +688,6 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 mSize=mSize+1;
                 mImageAdapter=new ImageAdapter(mContext,mSize,mBitmaps);
                 mRecyclerViewSubImages.setAdapter(mImageAdapter);
-
             }
         }
     }

@@ -3,62 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="460dp"
+    android:layout_height="wrap_content"
+    android:background="@color/LoginTitle"
     xmlns:mstb="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.nour.makssab.Activity.Members"
     tools:showIn="@layout/activity_members"
     android:orientation="vertical">
     <LinearLayout
-        android:padding="5dp"
+        android:background="@color/white"
+        android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_gravity="center"
             android:id="@+id/tvProfileName"
-            android:layout_weight="5"
             android:drawablePadding="5dp"
             android:gravity="left|center"
             android:drawableLeft="@drawable/ic_multiple_users_silhouette"
             android:text="اسم العضو"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
-        <Button
+        <TextView
+            android:layout_marginLeft="20dp"
             android:id="@+id/bProfile"
-            android:layout_weight="0.5"
+            android:layout_gravity="center"
             android:background="@color/LoginTitle"
-            android:text="بياناتي"
+            android:text="متابع"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:background="@color/LoginTitle">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="13dip"
-        android:background="@drawable/button_bg5"
-        android:padding="5dp">
-        <org.honorato.multistatetogglebutton.MultiStateToggleButton
-            android:layout_gravity="center"
-            android:id="@+id/mstb_multi_id"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            mstb:values="@array/HomeButtons"
-            mstb:mstbPrimaryColor="@color/border5"
-            mstb:mstbSecondaryColor="@color/button_secondary_color"/>
-    </LinearLayout>
-</LinearLayout>
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/button_bg1"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_margin="10dp"
         android:id="@+id/lvMembers">
 
     </ListView>
