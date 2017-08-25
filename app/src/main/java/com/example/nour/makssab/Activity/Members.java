@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.nour.makssab.Adapter.MembersAdapter;
 import com.example.nour.makssab.Model.MembersModel;
@@ -24,6 +25,7 @@ public class Members extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private String filename="mkssab";
     private String Followers;
+    private String Username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,11 @@ public class Members extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         Followers = mSharedPreferences.getString("Followers", "");
+        Username = mSharedPreferences.getString("username", "");
+        TextView mTextViewFollowers= (TextView) findViewById(R.id.tvFollowers);
+        TextView mTextViewProfileName= (TextView) findViewById(R.id.tvProfileName);
+        mTextViewProfileName.setText(Username);
+        mTextViewFollowers.setText(Followers+" متابع");
         lvMembersList = (ListView) findViewById(R.id.lvMembers);
         ArrayList<String> membersName = getIntent().getExtras().getStringArrayList("MembersName");
         ArrayList<String> membersIds = getIntent().getExtras().getStringArrayList("MembersIds");

@@ -27,9 +27,9 @@
             android:layout_height="match_parent" />
         <TextView
             android:layout_marginLeft="20dp"
-            android:id="@+id/bProfile"
+            android:id="@+id/tvFollowers"
             android:layout_gravity="center"
-            android:background="@color/LoginTitle"
+            android:textColor="@color/dot_dark_screen2"
             android:text="متابع"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
