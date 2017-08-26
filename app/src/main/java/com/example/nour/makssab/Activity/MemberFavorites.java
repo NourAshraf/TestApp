@@ -1,5 +1,7 @@
 package com.example.nour.makssab.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,7 +44,7 @@ import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListene
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
 
-public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,Animation.AnimationListener {
     private  String filename2="mkssab";
     private RecyclerView mRecyclerViewAdv;
     private ArrayList<AdvModel> models;
@@ -66,6 +70,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
     private Button mButtonMyFav;
     private Button mButtonMyMember;
     private boolean mLogin;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +125,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 finish();
             }
         });
+        linearLayout=(LinearLayout)findViewById(R.id.linear);
 //        final BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
 //        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
 //            @Override
@@ -159,11 +165,29 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         mAdvAdapter=new AdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
         onLoadAdv(MainApp.ProfileUrl+token);
+        mRecyclerViewAdv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                linearLayout.animate()
+                        .translationY(0)
+                        .alpha(0.0f)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                linearLayout.setVisibility(View.GONE);
+                            }
+                        });
+            }
+        });
+
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page)
 
             {
+
+
                 if (next_page_url.equals("null")){
 
                 }else {
@@ -379,5 +403,23 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
                 break;
         }
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+
     }
 }

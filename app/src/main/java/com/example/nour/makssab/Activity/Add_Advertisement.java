@@ -547,8 +547,9 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 }else if (mLinearLayoutCar.getVisibility()==View.VISIBLE){
                     mYear = mEditTextCarModel.getText().toString();
                     if (mYear.equals("")){
-                        Toast.makeText(mContext,"يحب عليك ادخال موديل السياره",Toast.LENGTH_SHORT).show();
-                    }else {
+                       Toast.makeText(mContext,"يحب عليك ادخال موديل السياره",Toast.LENGTH_SHORT).show();
+                    }
+                    else  {
                         try {
                             onAddAdv();
                         } catch (UnsupportedEncodingException e) {
