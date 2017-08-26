@@ -2,6 +2,7 @@ package com.example.nour.makssab.Activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -43,6 +45,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import static com.example.nour.makssab.Activity.Home.FollowesIds;
 
 public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener {
 
@@ -92,6 +97,10 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private Button mSendMassage;
     private Drawable mDrawableFollowOff;
     private Drawable mDrawableFollowOn;
+    private AlertDialog.Builder mAlertDialog;
+    private String mSharedPreferencesId;
+    private String AdvId;
+    private boolean mFollowPerson;
 
 
     @Override
@@ -113,6 +122,13 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private void onVariables() {
         mContext=AdvDetails.this;
         mFav=false;
+        mFollowPerson=false;
+        for (int q=0;q<FollowesIds.size();q++){
+            Log.i(MainApp.Tag,FollowesIds.get(q));
+            if (AdvId.equals(FollowesIds.get(q))){
+                mFollowPerson=true;
+            }
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mDrawableFavOn=getDrawable(R.drawable.ic_favorite_heart_button);
             mDrawableFavOff=getDrawable(R.drawable.ic_heart);
@@ -126,6 +142,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         mLogin = mSharedPreferences.getBoolean("Login",false);
         token = mSharedPreferences.getString("token", "");
+        mSharedPreferencesId = mSharedPreferences.getString("ID", "");
         mButtonFav= (Button) findViewById(R.id.bFavAdv);
         mButtonFav.setOnClickListener(this);
         mTextViewTitle= (TextView) findViewById(R.id.tvAdvTitle);
@@ -174,6 +191,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                     Intent intent=new Intent(getApplicationContext(),Login.class);
                     startActivity(intent);
                 }
+
 
             }
         });
@@ -269,6 +287,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         });
 
         mTextViewName= (TextView) findViewById(R.id.tvAdvOwner);
+        mTextViewName.setOnClickListener(this);
         mTextViewComments= (TextView) findViewById(R.id.tvAdvComments);
         mTextViewViews= (TextView) findViewById(R.id.tvAdvViews);
         mTextViewTime= (TextView) findViewById(R.id.tvAdvTime);
@@ -328,7 +347,105 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                     startActivity(intent);
                 }
                 break;
+            case R.id.tvAdvOwner:
+                if (mLogin){
+                    Log.i(MainApp.Tag,mFollowPerson+"");
+                    if (mFollowPerson){
+                        mAlertDialog = new AlertDialog.Builder(mContext);
+                        mAlertDialog.setMessage("هل تريد الغاء متابعة اعلانات " + userName);
+                        mAlertDialog.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                onUnFollow();
+                            }
+                        });
+                        mAlertDialog.setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        mAlertDialog.show();
+                    }else {
+                        mAlertDialog = new AlertDialog.Builder(mContext);
+                        mAlertDialog.setMessage("هل تريد متابعة اعلانات " + userName);
+                        mAlertDialog.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                onFollow();
+                            }
+                        });
+                        mAlertDialog.setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        mAlertDialog.show();
+                    }
+                }else {
+                    Toast.makeText(mContext,"يجب عليك تسجيل الدخول لتسطيع متابعة هذا العضو",Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
+    }
+
+    private void onUnFollow() {
+        String Url=MainApp.followUrl+AdvId+"?token="+token;
+        Log.i(MainApp.Tag,Url);
+        StringRequest mStringRequestCheckFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i(MainApp.Tag,"UnFollow:-->"+response);
+                Toast.makeText(mContext,"تمت الغاء متابعة العضو بنجاح",Toast.LENGTH_SHORT).show();
+                mFollowPerson=false;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(MainApp.Tag,"Error");
+                onUnFollow();
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestCheckFav);
+    }
+
+    private void onFollow() {
+        String Url=MainApp.followUrl+AdvId+"?token="+token;
+        Log.i(MainApp.Tag,Url);
+        StringRequest mStringRequestCheckFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i(MainApp.Tag,"Follow:-->"+response);
+                Toast.makeText(mContext,"تمت متابعة العضو بنجاح",Toast.LENGTH_SHORT).show();
+                mFollowPerson=true;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(MainApp.Tag,"Error");
+                onFollow();
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                token=split[1];
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestCheckFav);
     }
 
     private void OnCheckFav() {
@@ -444,6 +561,7 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
     private void onGetIntentData() {
         title = getIntent().getExtras().getString("Title");
         Id = getIntent().getExtras().getString("Id");
+        AdvId = getIntent().getExtras().getString("UserId");
         ShareUrl="http://mkssab.com/ads-details/"+Id;
         city_name = getIntent().getExtras().getString("City_Name");
         description = getIntent().getExtras().getString("Description");
