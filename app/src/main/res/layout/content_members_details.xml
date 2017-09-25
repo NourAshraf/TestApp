@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LoginTitle"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.nour.makssab.Activity.Members"
+    tools:showIn="@layout/activity_members_details"
+    android:orientation="vertical">
+    <LinearLayout
+        android:background="@color/white"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tvProfileName"
+            android:drawablePadding="5dp"
+            android:gravity="left|center"
+            android:drawableLeft="@drawable/ic_multiple_users_silhouette"
+            android:text="اسم العضو"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/tvFollowers"
+            android:layout_gravity="center"
+            android:textColor="@color/dot_dark_screen2"
+            android:text="متابع"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bFollow"
+                android:text="متابعة"
+                android:layout_gravity="right|center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="2.2dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="13dip"
+        >
+        <Button
+            android:id="@+id/bMyMember"
+            android:background="@drawable/button_bg_2"
+            android:textColor="@color/colorPrimary"
+            android:text="الاعضاء"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/bMyFav"
+            android:background="@drawable/button_bg_3"
+            android:textColor="@color/colorPrimary"
+            android:text="المفضلة"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/bMyAdv"
+            android:background="@drawable/button_bg_4"
+            android:textColor="@color/colorPrimary"
+            android:text="اعلانات"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg1"
+            android:layout_margin="10dp"
+            android:id="@+id/lvMembers">
+        </ListView>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvNo"
+            android:textColor="@color/colorAccent"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="لا يوجد اعضاء"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+</LinearLayout>

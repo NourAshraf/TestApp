@@ -44,6 +44,8 @@ public class MainApp extends Application {
     public static String AddAdsUrl="http://mkssab.com/api/add-ads?token=";
     public static String followUrl="http://mkssab.com//api/follow/";
     public static String UnfollowUrl="http://mkssab.com//api/unfollow/";
+    public static String UserProfileUrl="http://mkssab.com/api/profile/";
+    public static String NotificationsUrl="http://mkssab.com/api/notifications?token=";
 
 
 

@@ -38,6 +38,7 @@
                         android:layout_height="20dp"
                         />
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/ivSearch"
                         android:background="@drawable/search"
                         android:layout_marginRight="10dp"

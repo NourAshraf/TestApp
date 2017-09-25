@@ -17,6 +17,8 @@ import com.example.nour.makssab.Model.MembersModel;
 import com.example.nour.makssab.R;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class Members extends AppCompatActivity {
@@ -27,6 +29,7 @@ public class Members extends AppCompatActivity {
     private String filename="mkssab";
     private String Followers;
     private String Username;
+    private TextView mTextViewNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class Members extends AppCompatActivity {
         mSharedPreferences=getSharedPreferences(filename,MODE_PRIVATE);
         Followers = mSharedPreferences.getString("Followers", "");
         Username = mSharedPreferences.getString("username", "");
+        mTextViewNo= (TextView) findViewById(R.id.tvNo);
         TextView mTextViewFollowers= (TextView) findViewById(R.id.tvFollowers);
         TextView mTextViewProfileName= (TextView) findViewById(R.id.tvProfileName);
         mTextViewProfileName.setText(Username);
@@ -51,11 +55,13 @@ public class Members extends AppCompatActivity {
             MembersModel membersModel = new MembersModel(membersName.get(i), membersIds.get(i), "");
             members.add(membersModel);
         }
+        if (members.size()==0){
+            mTextViewNo.setVisibility(View.VISIBLE);
+        }
         lvMembersList.setAdapter(new MembersAdapter(getApplicationContext(),members));
         onVariables();
     }
     private void onVariables() {
-
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override

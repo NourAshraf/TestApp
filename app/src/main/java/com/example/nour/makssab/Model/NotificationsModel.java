@@ -5,37 +5,37 @@ package com.example.nour.makssab.Model;
  */
 
 public class NotificationsModel {
-    private String NotificationsName;
-    private String NotificationsDetails;
-    private String ImageNotifications;
+    private String Title;
+    private String UserName;
+    private String Type;
 
     public NotificationsModel(String notificationsName, String notificationsDetails, String imageNotifications) {
-        NotificationsName = notificationsName;
-        NotificationsDetails = notificationsDetails;
-        ImageNotifications = imageNotifications;
+        Title = notificationsName;
+        UserName = notificationsDetails;
+        Type = imageNotifications;
     }
 
-    public String getNotificationsName() {
-        return NotificationsName;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setNotificationsName(String notificationsName) {
-        NotificationsName = notificationsName;
+    public void setTitle(String title) {
+        Title = title;
     }
 
-    public String getNotificationsDetails() {
-        return NotificationsDetails;
+    public String getUserName() {
+        return UserName;
     }
 
-    public void setNotificationsDetails(String notificationsDetails) {
-        NotificationsDetails = notificationsDetails;
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
-    public String getImageNotifications() {
-        return ImageNotifications;
+    public String getType() {
+        return Type;
     }
 
-    public void setImageNotifications(String imageNotifications) {
-        ImageNotifications = imageNotifications;
+    public void setType(String type) {
+        Type = type;
     }
 }

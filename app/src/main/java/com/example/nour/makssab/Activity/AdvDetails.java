@@ -124,7 +124,6 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
         mFav=false;
         mFollowPerson=false;
         for (int q=0;q<FollowesIds.size();q++){
-            Log.i(MainApp.Tag,FollowesIds.get(q));
             if (AdvId.equals(FollowesIds.get(q))){
                 mFollowPerson=true;
             }
@@ -156,7 +155,6 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                     Intent intent=new Intent(getApplicationContext(),Login.class);
                     startActivity(intent);
                 }
-
             }
         });
 
@@ -348,105 +346,15 @@ public class AdvDetails extends AppCompatActivity implements BaseSliderView.OnSl
                 }
                 break;
             case R.id.tvAdvOwner:
-                if (mLogin){
-                    Log.i(MainApp.Tag,mFollowPerson+"");
-                    if (mFollowPerson){
-                        mAlertDialog = new AlertDialog.Builder(mContext);
-                        mAlertDialog.setMessage("هل تريد الغاء متابعة اعلانات " + userName);
-                        mAlertDialog.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                onUnFollow();
-                            }
-                        });
-                        mAlertDialog.setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-                        mAlertDialog.show();
-                    }else {
-                        mAlertDialog = new AlertDialog.Builder(mContext);
-                        mAlertDialog.setMessage("هل تريد متابعة اعلانات " + userName);
-                        mAlertDialog.setPositiveButton("نعم", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                onFollow();
-                            }
-                        });
-                        mAlertDialog.setNegativeButton("لا", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-                        mAlertDialog.show();
-                    }
-                }else {
-                    Toast.makeText(mContext,"يجب عليك تسجيل الدخول لتسطيع متابعة هذا العضو",Toast.LENGTH_SHORT).show();
+                if (mLogin) {
+                    Intent mIntent = new Intent(mContext, MembersDetails.class);
+                    mIntent.putExtra("UserId",AdvId);
+                    startActivity(mIntent);
                 }
                 break;
         }
     }
 
-    private void onUnFollow() {
-        String Url=MainApp.followUrl+AdvId+"?token="+token;
-        Log.i(MainApp.Tag,Url);
-        StringRequest mStringRequestCheckFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i(MainApp.Tag,"UnFollow:-->"+response);
-                Toast.makeText(mContext,"تمت الغاء متابعة العضو بنجاح",Toast.LENGTH_SHORT).show();
-                mFollowPerson=false;
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i(MainApp.Tag,"Error");
-                onUnFollow();
-            }
-        }){
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String phpsessid = response.headers.get("Authorization");
-                String[] split = phpsessid.split(" ");
-                token=split[1];
-                mSharedPreferences.edit().putString("token",split[1]).commit();
-                return super.parseNetworkResponse(response);
-            }
-        };
-        mVolleySingletonRequestQueue.add(mStringRequestCheckFav);
-    }
-
-    private void onFollow() {
-        String Url=MainApp.followUrl+AdvId+"?token="+token;
-        Log.i(MainApp.Tag,Url);
-        StringRequest mStringRequestCheckFav=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i(MainApp.Tag,"Follow:-->"+response);
-                Toast.makeText(mContext,"تمت متابعة العضو بنجاح",Toast.LENGTH_SHORT).show();
-                mFollowPerson=true;
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i(MainApp.Tag,"Error");
-                onFollow();
-            }
-        }){
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String phpsessid = response.headers.get("Authorization");
-                String[] split = phpsessid.split(" ");
-                token=split[1];
-                mSharedPreferences.edit().putString("token",split[1]).commit();
-                return super.parseNetworkResponse(response);
-            }
-        };
-        mVolleySingletonRequestQueue.add(mStringRequestCheckFav);
-    }
 
     private void OnCheckFav() {
         String Url=MainApp.likedAdsUrl+Id+"?token="+token;

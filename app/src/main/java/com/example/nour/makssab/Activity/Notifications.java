@@ -1,20 +1,29 @@
 package com.example.nour.makssab.Activity;
 
-import android.app.Notification;
-import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.nour.makssab.Adapter.NotifiacationsAdapter;
+import com.example.nour.makssab.MainApp.MainApp;
 import com.example.nour.makssab.Model.NotificationsModel;
+import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -22,6 +31,10 @@ public class Notifications extends AppCompatActivity {
     private ListView lvNotificationsList;
     private ArrayList<NotificationsModel> notifications;
     private ImageView mImageViewBack;
+    private RequestQueue mVolleySingletonRequestQueue;
+    private SharedPreferences mSharedPreferences;
+    private String token;
+    private  String filename2="mkssab";
 
 
     @Override
@@ -31,21 +44,77 @@ public class Notifications extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        lvNotificationsList = (ListView) findViewById(R.id.lvNotificationsList);
-        notifications = new ArrayList<NotificationsModel>();
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        notifications.add(new NotificationsModel(" اضاف كذا كذا اى كلام"," شقق كذا وكلام من ده",""));
-        lvNotificationsList.setAdapter(new NotifiacationsAdapter(getApplicationContext(),notifications));
         onVariables();
+        onLoadNotification();
+    }
+
+    private void onLoadNotification() {
+        StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, MainApp.NotificationsUrl+token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i(MainApp.Tag,response);
+                try {
+                    JSONObject mJsonObject=new JSONObject(response);
+                    JSONArray data = mJsonObject.getJSONArray("data");
+                    for (int i=0;i<data.length();i++)
+                    {
+                        JSONObject mJsonObject2=data.getJSONObject(i);
+                        String type = mJsonObject2.getString("type");
+                        String data1 = mJsonObject2.getString("data");
+                        if (type.equals("ads")){
+                            String replace = data1.replace("{", "");
+                            String replace1 = replace.replace("}", "");
+                            String[] split = replace1.split(",");
+                            String[] split1 = split[1].split(":");
+                            String title = split1[1].replace("\"", "");
+                            String[] split3 = split[3].split(":");
+                            String user = split3[1].replace("\"", "");
+                            NotificationsModel model=new NotificationsModel(title,user,type);
+                            notifications.add(model);
+                        }else if (type.equals("follow")){
+                            String replace = data1.replace("{", "");
+                            String replace1 = replace.replace("}", "");
+                            String[] split = replace1.split(",");
+                            String[] split3 = split[1].split(":");
+                            String user = split3[1].replace("\"", "");
+                            NotificationsModel model=new NotificationsModel("",user,type);
+                            notifications.add(model);
+                        }else if (type.equals("follow")){
+                            String replace = data1.replace("{", "");
+                            String replace1 = replace.replace("}", "");
+                            String[] split = replace1.split(",");
+                            String[] split1 = split[0].split(":");
+                            String title = split1[1].replace("\"", "");
+                            String[] split3 = split[1].split(":");
+                            String user = split3[1].replace("\"", "");
+                            NotificationsModel model=new NotificationsModel(title,user,type);
+                            notifications.add(model);
+                        }
+
+
+                    }
+                    lvNotificationsList.setAdapter(new NotifiacationsAdapter(getApplicationContext(),notifications));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                onLoadNotification();
+            }
+        }){
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String phpsessid = response.headers.get("Authorization");
+                String[] split = phpsessid.split(" ");
+                Log.i(MainApp.Tag,split[1]);
+                mSharedPreferences.edit().putString("token",split[1]).commit();
+                token=split[1];
+                return super.parseNetworkResponse(response);
+            }
+        };
+        mVolleySingletonRequestQueue.add(mStringRequestAdv);
     }
 
     private void onVariables() {
@@ -54,42 +123,15 @@ public class Notifications extends AppCompatActivity {
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Home.class);
-                startActivity(intent);
+                finish();
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_search:
-                Intent mIntentSearch=new Intent(getApplicationContext(),Search.class);
-                startActivity(mIntentSearch);
-                break;
-
-            case R.id.action_Adv_Favorites:
-                Intent mIntentAdvFavorites=new Intent(getApplicationContext(),MemberFavorites.class);
-                startActivity(mIntentAdvFavorites);
-                break;
-
-            case R.id.action_New_Account:
-                Intent mIntentNewAccount=new Intent(getApplicationContext(),NewAccount.class);
-                startActivity(mIntentNewAccount);
-                break;
-
-            case R.id.action_Login:
-                Intent mIntentLogin=new Intent(getApplicationContext(),Login.class);
-                startActivity(mIntentLogin);
-                break;
-        }
-        return true;
+        lvNotificationsList = (ListView) findViewById(R.id.lvNotificationsList);
+        notifications = new ArrayList<NotificationsModel>();
+        VolleySingleton mVolleySingleton=VolleySingleton.getsInstance();
+        mVolleySingletonRequestQueue = mVolleySingleton.getRequestQueue();
+        mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
+        token = mSharedPreferences.getString("token","");
     }
 
 }

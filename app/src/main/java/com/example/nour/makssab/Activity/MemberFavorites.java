@@ -40,6 +40,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.example.nour.makssab.Activity.Home.FollowesIds;
+import static com.example.nour.makssab.Activity.Home.FollowesNames;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.current_page;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.loading;
 import static com.example.nour.makssab.Decoration.EndlessRecyclerOnScrollListener.previousTotal;
@@ -71,6 +73,10 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
     private Button mButtonMyMember;
     private boolean mLogin;
     private LinearLayout linearLayout;
+    private String UserId;
+    private TextView mTextViewNoFav;
+    private String MyUserId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,16 +92,18 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         username = getIntent().getExtras().getString("username");
         email = getIntent().getExtras().getString("email");
         phone = getIntent().getExtras().getString("phone");
+        UserId = getIntent().getExtras().getString("UserId");
     }
 
     private void onVariables() {
         mDelete=false;
         mContext=MemberFavorites.this;
         mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
-
+        MyUserId = mSharedPreferences.getString("ID", "");
         mLogin = mSharedPreferences.getBoolean("Login",false);
         token = mSharedPreferences.getString("token","");
         mTextViewUsername= (TextView) findViewById(R.id.tvProfileName1);
+        mTextViewNoFav= (TextView) findViewById(R.id.tvNoFav);
         mTextViewUsername.setText(username);
         mButtonMyFav= (Button) findViewById(R.id.bMyFav);
         mButtonMyAdv= (Button) findViewById(R.id.bMyAdv);
@@ -164,22 +172,22 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
-        onLoadAdv(MainApp.ProfileUrl+token);
-        mRecyclerViewAdv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                linearLayout.animate()
-                        .translationY(0)
-                        .alpha(0.0f)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                linearLayout.setVisibility(View.GONE);
-                            }
-                        });
-            }
-        });
+        onLoadAdv(MainApp.UserProfileUrl+UserId+"?token="+token);
+//        mRecyclerViewAdv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                linearLayout.animate()
+//                        .translationY(0)
+//                        .alpha(0.0f)
+//                        .setListener(new AnimatorListenerAdapter() {
+//                            @Override
+//                            public void onAnimationEnd(Animator animation) {
+//                                super.onAnimationEnd(animation);
+//                                linearLayout.setVisibility(View.GONE);
+//                            }
+//                        });
+//            }
+//        });
 
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
@@ -196,6 +204,11 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 }
             }
         });
+        if (getIntent().hasExtra("Member")){
+            mButtonProfile.setText("بيانات العضو");
+            LinearLayout mLinearLayout= (LinearLayout) findViewById(R.id.llOption);
+            mLinearLayout.setVisibility(View.GONE);
+        }
     }
     public void onProfile(){
         String Url= MainApp.ProfileUrl+token;
@@ -274,7 +287,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
             @Override
             public void onResponse(String response) {
                 try {
-
+                    mTextViewNoFav.setVisibility(View.VISIBLE);
                     mRecyclerViewAdv.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     mTextViewNoInternet.setVisibility(View.GONE);
@@ -286,6 +299,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                         next_page_url = mJsonObject.getString("next_page_url");
                         JSONArray data = mJsonObject.getJSONArray("data");
                         for (int k = 0; k < data.length(); k++) {
+                            mTextViewNoFav.setVisibility(View.GONE);
                             Log.i(MainApp.Tag,k+"");
                             if (mDelete) {
                                 mDelete = false;
@@ -335,10 +349,10 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         }){
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String phpsessid = response.headers.get("Authorization");
-                String[] split = phpsessid.split(" ");
-                Log.i(MainApp.Tag,split[1]);
-                mSharedPreferences.edit().putString("token",split[1]).commit();
+//                String phpsessid = response.headers.get("Authorization");
+//                String[] split = phpsessid.split(" ");
+//                Log.i(MainApp.Tag,split[1]);
+//                mSharedPreferences.edit().putString("token",split[1]).commit();
                 return super.parseNetworkResponse(response);
             }
         };
@@ -360,7 +374,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
         if (models!=null){
         models.clear();
     }
-    onLoadAdv(MainApp.ProfileUrl+token);
+    onLoadAdv(MainApp.UserProfileUrl+UserId+"?token="+token);
         if (mSwipeRefreshLayoutAdv.isRefreshing()){
         mSwipeRefreshLayoutAdv.setRefreshing(false);
     }
@@ -379,6 +393,7 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 if (mLogin){
 
                     Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                    mIntent.putExtra("UserId",MyUserId);
                     startActivity(mIntent);
                 }else {
                     Intent mIntent=new Intent(getApplicationContext(),Login.class);
@@ -401,6 +416,10 @@ public class MemberFavorites extends AppCompatActivity implements SwipeRefreshLa
                 mButtonMyMember.setTextColor(getResources().getColor(android.R.color.background_light));
                 mButtonMyFav.setTextColor(getResources().getColor(R.color.colorPrimary));
                 mButtonMyAdv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                Intent mIntent=new Intent(mContext,Members.class);
+                mIntent.putExtra("MembersName",FollowesNames);
+                mIntent.putExtra("MembersIds",FollowesIds);
+                startActivity(mIntent);
                 break;
         }
     }

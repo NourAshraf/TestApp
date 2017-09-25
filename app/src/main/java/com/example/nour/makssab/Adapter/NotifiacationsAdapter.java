@@ -45,14 +45,14 @@ public class NotifiacationsAdapter extends BaseAdapter {
         LayoutInflater layoutInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view= layoutInflater.inflate(R.layout.notifications,parent,false);
         TextView NotificationsName=(TextView)view.findViewById(R.id.tvNotificationsName);
-        TextView NotificationsDetails=(TextView)view.findViewById(R.id.tvNotificationsDetails);
-        TextView ImageNotifications=(TextView) view.findViewById(R.id.bNotificationsImage);
-
         NotificationsModel notificationsModel=notifications.get(position);
-
-        NotificationsName.setText(notificationsModel.getNotificationsName());
-        NotificationsDetails.setText(notificationsModel.getNotificationsDetails());
-        ImageNotifications.setText(notificationsModel.getImageNotifications());
+        if (notificationsModel.getType().equals("ads")) {
+            NotificationsName.setText("اضاف العضو "+notificationsModel.getUserName()+" اعلان "+notificationsModel.getTitle());
+        }else if (notificationsModel.getType().equals("follow")){
+            NotificationsName.setText("قام العضو "+notificationsModel.getUserName()+" بمتابعتك");
+        }else if (notificationsModel.getType().equals("comment")){
+            NotificationsName.setText("اضاف العضو "+notificationsModel.getUserName()+" تعليق رد علي الاعلان "+notificationsModel.getTitle());
+        }
 
         return view;
     }

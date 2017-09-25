@@ -11,12 +11,12 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:padding="5dp"
+        android:padding="10dp"
         android:id="@+id/linear"
         android:animateLayoutChanges="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp">
         <TextView
             android:id="@+id/tvProfileName1"
             android:layout_weight="5"
@@ -38,6 +38,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llOption"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@color/LoginTitle">
@@ -77,16 +78,32 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srlAdv"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAdv"
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvNoFav"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:text="لا يوجد اعلانات مفضلة"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent" />
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srlAdv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvAdv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
+
 
 </LinearLayout>

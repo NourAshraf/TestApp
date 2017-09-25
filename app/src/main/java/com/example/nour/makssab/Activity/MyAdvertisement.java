@@ -59,6 +59,8 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
     private SwipeRefreshLayout mSwipeRefreshLayoutAdv;
     private SharedPreferences mSharedPreferences;
     private String token;
+    private String UserId;
+    private TextView mTextViewNoFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,10 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
     private void onVariables() {
         mDelete=false;
         mContext=MyAdvertisement.this;
+        UserId = getIntent().getExtras().getString("UserId");
         mSharedPreferences=getSharedPreferences(filename2,MODE_PRIVATE);
         token = mSharedPreferences.getString("token","");
+        mTextViewNoFav= (TextView) findViewById(R.id.tvNoFav);
         mSwipeRefreshLayoutAdv = (SwipeRefreshLayout) findViewById(R.id.srlAdv);
         mSwipeRefreshLayoutAdv.setOnRefreshListener(this);
         mImageViewBack = (ImageView) findViewById(R.id.ivBack);
@@ -122,7 +126,7 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
         ImagesModels=new ArrayList<String>();
         mAdvAdapter=new AdvAdapter(mContext,models);
         mRecyclerViewAdv.setAdapter(mAdvAdapter);
-        onLoadAdv(MainApp.ProfileUrl+token);
+        onLoadAdv(MainApp.UserProfileUrl+UserId+"?token="+token);
         mRecyclerViewAdv.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
             @Override
             public void onLoadMore(int current_page)
@@ -140,10 +144,12 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
 
     private void onLoadAdv(final String Url) {
         mProgressBar.setVisibility(View.VISIBLE);
+        mTextViewNoFav.setVisibility(View.VISIBLE);
         StringRequest mStringRequestAdv=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    mTextViewNoFav.setVisibility(View.VISIBLE);
                     mRecyclerViewAdv.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     mTextViewNoInternet.setVisibility(View.GONE);
@@ -154,11 +160,12 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
                     next_page_url = mJsonObject.getString("next_page_url");
                     JSONArray data = mJsonObject.getJSONArray("data");
                     for (int j = 0; j < data.length(); j++) {
+                        mTextViewNoFav.setVisibility(View.GONE);
                         if (mDelete) {
                             mDelete = false;
                             ImagesModels = new ArrayList<String>();
                         }
-                        JSONObject jsonObject1 = data.getJSONObject(i);
+                        JSONObject jsonObject1 = data.getJSONObject(j);
                         JSONArray comments_count = jsonObject1.getJSONArray("comments_count");
                         int CommentCount = comments_count.length();
                         String id = jsonObject1.getString("id");
@@ -197,17 +204,18 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mTextViewNoFav.setVisibility(View.GONE);
                 mTextViewNoInternet.setVisibility(View.VISIBLE);
                 onLoadAdv(Url);
             }
         }){
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String phpsessid = response.headers.get("Authorization");
-                String[] split = phpsessid.split(" ");
-                Log.i(MainApp.Tag,split[1]);
-                mSharedPreferences.edit().putString("token",split[1]).commit();
-                token=split[1];
+//                String phpsessid = response.headers.get("Authorization");
+//                String[] split = phpsessid.split(" ");
+//                Log.i(MainApp.Tag,split[1]);
+//                mSharedPreferences.edit().putString("token",split[1]).commit();
+//                token=split[1];
                 return super.parseNetworkResponse(response);
             }
         };
@@ -255,7 +263,7 @@ public class MyAdvertisement extends AppCompatActivity implements SwipeRefreshLa
         if (models!=null){
         models.clear();
     }
-    onLoadAdv(MainApp.ProfileUrl+token);
+    onLoadAdv(MainApp.UserProfileUrl+UserId+"?token="+token);
         if (mSwipeRefreshLayoutAdv.isRefreshing()){
         mSwipeRefreshLayoutAdv.setRefreshing(false);
     }

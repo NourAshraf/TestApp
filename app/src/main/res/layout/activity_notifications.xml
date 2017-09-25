@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.nour.makssab.Activity.Notifications">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -43,14 +41,7 @@
 
     <include layout="@layout/content_notifications" />
     </LinearLayout>
-        <com.roughike.bottombar.BottomBar
-            android:layout_gravity="bottom"
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/tabs" />
-    </FrameLayout>
+
 
 
 

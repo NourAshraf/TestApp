@@ -23,7 +23,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl">
-        <activity android:name=".Activity.Splash"
+        <activity
+            android:name=".Activity.Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,145 +33,149 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Home"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Login"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.NewAccount"
             android:label="@string/title_activity_new_account"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Search"
             android:label="@string/title_activity_search"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Members"
             android:label="@string/title_activity_members"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.MemberFavorites"
             android:label="@string/title_activity_member_favorites"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Profile"
             android:label="@string/title_activity_profile"
             android:parentActivityName=".Activity.Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Home" />
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Notifications"
             android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Exhibitions"
             android:label="@string/title_activity_exhibitions"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.ExhibitionsDetails"
             android:label="@string/title_activity_exhibitions_details"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Advertisement"
             android:label="@string/title_activity_advertisement"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Stores"
             android:label="@string/title_activity_stores"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Buildings"
             android:label="@string/title_activity_buildings"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.ActivationCode"
             android:label="@string/title_activity_activation_code"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.AdvDetails"
             android:label="@string/title_activity_adv_details"
             android:parentActivityName=".Activity.Advertisement"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Advertisement" />
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.StoresDetails"
             android:label="@string/title_activity_stores_details"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.StoresAds"
             android:label="@string/title_activity_stores_ads"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.CategoryDetails"
             android:label="@string/title_activity_advertisement"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.MyAdvertisement"
             android:label="@string/title_activity_advertisement"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.PhotoZoom"
             android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Add_Advertisement"
             android:label="@string/title_activity_add__advertisement"
             android:parentActivityName=".Activity.Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Home" />
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.MyMessages"
             android:label="@string/title_activity_messages"
             android:parentActivityName=".Activity.Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.Home" />
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.ConversationMessage"
             android:label="@string/title_activity_conversation_message"
             android:parentActivityName=".Activity.MyMessages"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nour.makssab.Activity.MyMessages" />
         </activity>
+        <activity
+            android:name=".Activity.MembersDetails"
+            android:label="@string/title_activity_members_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -568,8 +568,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private Button mButtonMyMember;
     private ProgressBar mProgressBar;
     private Button mButtonLoginNow1;
-    private ArrayList<String> FollowesNames;
+    public static ArrayList<String> FollowesNames;
     public static ArrayList<String> FollowesIds;
+    private String MyUssrId;
 
 
     @Override
@@ -675,7 +676,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
 
                        break;
                    case R.id.tab_notify:
-
+                        Intent mIntent2=new Intent(mContext,Notifications.class);
+                        startActivity(mIntent2);
                        break;
                    case R.id.tab_message:
                        if (mLogin) {
@@ -725,6 +727,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                     mIntentFavorites.putExtra("username",username+"");
                     mIntentFavorites.putExtra("email",email+"");
                     mIntentFavorites.putExtra("phone",phone_main+"");
+                    mIntentFavorites.putExtra("UserId",MyUssrId);
                     mContext.startActivity(mIntentFavorites);
                 }else {
                     Intent mIntent2=new Intent(getApplicationContext(),Login.class);
@@ -739,6 +742,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             case R.id.action_My_Adv:
                 if (mLogin){
                     Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                    mIntent.putExtra("UserId",MyUssrId);
                     startActivity(mIntent);
                 }else {
                     Intent mIntent=new Intent(getApplicationContext(),Login.class);
@@ -831,6 +835,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 if (mLogin){
 
                             Intent mIntent=new Intent(mContext,MyAdvertisement.class);
+                            mIntent.putExtra("UserId",MyUssrId);
                             startActivity(mIntent);
                         }else {
                             Intent mIntent=new Intent(getApplicationContext(),Login.class);
@@ -850,6 +855,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                             mIntentFavorites.putExtra("username",username+"");
                             mIntentFavorites.putExtra("email",email);
                             mIntentFavorites.putExtra("phone",phone_main);
+                            mIntentFavorites.putExtra("UserId",MyUssrId);
                             mContext.startActivity(mIntentFavorites);
                         }else {
                             Intent mIntent5=new Intent(getApplicationContext(),Login.class);
@@ -905,8 +911,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                             FollowesNames.add(followeusername);
                             FollowesIds.add(followeid);
                         }
-                        String id=mJsonObject.getString("id");
-                        mSharedPreferences.edit().putString("ID",id).commit();
+                        MyUssrId=mJsonObject.getString("id");
+                        mSharedPreferences.edit().putString("ID",MyUssrId).commit();
                          username=mJsonObject.getString("username");
                         mSharedPreferences.edit().putString("username",username).commit();
                         email=mJsonObject.getString("email");
