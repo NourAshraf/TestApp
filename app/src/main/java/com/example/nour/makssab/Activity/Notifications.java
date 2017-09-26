@@ -123,7 +123,7 @@ public class Notifications extends AppCompatActivity {
         mImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         lvNotificationsList = (ListView) findViewById(R.id.lvNotificationsList);

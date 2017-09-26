@@ -188,6 +188,13 @@ public class Advertisement extends AppCompatActivity implements SwipeRefreshLayo
                         finish();
                         break;
                     case R.id.tab_notify:
+                        if (mLogin) {
+                            Intent mIntentNo = new Intent(mContext, Notifications.class);
+                            startActivity(mIntentNo);
+                        }else {
+                            Intent mIntentLO = new Intent(mContext, Login.class);
+                            startActivity(mIntentLO);
+                        }
 
                         break;
                     case R.id.tab_message:
