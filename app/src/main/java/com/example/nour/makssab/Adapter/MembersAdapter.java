@@ -63,13 +63,14 @@
 package com.example.nour.makssab.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.nour.makssab.Activity.MembersDetails;
 import com.example.nour.makssab.Model.MembersModel;
 import com.example.nour.makssab.R;
 
@@ -104,17 +105,22 @@ public class MembersAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view= layoutInflater.inflate(R.layout.members,parent,false);
         TextView Name=(TextView)view.findViewById(R.id.tvMembersName);
         TextView Follow=(TextView)view.findViewById(R.id.tvMembersFollow);
         TextView TextProfile=(TextView) view.findViewById(R.id.bMembersProfile);
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent=new Intent(context,MembersDetails.class);
+                mIntent.putExtra("UserId",members.get(position).getFollow());
+                context.startActivity(mIntent);
+            }
+        });
         MembersModel membersModel=members.get(position);
-
         Name.setText(membersModel.getName());
-
         return view;
     }
 }
