@@ -86,6 +86,7 @@ public class MyMessages extends AppCompatActivity implements View.OnClickListene
                 startActivity(mIntentHome);
                 finish();
             }
+
         });
         onLoadMessageData();
     }
