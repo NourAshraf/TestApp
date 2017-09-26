@@ -40,6 +40,7 @@ import com.example.nour.makssab.Network.AppHelper;
 import com.example.nour.makssab.Network.VolleyMultipartRequest;
 import com.example.nour.makssab.Network.VolleySingleton;
 import com.example.nour.makssab.R;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -538,12 +539,31 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
                 final String Descraption = mEditTextDescraption.getText().toString();
                 final String Title = mEditTextTitle.getText().toString();
                 final String Phone = mEditTextPhone.getText().toString();
+
                 if (Title.equals("")){
                  Toast.makeText(mContext,"يحب عليك ادخال عنوان الاعلان",Toast.LENGTH_SHORT).show();
-                }else if (Descraption.equals("")){
-                    Toast.makeText(mContext,"يحب عليك ادخال محتوي الاعلان",Toast.LENGTH_SHORT).show();
-                }else if (Phone.equals("")){
-                    Toast.makeText(mContext,"يحب عليك ادخال رقم الجوال",Toast.LENGTH_SHORT).show();
+                }
+                else if (!Title.matches(".{6,45}+")){
+
+                    TastyToast.makeText(getApplicationContext(), "لا يقل عنوان الاعلان عن 6 احرف ولا يزيد عن 45 حرف!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
+                }
+
+
+                else if (Descraption.equals("")) {
+                    Toast.makeText(mContext, "يحب عليك ادخال محتوي الاعلان", Toast.LENGTH_SHORT).show();
+                }  else if (!Descraption.matches(".{12,}+"))
+                        TastyToast.makeText(getApplicationContext(), "لا يقل محتوى الاعلان عن 12 احرف!", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
+
+
+                else if (Phone.equals("")) {
+                    Toast.makeText(mContext, "يحب عليك ادخال رقم الجوال", Toast.LENGTH_SHORT).show();
+                } else if (!Phone.matches(".{5,15}+")){
+
+                        TastyToast.makeText(getApplicationContext(), "لا يقل رقم الجوال عن 5 ارقام ولا يزيد عن 15 رقم !", TastyToast.LENGTH_LONG, TastyToast.INFO);
+
+
                 }else if (mLinearLayoutCar.getVisibility()==View.VISIBLE){
                     mYear = mEditTextCarModel.getText().toString();
                     if (mYear.equals("")){
@@ -691,5 +711,6 @@ public class Add_Advertisement extends AppCompatActivity implements View.OnClick
             }
         }
     }
+
 }
 

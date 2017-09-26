@@ -114,6 +114,11 @@ public class StoresDetails extends AppCompatActivity implements View.OnClickList
          case R.id.ivBack:
              finish();
              break;
+
+         case R.id.ivBackButton:
+          onBackPressed();
+             break;
+
      }
     }
 
