@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.nour.makssab.Activity.Home">
+    tools:context="com.ibtdi.team.mkssab.Activity.Home">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

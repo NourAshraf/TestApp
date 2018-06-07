@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nour.makssab.Activity.Buildings">
+    tools:context="com.ibtdi.team.mkssab.Activity.Buildings">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

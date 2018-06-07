@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.nour.makssab.Activity.Login">
+    tools:context="com.ibtdi.team.mkssab.Activity.Login">
 
     <LinearLayout
         android:orientation="vertical"

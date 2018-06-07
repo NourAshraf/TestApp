@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.nour.makssab.Activity.NewAccount"
+    tools:context="com.ibtdi.team.mkssab.Activity.NewAccount"
     tools:showIn="@layout/activity_new_account"
     android:background="@drawable/button_bg1"
     android:layout_marginLeft="10dp"
@@ -151,7 +151,7 @@
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/ic_pass_login"
                 android:hint="كلمه المرور"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:textColor="@color/inputs"
                 android:textStyle="bold" />
         </android.support.design.widget.TextInputLayout>
@@ -168,7 +168,7 @@
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/ic_pass_login"
                 android:hint="تاكيد كلمه المرور"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:textColor="@color/inputs"
                 android:textStyle="bold" />
         </android.support.design.widget.TextInputLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.nour.makssab.Activity.StoresDetails"
+    tools:context="com.ibtdi.team.mkssab.Activity.StoresDetails"
     tools:showIn="@layout/activity_stores_details2"
     android:orientation="vertical">
     <ImageView

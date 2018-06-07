@@ -7,7 +7,7 @@
     android:background="@color/LoginTitle"
     xmlns:mstb="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.nour.makssab.Activity.Members"
+    tools:context="com.ibtdi.team.mkssab.Activity.Members"
     tools:showIn="@layout/activity_members"
     android:orientation="vertical">
     <LinearLayout

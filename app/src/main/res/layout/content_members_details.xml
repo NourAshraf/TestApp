@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/LoginTitle"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.nour.makssab.Activity.Members"
+    tools:context="com.ibtdi.team.mkssab.Activity.Members"
     tools:showIn="@layout/activity_members_details"
     android:orientation="vertical">
     <LinearLayout
